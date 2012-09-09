@@ -2,6 +2,7 @@
 /************************************
 	Setting Varibles
 ************************************/
+// Name this file Config.php and change the values
 $host                = 'your.domain.com';
 $shost               = 'secure.your.domain.com';
 $cdn_host            = false;
