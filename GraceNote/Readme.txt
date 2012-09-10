@@ -361,23 +361,23 @@ NameVirtualHost *:80
 ## Site Admin
 <VirtualHost  *:80>
     DocumentRoot /var/www/htdocs
-    ServerName admin.php-gracenote.com
-    ErrorLog "|/usr/sbin/rotatelogs /var/www/admin.php-gracenote.com/logs/error_%Y%m%d_log 86400 540"
-    CustomLog "|/usr/sbin/rotatelogs /var/www/admin.php-gracenote.com/logs/access_%Y%m%d_log 86400 540" combined
+    ServerName your.domain.com
+    ErrorLog "|/usr/sbin/rotatelogs /var/www/your.application/logs/error_%Y%m%d_log 86400 540"
+    CustomLog "|/usr/sbin/rotatelogs /var/www/your.application/logs/access_%Y%m%d_log 86400 540" combined
 
     # Redirect everything to document root index.php
     RewriteEngine on
     RewriteRule ^/(favicon.ico) /$1 [L]
     RewriteRule ^/(img|css|js|phpPGAdmin|phpMyAdmin)/(.*) /$1/$2 [L]
     RewriteCond %{REQUEST_URI} !^/?index.php$
-    RewriteRule . /var/www/htdocs/admin.php-gracenote.com/index.php
+    RewriteRule . /var/www/htdocs/your.application/index.php
      # Block Hotlinking
     RewriteEngine On
-    RewriteCond %{HTTP_REFERER} !^http://(www\.)?admin.php-gracenote\.com(/.*)*$ [NC]
+    RewriteCond %{HTTP_REFERER} !^http://(www\.)?your.domain\.com(/.*)*$ [NC]
     RewriteCond %{HTTP_REFERER} !^$
     RewriteRule \.(jpe?g|gif|png|js|JPE?G|GIF|PNG|JS)$ - [F]
     # Log
-    RewriteLog /var/www/admin.php-gracenote.com/logs/rewriteLog.log
+    RewriteLog /var/www/your.application/logs/rewriteLog.log
     RewriteLogLevel 0
 
     Header set X-ConnecTree hello
