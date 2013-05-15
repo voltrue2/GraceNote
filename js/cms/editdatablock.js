@@ -687,12 +687,12 @@ function createDateTime(parent, dataMeta, val, data) {
 
 function createMedia(parent, dataMeta, val, data) {
 	var box = parent.createChild('div', { width: '80px', clear: 'both' });
-	var img = box.createChild('img', { cssFloat: 'left', cursor: 'pointer' });
+	var img = box.createChild('div', { width: '50px', height: '25px', cssFloat: 'left', cursor: 'pointer' });
+	var path = '/img/system/file.png';
 	if (val.toLowerCase().match(/(png|gif|jpg|jpeg)/g)) {
-		img.set('src', val);
-	} else {
-		img.set('src', '/img/system/file.png');
+		path = val;
 	}
+	img.drawImage(path);
 	img.set('height', 25);
 	img.on('tapend', function () {
 		window.lightbox.show(450, 500, function (bar, box, close) {
