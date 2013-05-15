@@ -1,1 +1,0 @@
-<link rel="stylesheet" type="text/css" href="/css/base.css?<?= filemtime($CSS_PATH.'base.css'); ?>" />
