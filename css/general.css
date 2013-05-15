@@ -107,8 +107,9 @@ a:hover {
 	width: 98%;
 	margin: 2px auto;
 	padding: 2px;
-	border: 1px dotted #999;
+	border: 1px solid #999;
 	background: #fff;
+	outline: #e7e7ef solid 2px;
 }
 
 /* used with .tab-item and .tab-item-active */
@@ -149,7 +150,7 @@ a:hover {
 
 /* use this class with .box and buttons */
 .menu {
-	height: 36px;
+	height: 46px;
 	clear: both;
 }
 
