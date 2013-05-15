@@ -52,7 +52,7 @@ function createUserEditor(userData, saveMethod, languageSelector) {
 				}
 				langList.allowEvents(['change']);
 				langList.on('change', function () {
-					var url = window.location.href + '?lang=' + this.get('value');
+					var url = window.location.protocol + '//' + window.location.host + ((window.location.pathname !== '/') ? window.location.pathname : '/') + '?lang=' + this.get('value');
 					window.location.href = url;
 				});
 			} else {
