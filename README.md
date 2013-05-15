@@ -6,6 +6,10 @@ Example: what is inside of index.php file would look like this:
 include('/var/www/GraceNote/core/main.php');
 </pre>
 
+> Create a configuration file
+>> The configuration file <b>MUST</b> be name as GraceNote/cofigs/config.json
+>>> Please refer to GraceNote/configs/example.json
+
 # How to create a web page with GraceNote
 
 ### The following example will create a page for the URL: http://yourdomain.com/helloworld/
