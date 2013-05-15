@@ -35,15 +35,12 @@ class HelloWorld {
 > if the URL does <b>NOT</b> contain the name of your public method, GraceNote will try to call a method called "index"
 <pre>
 class HelloWorld {
-	
 	private $view; // we want to be able to use this class outside of the constructor
 	private $controller; // we want to be able to use this class outside of the constructor	
-
 	public function HelloWorld($view, $controller) {
 		$this->view = $view;
 		$this->controller = $controller;
 	}
-
 	// public method
 	/*
 	* $param1 and $param2 are optional
