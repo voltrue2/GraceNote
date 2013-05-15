@@ -2,10 +2,8 @@
 > What you have to do first
 >> Create an index file in your document root directory that points to GraceNote/core/main.php file
 <pre>
-Example: index.php
-<?php
+Example: what is inside of index.php file would look like this:
 include('/var/www/GraceNote/core/main.php');
-?>
 </pre>
 
 # How to create a web page with GraceNote
@@ -26,7 +24,6 @@ touch GraceNote/controller/helloworld/index.class.php
 > Your controller class name has to match the directory name (case insensitive). In this example it would be helloworld
 <pre>
 class HelloWorld {
-	
 	// constructor
 	public function HelloWorld($view, $controller) {
 		// The controller class constructor will have 2 arguments. $view and $controller
