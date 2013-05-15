@@ -42,10 +42,8 @@ class HelloWorld {
 		$this->controller = $controller;
 	}
 	// public method
-	/*
-	* $param1 and $param2 are optional
-	* if URL http://yourdomain/helloworld/index/myParam1/myParam2/ is given: We will have $param1 = 'myParam1' and $param2 = 'myParam2'
-	*/
+	// $param1 and $param2 are optional
+	// if URL http://yourdomain/helloworld/index/myParam1/myParam2/ is given: We will have $param1 = 'myParam1' and $param2 = 'myParam2'
 	public function index($param1 = null, $param2 = null) {
 		// this will output "Hello World" to the browser
 		echo "Hello World";
