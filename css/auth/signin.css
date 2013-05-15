@@ -1,0 +1,12 @@
+.signin-box {
+	width: 250px;
+	border: 1px #ccc solid;
+	padding: 5px;
+	background: #fff;
+}
+
+.name, .pass, .signin {
+	margin: 10px auto;
+	width: 100%;
+	text-align: center;
+}
