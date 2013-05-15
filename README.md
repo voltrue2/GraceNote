@@ -1,14 +1,20 @@
 # Get started with GraceNote
-> What you have to do first
->> Create an index file in your document root directory that points to GraceNote/core/main.php file
+- What you have to do first
+> Create an index file in your document root directory that points to GraceNote/core/main.php file
 <pre>
 Example: what is inside of index.php file would look like this:
 include('/var/www/GraceNote/core/main.php');
 </pre>
 
-> Create a configuration file
->> The configuration file <b>MUST</b> be name as GraceNote/cofigs/config.json
->>> Please refer to GraceNote/configs/example.json
+- Create a configuration file
+> The configuration file <b>MUST</b> be name as GraceNote/cofigs/config.json
+>> Please refer to GraceNote/configs/example.json
+
+- Create directory for logging
+> make sure the directory's permission is set correctly for GraceNote to read and write
+<pre>
+mkdir /var/www/GraceNote/logs/
+</pre>
 
 # How to create a web page with GraceNote
 
