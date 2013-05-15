@@ -1,15 +1,11 @@
 # Get started with GraceNote
-- What you have to do first
-> Create an index file in your document root directory that points to GraceNote/core/main.php file
+> What you have to do first
+>> Create an index file in your document root directory that points to GraceNote/core/main.php file
 <pre>
 Example: index.php
-
 <?php
-
 include('/var/www/GraceNote/core/main.php');
-
 ?>
-
 </pre>
 
 # How to create a web page with GraceNote
