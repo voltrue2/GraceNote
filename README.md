@@ -94,6 +94,7 @@ public function index() {
 </pre>
 
 - How to use variables in your template
+> <?= $phpvariable; ?> is a short tag. If you have not enabled PHP short tags, the syntax will be <?php echo $phpVariable; ?>
 `
 <html>
 	<head></head>
@@ -109,7 +110,7 @@ public function index($param1) {
 }
 </pre>
 
-# Public methods of view class
+# Public methods of View class
 > an instance of View class is passed to your controller's constructor as the first parameter.
 
 <pre>
