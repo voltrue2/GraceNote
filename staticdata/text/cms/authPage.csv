@@ -1,0 +1,3 @@
+signin,accountName,pass,authFailed,menu,staticFile,dbManager,cacheManager
+Sign In,Account Name,Password,Failed to sign in...,Menu,File Manager,Data Manager,Cache Manager
+ログイン,ユーザー,パスワード,ログインできませんでした,メニュー,ファイル管理,データ管理,キャッシュ管理

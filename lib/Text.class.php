@@ -2,6 +2,8 @@
 
 class Text {
 
+	private static $confName;
+
 	public static function get($view, $cnt, $name, $fileList = null) {
 		$lang = $cnt->getQuery('lang');
 		if ($lang !== null) {
@@ -19,12 +21,16 @@ class Text {
 		if (!$fileList) {
 			$fileList = 'text/cms/';
 		}
-		$dm = new DataModel('StaticData');
+		$dm = new DataModel(self::$confName);
 		$fd = $dm->staticData();
 		$text = $fd->getOne($fileList, $lang);
 		$view->assign('currentLang', $lang);
 		$view->assign($name, $text);
 		return $text;	
+	}
+
+	public function setup($confName) {
+		self::$confName = $confName;
 	}
 
 }

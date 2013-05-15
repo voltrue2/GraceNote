@@ -1,0 +1,3 @@
+removeColumnMsg,failedToRemoveColumn,deleteRowMsg,failedToDeleteRow,save,failedToEditTable
+Do you want to remove column "$1"?,Could not remove column "$1",Do you want to delete this record?,Could not delete the record,Save Changes,Could not edit table "$1"
+カラム【$1】を削除しますか？,カラム【$1】を削除できませんでした,このデータを削除しますか？,データの削除ができませんでした,変更を保存,テーブル【$1】を更新できませんでした

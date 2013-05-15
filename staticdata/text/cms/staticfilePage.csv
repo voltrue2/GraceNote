@@ -1,0 +1,3 @@
+staticFileHeader,createDir,download,upload,edit,newFolder,noChangeMsg,alphaNumericOnlyMsg,confirmDelete,deleteFailed,nothingToDeleteMsg
+File Manager,Create a folder,Download,Upload,Edit,New Folder,There is no change...,Only alpha numeric characters are allowed...,Do you want to delete '$1'?,Could not delete,Nothing is selected to be deleted
+ファイル管理,フォルダー作成,ダウンロード,アップロード,編集,新規フォルダー,更新するものがありません,アルファベットと数字のみ有効です,【$1】を削除しますか？,削除できませんでした,削除するものがありません

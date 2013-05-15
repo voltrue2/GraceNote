@@ -1,7 +1,5 @@
 <?php
 
-// index.php of GraceNote2
-
 // use EventEmitter
 Loader::import('lib', 'EventEmitter.class.php');
 // use session
@@ -12,6 +10,7 @@ Loader::import('lib', 'CmsAuthHandler.class.php');
 Loader::import('lib', 'CmsData.class.php');
 // use Text
 Loader::import('lib', 'Text.class.php');
+Text::setup('CmsText');
 // use Encrypt
 Loader::import('lib', 'Encrypt.class.php');
 // use  Report
