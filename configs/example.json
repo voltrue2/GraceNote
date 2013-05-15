@@ -1,0 +1,153 @@
+{
+	"Log": {
+		"active": [
+			"verbose",
+			"debug",
+			"info",
+			"warn",
+			"error",
+			"fatal"
+		],
+		"paths": {
+			"verbose": "/var/www/GraceNote/logs/verbose.log",
+			"debug": "/var/www/GraceNote/logs/debug.log",
+			"info": "/var/www/GraceNote/logs/info.log",
+			"warn": "/var/www/GraceNote/logs/error.log",
+			"error": "/var/www/GraceNote/logs/error.log",
+			"fatal": "/var/www/GraceNote/logs/fatal.log"
+		}
+	},
+	"Cache": {
+		"flush": false,
+		"host": "localhost",
+		"port": "11211",
+		"expiration": "1 day"
+	},
+	"Router": {
+		"forceTrailingSlash": true,
+		"noTrailingSlash": ["media"],
+		"reroute": [
+			{ "from": "/", "to": "/auth/" }
+		],
+		"error": {
+			"404": "/error/notFound/",
+			"500": "/error/busy/"
+		}
+	},
+	"UserAgent": {
+		"os": {
+			"android": "Android",
+			"win": "Windows",
+			"mac": "Macintosh",
+			"linux": "Linux",
+			"iphone": "iPhone",
+			"ipod": "iPod",
+			"ipad": "iPad"
+		},
+		"browser": {
+			"ie": "IE",
+			"chrome": "Chrome",
+			"firefox": "Firefox",
+			"safari": "Safari"
+		}
+	},
+	"Asset": {
+		"embedPaths": {
+			"js": "/var/www/GraceNote/js/",
+			"css": "/var/www/GraceNote/css/",
+			"media": "/var/www/htdocs/img/"
+		},
+		"httpUrls": {
+			"normal": {
+				"protocol": "http",
+				"host": "yourdomain.com",
+				"sourcePath": "/var/www/yourdocroot/"
+			},
+			"ssl": {
+				"protocol": "https",
+				"host": "yourdomain.com",
+				"sourcePath": "/var/www/yourdocroot/"
+			}
+		}
+	},
+	"Sql": {
+		"GraceNote": { 
+			"read": {
+				"type": "pgsql",
+				"behavior": "read",
+				"host": "localhost",
+				"db": "dbname",
+				"user": "user",
+				"password": "pass"
+			},
+			"write": {
+				"type": "pgsql",
+				"behavior": "write",
+				"host": "localhost",
+				"db": "dbname",
+				"user": "user",
+				"password": "pass"
+			}
+		},
+		"mySqlGraceNote": { 
+			"read": {
+				"type": "mysql",
+				"behavior": "read",
+				"host": "localhost",
+				"db": "dbname",
+				"user": "user",
+				"password": "pass"
+			},
+			"write": {
+				"type": "mysql",
+				"behavior": "write",
+				"host": "localhost",
+				"db": "dbname",
+				"user": "user",
+				"password": "pass"
+			}
+		},
+		"Session": {
+			"read": {
+				"type": "mysql",
+				"behavior": "read",
+				"host": "localhost",
+				"db": "dbname",
+				"user": "user",
+				"password": "pass"
+			},
+			"write": {
+				"type": "mysql",
+				"behavior": "write",
+				"host": "localhost",
+				"db": "dbname",
+				"user": "user",
+				"password": "pass"
+			}
+		}
+	},
+	"StaticData": {
+		"#sourcePath": "/var/www/GraceNote/assets/",
+		"sourcePath": "/var/www/yourdocroot/",
+		"csvParseRules": {
+			"delimiter": ",",
+			"enclosure": ""
+		}
+	},
+	"DbSession": {
+		"duration": "1 hour",
+		"db": "Session"
+	},
+	"MemSession": {
+		"flush": false,
+		"host": "localhost",
+		"port": "11211",
+		"duration": "1 hour"
+	},
+	"CmsData": {
+		"db": "mySqlGraceNote"
+	},
+	"Report": {
+		"db": "mySqlGraceNote"
+	}
+}
