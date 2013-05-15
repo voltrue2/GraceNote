@@ -341,6 +341,15 @@ Asset::map($httpUrlName, $path)
 - FileSystem
 - DataModel
 
+## Library Classes
+> As a developer, you have a choice to include these classes in your application
+>> These classes should be loaded in GraceNote/index.php file
+>>> Example: Loader::import('lib', 'Encrypt.class.php');
+
+- Encrypt
+- EventEmitter
+- Report
+- Text
 
 # Apache configuration example for GraceNote #
 
