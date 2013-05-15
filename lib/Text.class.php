@@ -29,7 +29,7 @@ class Text {
 		return $text;	
 	}
 
-	public function setup($confName) {
+	public static function setup($confName) {
 		self::$confName = $confName;
 	}
 
