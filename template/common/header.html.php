@@ -1,7 +1,7 @@
 <?= Loader::jsVars('window'); ?>
 <div class="header" style="clear: both;">
 <div class="header-logo" style="float: left;">
-<a href="/"><img src="/img/logos/GraceNote.png" /></a>
+<a href="/"><img src="<?= $logos['GraceNote']; ?>" /></a>
 </div>
 <? if (isset($cmsUser)): ?>
 <div style="float: right; color: #333; font-size: 15px; line-height: 40px;  padding-right: 20px;"><?= $cmsUser['user']; ?></div>

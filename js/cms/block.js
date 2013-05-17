@@ -58,7 +58,7 @@
 		width: '100px', 
 		height: '100px'
 	});
-	spinner.drawImage('/img/preloaders/preloader-blue.gif');
+	spinner.drawImage(window.spinners['preloader-blue']);
 
 	function setup(loader) {
 		if (loader) {

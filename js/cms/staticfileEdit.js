@@ -94,7 +94,7 @@
 		elm.path = ((currentPath) ? currentPath + '/' : '') + path;
 		elm.name = path;
 		if (isDir) {
-			icon.src = '/img/system/folder.png';
+			icon.src = window.assets['folder'];
 			icon.onmouseup = function () {
 				icon.onmouseout();
 				if (currentFile) {
@@ -126,7 +126,7 @@
 			if (path.toLowerCase().match(/(png|jpg|jpeg|gif)/)) {
 				icon.src = item.uri;
 			} else {
-				icon.src = '/img/system/file.png';
+				icon.src = window.assets['file'];
 			}
 			icon.onmouseup = function (event) {
 				if (currentFile) {
@@ -147,7 +147,7 @@
 		checkbox.style.height = '15px';
 		checkbox.style.lineHeight = '15px';
 		checkbox.style.display = 'block';
-		checkbox.style.background = 'url(/img/system/grey_check.png)';
+		checkbox.style.background = 'url(' + window.assets['grey_check'] + ')';
 		checkbox.style.backgroundSize = '100%';
 		checkbox.style.cursor = 'pointer';
 		checkbox.path = path;
@@ -166,12 +166,12 @@
 					return;
 				}
 				selected.splice(index, 1);
-				checkbox.style.background = 'url(/img/system/grey_check.png)';
+				checkbox.style.background = 'url(' + window.assets['grey_check'] + ')';
 				checkbox.style.border = '1px solid #999';
 			} else {
 				checkbox.check = true;
 				selected.push({ path: path, isDir: isDir });
-				checkbox.style.background = 'url(/img/system/green_check.png)';
+				checkbox.style.background = 'url(' + window.assets['green_check'] + ')';
 				checkbox.style.border = '1px solid #6c0';
 			}
 			checkbox.style.backgroundSize = '100%';
@@ -416,17 +416,17 @@
 		massSelectBtn.style.height = '32px';
 		massSelectBtn.style.border = '1px solid #999';
 		massSelectBtn.style.margin = '4px';
-		massSelectBtn.style.background = 'url(/img/system/grey_check.png)';
+		massSelectBtn.style.background = 'url(' + window.assets['grey_check'] + ')';
 		massSelectBtn.style.backgroundSize = '100%';
 		massSelectBtn.style.cursor = 'pointer';		
 		massSelectBtn.onmouseup = function () {
 			if (massSelectBtn.checked) {
 				massSelectBtn.checked = false;
-				massSelectBtn.style.background = 'url(/img/system/grey_check.png)';	
+				massSelectBtn.style.background = 'url(' + window.assets['grey_check'] + ')';	
 				massSelectBtn.style.border = '1px solid #999';
 			} else {
 				massSelectBtn.checked = true;
-				massSelectBtn.style.background = 'url(/img/system/green_check.png)';
+				massSelectBtn.style.background = 'url(' + window.assets['green_check'] + ')';
 				massSelectBtn.style.border = '1px solid #6c0';
 			}
 			for (var i = 0, len = list.length; i < len; i++) {

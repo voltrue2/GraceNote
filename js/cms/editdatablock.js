@@ -691,7 +691,7 @@ function createDateTime(parent, dataMeta, val, data) {
 function createMedia(parent, dataMeta, val, data) {
 	var box = parent.createChild('div', { width: '80px', clear: 'both' });
 	var img = box.createChild('div', { width: '50px', height: '25px', cssFloat: 'left', cursor: 'pointer' });
-	var path = '/img/system/file.png';
+	var path = window.assets['file'];
 	if (val.toLowerCase().match(/(png|gif|jpg|jpeg)/g)) {
 		path = val;
 	}
@@ -897,7 +897,7 @@ function createNewMedia(parent, dataMeta) {
 		height: '50px',
 		cursor: 'pointer'
 	});
-	img.drawImage('/img/system/no_image.png', { positionX: 0, size: '50% 100%' });
+	img.drawImage(window.assets['no_image'], { positionX: 0, size: '50% 100%' });
 	img.on('tapend', function () {
 		window.lightbox.show(450, 500, function (bar, box, close) {
 			var mediaBox = new window.MediaBox(box, 450, 430);
@@ -911,7 +911,7 @@ function createNewMedia(parent, dataMeta) {
 				if (img.value.toLowerCase().match(/(png|gif|jpg|jpeg)/g)) {
 					src = img.value;
 				} else {
-					src = '/img/system/file.png';
+					src = window.assets['file.png'];
 				}
 				img.drawImage(src, { positionX: 0, size: '50% 100%' });
 				close();

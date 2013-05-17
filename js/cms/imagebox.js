@@ -19,7 +19,7 @@
 				}
 			}
 			window.lightbox.show(w, h + 20, function (bar, box, close) {
-				var container = box.createChild('div', { background: 'url(/img/system/triangle-pattern.png)', width: w + 'px', height: h + 'px' });
+				var container = box.createChild('div', { background: 'url(' + window.assets['triangle-pattern'] + ')', width: w + 'px', height: h + 'px' });
 				var img = container.createChild('div', { width: w + 'px', height: h + 'px'});
 				img.drawImage(srcPath);
 			});

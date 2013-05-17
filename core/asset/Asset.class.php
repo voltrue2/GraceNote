@@ -20,11 +20,13 @@ class Asset {
 			"myCustomName": {
 				"protocol": "http or https",
 				"host": "myDomain",
+				"media": "URIpath",
 				"sourcePath": "/file/server/path/to/files/"
 			},
 			"myCustomName2": {
 				"protocol": "http or https",
 				"host": "myDomain",
+				"media": "URIpath",
 				"sourcePath": "/file/server/path/to/files/"
 			}...
 		}
@@ -63,15 +65,18 @@ class Asset {
 	}
 
 	// maps files: Usage > $imgMap = Asset::map('image', '/img/'); $view->assign('imageMap', $imgMap); w/ Loader::jsVars();
-	public static function map($httpUrlName, $path) {	
+	public static function map($httpUrlName, $file) {	
+		
+		Log::debug('map', $httpUrlName, $file);
+
 		if (isset(self::$conf['httpUrls'])) {
 			$urls = self::$conf['httpUrls'];
 			if (isset($urls[$httpUrlName])) {
 				$conf = $urls[$httpUrlName];
-				$domain = $conf['protocol'] . '://' . $conf['host'];
+				$domain = $conf['protocol'] . '://' . $conf['host'] . $conf['path'];
 				$srcPath = $conf['sourcePath'];
 				// read all files in the given path and map them
-				return self::mapAssets($domain, $srcPath, $path);
+				return self::mapAssets($domain, $srcPath, $file);
 			} else {
 				Log::warn('[ASSET] map > "' . $httpUrlName. '" not found', $urls);
 			}
@@ -136,31 +141,22 @@ class Asset {
 	
 	private static function mapAssets($domain, $srcPath, $path) {
 		$start = microtime(true);
-		$modtime = filemtime($srcPath . $path);
-		$cacheKey = $srcPath . $path . $modtime;
-		// try cache first
-		$map = self::$cache->get($cacheKey);
-		if (!$map) { 
-			$fs = new FileSystem($srcPath);
-			$allFiles = $fs->listAllFiles($path);
-			for ($i = 0, $len = count($allFiles); $i < $len; $i++) {
-				$keyPath = str_replace($srcPath, '', $allFiles[$i]['path']);
-				$key = substr($keyPath, 0, strrpos($keyPath, '.'));
-				$key = str_replace($path, '', $key);
-				$first = substr($key, 0, 1);
-				if ($first === '/') {
-					$key = substr($key, 1, strlen($key));
-				}
-				$map[$key] = $domain . '/' . str_replace(' ', '%20', $keyPath);
+		$fs = new FileSystem($srcPath);
+		$allFiles = $fs->listAllFiles($path);
+		for ($i = 0, $len = count($allFiles); $i < $len; $i++) {
+			$keyPath = str_replace($srcPath, '', $allFiles[$i]['path']);
+			$key = substr($keyPath, 0, strrpos($keyPath, '.'));
+			$key = str_replace($path, '', $key);
+			$first = substr($key, 0, 1);
+			if ($first === '/') {
+				$key = substr($key, 1, strlen($key));
 			}
-			// set cache
-			if ($map) {
-				self::$cache->set($cacheKey, $map);
-			}
+			$map[$key] = $domain . '/' . str_replace(' ', '%20', $keyPath);
+			Log::debug('[ASSET] mapping > ' . $key . ' >> ' . $map[$key]);
 		}
 		$end = microtime(true);
 		$time = (string)substr((($end - $start) * 1000), 0, 8);
-		Log::debug('[Asset] map > mapping all assets in "' . $srcPath . $path . '" took [' . $time . ' msec]');
+		Log::debug('[ASSET] map > mapping all assets in "' . $srcPath . $path . '" took [' . $time . ' msec]');
 		return $map;
 	}
 }

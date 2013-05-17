@@ -64,7 +64,7 @@
 			width: '30px',
 			cssFloat: 'right'
 		});
-		arrow.drawImage('/img/system/arrow-down.png');
+		arrow.drawImage(window.assets['arrow-down']);
 		// list
 		box.on('tapend', function () {
 			createList(that, select);

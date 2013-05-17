@@ -102,9 +102,9 @@
 			var cell = box.createChild('div');
 			cell.setClassName('list');
 			var icon = cell.createChild('div', { cursor: 'pointer', marginLeft: '40px', width: '50px', height: '50px' });
-			var path = '/img/system/folder.png';
+			var path = window.assets['folder'];
 			if (!item.isDir) {
-				path = '/img/system/file.png';
+				path = window.assets['file'];
 				if (item.name.toLowerCase().match(/(png|gif|jpg|jpeg)/)) {
 					// image file
 					path = item.uri;
