@@ -1,28 +1,24 @@
 <?php 
 
-class Staticfile {
+class Staticfile Extends Controller {
 	
 	private $view;
-	private $controller;
 	private $fs;
 	
-	public function Staticfile($view, $controller) {
+	public function Staticfile($view) {
 		// setup
 		$this->view = $view;
-		$this->controller = $controller;
 		$sdConf = Config::get('StaticData');
 		$this->fs = new FileSystem($sdConf['sourcePath']);
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			// authenticated
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 
 	public function index() {
@@ -69,7 +65,7 @@ class Staticfile {
 
 	public function upload() {
 		$path = $this->fs->getFullPath($this->getPath('path'));
-		$images = $this->controller->getFile('images');
+		$images = $this->getFile('images');
 		$tmpNames = $images['tmp_name'];
 		$fileNames = $images['name'];
 		$count = count($tmpNames);
@@ -83,7 +79,7 @@ class Staticfile {
 				if (!$success) {
 					throw new Exception('failed to upload > ' . $path . '/' . $fileNames[$i]);
 				}
-				GlobalEvent::emit('staticfile.upload', array($this->controller->getSession(), $fileNames[$i]));
+				GlobalEvent::emit('staticfile.upload', array($this->getSession(), $fileNames[$i]));
 			}
 			$success = true;
 		} catch (Exception $e) {
@@ -124,7 +120,7 @@ class Staticfile {
 	}
 
 	public function getFileData() {
-		$path = $this->controller->getQuery('path');
+		$path = $this->getQuery('path');
 		$sd = new StaticData($path);
 		$data = $sd->getMany();
 		$this->view->assign('data', $data);
@@ -133,7 +129,7 @@ class Staticfile {
 	}
 
 	private function getPath($pathName, $file = false) {
-		$path = $this->controller->getQuery($pathName);
+		$path = $this->getQuery($pathName);
 		$sess = CmsAuthHandler::get();
 		// force the path based on fileRestriction
 		if ($sess['fileRestriction'] !== $path) {

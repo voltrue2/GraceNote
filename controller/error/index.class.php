@@ -1,13 +1,11 @@
 <?php 
 
-class Error {
+class Error extends Controller {
 	
 	private $view;
-	private $controller;
 	
-	public function Error($view, $controller) {
+	public function Error($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 	}
 
 	public function notFound() {

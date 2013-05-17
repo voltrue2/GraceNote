@@ -4,7 +4,6 @@ class View {
 
 	private $router = null;
 	private $uri = null;
-	private $controller = null;
 	private $vars = array();
 	private $templatePath = '';
 	
@@ -12,10 +11,6 @@ class View {
 		$this->router = $router;
 		$this->uri = $this->router->getUri();
 		$this->templatePath = $root . 'template/';
-	}
-	
-	public function setController($controller) {
-		$this->controller = $controller;
 	}
 	
 	public function assign($var, $value) {
@@ -40,7 +35,7 @@ class View {
 			return;
 		}
 		Log::error('[VIEW] respondTemplate > Template file does not exist >> ' . $path);
-		$this->controller->handleError(500);
+		$this->router->handleError(500, $this, microtime(true));
 	}
 	
 	// output to the client as JSON
@@ -100,7 +95,7 @@ class View {
 		if ($errorMsg) {
 			Log::error('[VIEW]', $errorMsg);
 		}
-		$this->controller->handleError($errorCode);
+		$this->router->handleError($errorCode, $this, microtime(true));
 	}
 }
 

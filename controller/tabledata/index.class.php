@@ -1,32 +1,28 @@
 <?php
-class Tabledata {
+class Tabledata extends Controller {
 
 	private $view;
-	private $controller;	
 	private $sess = null;
 
-	public function Tabledata($view, $controller) {
+	public function Tabledata($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			// authenticated
 			$this->sess = $sess;
 			$this->view->assign('currentPage', 'tableList');
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 
 	public function index($db, $tableName) {
 		// check permission
 		if ($this->sess['permission'] != 1) {
-			return $this->controller->redirect('/tabledata/dataList/' . $db . '/' . $tableName . '/');
+			return $this->redirect('/tabledata/dataList/' . $db . '/' . $tableName . '/');
 		}
 		$model = new DataModel($db);
 		$table = $model->table($tableName);
@@ -42,9 +38,9 @@ class Tabledata {
 	public function editTableStructure($db, $tableName) {
 		// check permission
 		if ($this->sess['permission'] != 1) {
-			return $this->controller->respondError(401);
+			return $this->respondError(401);
 		}
-		$columns = $this->controller->getQuery('columns');
+		$columns = $this->getQuery('columns');
 		$model = new DataModel($db);
 		$table = $model->table($tableName);
 		// original structure
@@ -88,9 +84,9 @@ class Tabledata {
 	public function removeColumn($db, $tableName) {
 		// check permission
 		if ($this->sess['permission'] != 1) {
-			return $this->controller->respondError(401);
+			return $this->respondError(401);
 		}
-		$columnName = $this->controller->getQuery('columnName');
+		$columnName = $this->getQuery('columnName');
 		$model = new DataModel($db);
 		$table = $model->table($tableName);
 		$table->transaction();
@@ -109,7 +105,7 @@ class Tabledata {
 	}
 
 	public function getData($db, $tableName) {
-		$columns = $this->controller->getQuery('columns');
+		$columns = $this->getQuery('columns');
 		$dm = new DataModel($db);
 		$table = $dm->table($tableName);
 		// table structure
@@ -139,7 +135,7 @@ class Tabledata {
 	}
 
 	public function getDataList($db, $tableName) {
-		$cols = $this->controller->getQuery('columns');
+		$cols = $this->getQuery('columns');
 		$dm = new DataModel($db);
 		$table = $dm->table($tableName);
 		for ($i = 0, $len = count($cols); $i < $len; $i++) {
@@ -197,8 +193,8 @@ class Tabledata {
 		if ($this->sess['permission'] != 1 && $this->sess['permission'] != 2) {
 			return $this->view->respondError(401);
 		}
-		$prevData = $this->controller->getQuery('prevData');
-		$data = $this->controller->getQuery('data');
+		$prevData = $this->getQuery('prevData');
+		$data = $this->getQuery('data');
 		$dm = new DataModel($db);
 		$table = $dm->table($tableName);
 		$table->transaction();
@@ -250,7 +246,7 @@ class Tabledata {
 		if ($this->sess['permission'] != 1 && $this->sess['permission'] != 2) {
 			return $this->view->respondError(401);
 		}
-		$data = $this->controller->getQuery('data');
+		$data = $this->getQuery('data');
 		$dm = new DataModel($db);
 		$table = $dm->table($tableName);
 		$table->transaction();
@@ -290,7 +286,7 @@ class Tabledata {
 		if ($this->sess['permission'] != 1 && $this->sess['permission'] != 2 && $this->sess['permission'] != 3) {
 			return $this->view->respondError(401);
 		}
-		$data = $this->controller->getQuery('data');
+		$data = $this->getQuery('data');
 		$dm = new DataModel($db);
 		$table = $dm->table($tableName);
 		$table->transaction();

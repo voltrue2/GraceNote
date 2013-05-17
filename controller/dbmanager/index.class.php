@@ -1,19 +1,17 @@
 <?php
-class Dbmanager {
+class Dbmanager extends Controller {
 
 	private $view;
-	private $controller;
 	private $sess = null;	
 
-	public function Dbmanager($view, $controller) {
+	public function Dbmanager($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);		
+		$sess = CmsAuthHandler::check($view, $this);		
 		if ($sess) {
 			// authenticated
 			$this->sess = $sess;
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			// create list of database groups
 			$dbGroups = Config::get('Sql');
 			$dbList = array();
@@ -26,9 +24,7 @@ class Dbmanager {
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 
 	public function index() {
@@ -45,7 +41,7 @@ class Dbmanager {
 	public function createTable($db) {
 		// check permission
 		if ($this->sess['permission'] != 1) {
-			return $this->controller->redirect('/');
+			return $this->redirect('/');
 		}
 		$this->view->assign('selectedDb', $db);
 		$this->view->assign('currentPage', 'createTable');
@@ -79,9 +75,9 @@ class Dbmanager {
 	}
 	
 	public function createNewTable() {
-		$db = $this->controller->getQuery('selectedDb');
-		$table = $this->controller->getQuery('table');
-		$columns = $this->controller->getQuery('columns');
+		$db = $this->getQuery('selectedDb');
+		$table = $this->getQuery('table');
+		$columns = $this->getQuery('columns');
 		$model = new DataModel($db);
 		$newTable = $model->table($table);
 		$newTable->transaction();

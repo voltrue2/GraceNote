@@ -1,19 +1,17 @@
 <?php 
-class Editdatablock {
+class Editdatablock extends Controller {
 	
 	private $view;
-	private $controller;
 	private $dataBlockTypes;
 	private $itemNum = 60;
 
-	public function Editdatablock($view, $controller) {
+	public function Editdatablock($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			// authenticated
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			// create list of database groups
 			$dbGroups = Config::get('Sql');
 			$dbList = array();
@@ -32,9 +30,9 @@ class Editdatablock {
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
-		$this->controller->redirect('/', 401);
+		//$sess['prevUri'] = $this->getUri();
+		//$this->setSession($sess);
+		$this->redirect('/', 401);
 	}
 	
 	public function index($db, $srcId, $from = 0) {
@@ -171,16 +169,16 @@ class Editdatablock {
 	}
 
 	public function updateData($db, $srcId) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) || ($sess['permission'] != 1 && $sess['permission'] != 2)) {
 			return $this->view->respondError(401);
 		} 
-		$table = $this->controller->getQuery('table');
-		$id = $this->controller->getQuery('id');
-		$refColumn = $this->controller->getQuery('refColumn');
-		$column = $this->controller->getQuery('column');
-		$value = $this->controller->getQuery('value');
-		$rules = $this->controller->getQuery('rules');
+		$table = $this->getQuery('table');
+		$id = $this->getQuery('id');
+		$refColumn = $this->getQuery('refColumn');
+		$column = $this->getQuery('column');
+		$value = $this->getQuery('value');
+		$rules = $this->getQuery('rules');
 		// apply rules
 		if ($rules['required'] && $value === null) {
 			Log::error('missing value');
@@ -216,11 +214,11 @@ class Editdatablock {
 	}
 
 	public function getRefList($db, $srcId) {
-		$table = $this->controller->getQuery('table');
-		$ref = $this->controller->getQuery('refColumn');
-		$display = $this->controller->getQuery('displayColumn');
-		$whereColumn = $this->controller->getQuery('whereColumn');
-		$whereValue = $this->controller->getQuery('whereValue');
+		$table = $this->getQuery('table');
+		$ref = $this->getQuery('refColumn');
+		$display = $this->getQuery('displayColumn');
+		$whereColumn = $this->getQuery('whereColumn');
+		$whereValue = $this->getQuery('whereValue');
 		$dm = new DataModel($db);
 		$table = $dm->table($table);
 		if ($ref !== 'ident') {
@@ -250,16 +248,16 @@ class Editdatablock {
 	}
 
 	public function addItemToList($db, $srcId, $from) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) || ($sess['permission'] != 1 && $sess['permission'] != 2)) {
 			return $this->view->respondError(401);
 		} 
-		$table = $this->controller->getQuery('table');
-		$refColumn = $this->controller->getQuery('refColumn');
-		$ref = $this->controller->getQuery('ref');
-		$valColumn = $this->controller->getQuery('valColumn');
-		$val = $this->controller->getQuery('val');
-		$rules = $this->controller->getQuery('rules');
+		$table = $this->getQuery('table');
+		$refColumn = $this->getQuery('refColumn');
+		$ref = $this->getQuery('ref');
+		$valColumn = $this->getQuery('valColumn');
+		$val = $this->getQuery('val');
+		$rules = $this->getQuery('rules');
 		$dm = new DataModel($db);
 		$table = $dm->table($table);
 		$table->where($refColumn . ' = ?', $ref);
@@ -321,16 +319,16 @@ class Editdatablock {
 	}
 
 	public function removeItem($db, $srcId, $from) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) || ($sess['permission'] != 1 && $sess['permission'] != 2)) {
 			return $this->view->respondError(401);
 		} 
-		$table = $this->controller->getQuery('table');
-		$refColumn = $this->controller->getQuery('refColumn');
-		$ref = $this->controller->getQuery('ref');
-		$assocColumn = $this->controller->getQuery('assocColumn');
-		$assoc = $this->controller->getQuery('assoc');
-		$rules = $this->controller->getQuery('rules');
+		$table = $this->getQuery('table');
+		$refColumn = $this->getQuery('refColumn');
+		$ref = $this->getQuery('ref');
+		$assocColumn = $this->getQuery('assocColumn');
+		$assoc = $this->getQuery('assoc');
+		$rules = $this->getQuery('rules');
 		$dm = new DataModel($db);
 		$table = $dm->table($table);
 		$table->where($assocColumn . ' = ?', $assoc);
@@ -387,11 +385,11 @@ class Editdatablock {
 	}
 
 	public function createNew($db, $srcId) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) || ($sess['permission'] != 1 && $sess['permission'] != 2)) {
 			return $this->view->respondError(401);
 		} 
-		$newData = $this->controller->getQuery('newData');
+		$newData = $this->getQuery('newData');
 		$dm = new DataModel($db);
 		// prepare update sql queries
 		$mainTable = null;
@@ -467,7 +465,7 @@ class Editdatablock {
 	}
 
 	public function deleteData($db, $srcId, $dataId) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) || ($sess['permission'] != 1 && $sess['permission'] != 2)) {
 			return $this->view->respondError(401);
 		} 

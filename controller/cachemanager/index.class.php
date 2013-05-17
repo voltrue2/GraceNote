@@ -1,25 +1,21 @@
 <?php
 
-class CacheManager {
+class CacheManager extends Controller {
 	
 	private $view;
-	private $controller;	
 
-	public function CacheManager($view, $controller) {
+	public function CacheManager($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			// authenticated
 			$this->sess = $sess;
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 
 	public function index($from = 0, $search = null) {
@@ -63,14 +59,14 @@ class CacheManager {
 	}
 
 	public function getValue() {
-		$key = $this->controller->getQuery('key');
+		$key = $this->getQuery('key');
 		$cache = new Cache();
 		$this->view->assign('value', $cache->get($key, false));
 		$this->view->respondJson();
 	}
 
 	public function delete() {
-		$key = $this->controller->getQuery('key');
+		$key = $this->getQuery('key');
 		$cache = new Cache();
 		$res = $cache->delete($key, false);
 		return  $this->view->respondJson();

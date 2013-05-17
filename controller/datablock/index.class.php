@@ -1,20 +1,18 @@
 <?php
-class Datablock {
+class Datablock extends Controller {
 	
 	private $view;
-	private $controller;
 	private $datablockS = 'cms_datablock_source';
 	private $datablock = 'cms_datablock';
 	private $dataBlockTypes = array();
 
-	public function Datablock($view, $controller) {
+	public function Datablock($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			// authenticated
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			// create list of database groups
 			$dbGroups = Config::get('Sql');
 			$dbList = array();
@@ -32,9 +30,7 @@ class Datablock {
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->addSession('prevUri', $sess);
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 
 	public function index($db) {
@@ -49,7 +45,7 @@ class Datablock {
 	}
 	
 	public function create($db) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
@@ -62,7 +58,7 @@ class Datablock {
 	}
 	
 	public function createNewDataBlockSource($db) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
@@ -72,10 +68,10 @@ class Datablock {
 		// get list of all tables
 		$tableList = $this->getTableList($dm);
 		// start creating
-		$name = trim($this->controller->getQuery('name'));
-		$mainTable = trim($this->controller->getQuery('mainTable'));
-		$mainColumn = trim($this->controller->getQuery('mainColumn'));
-		$desc = $this->controller->getQuery('desc');
+		$name = trim($this->getQuery('name'));
+		$mainTable = trim($this->getQuery('mainTable'));
+		$mainColumn = trim($this->getQuery('mainColumn'));
+		$desc = $this->getQuery('desc');
 		// check for required fileds
 		if (!$name || !$mainTable || !$mainColumn) {
 			return $this->view->respondError(404, 'Datablock::createNewDataBlockSource > Missing name, mainTable, or mainColumn >> ', $name, $mainTable, $mainColumn);
@@ -107,7 +103,7 @@ class Datablock {
 	}
 	
 	public function editDataBlock($db, $srcId) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
@@ -132,14 +128,14 @@ class Datablock {
 	}
 	
 	public function updateDataBlockSource($db, $id) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
-		$name = trim($this->controller->getQuery('name'));
-		$mainTable = trim($this->controller->getQuery('mainTable'));
-		$mainColumn = trim($this->controller->getQuery('mainColumn'));
-		$desc = $this->controller->getQuery('desc');
+		$name = trim($this-->getQuery('name'));
+		$mainTable = trim($this->getQuery('mainTable'));
+		$mainColumn = trim($this->getQuery('mainColumn'));
+		$desc = $this->getQuery('desc');
 		$dm = new DataModel($db);
 		// get list of all tables
 		$tableList = $this->getTableList($dm);
@@ -172,11 +168,11 @@ class Datablock {
 	}
 	
 	public function deleteDataBlockSource($db) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
-		$id = $this->controller->getQuery('id');
+		$id = $this->getQuery('id');
 		$dm = new DataModel($db);
 		$src = $dm->table($this->datablockS);
 		$src->transaction();
@@ -194,11 +190,11 @@ class Datablock {
 	}
 
 	public function updateDataBlocks($db, $srcId) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
-		$dataBlocks = $this->controller->getQuery('dataBlocks');
+		$dataBlocks = $this->getQuery('dataBlocks');
 		$dm = new DataModel($db);
 		$tableList = $this->getTableList($dm);
 		$table = $dm->table($this->datablock);
@@ -290,11 +286,11 @@ class Datablock {
 	}
 
 	public function deleteDataBlock($db, $srcId) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
-		$id = $this->controller->getQuery('id');
+		$id = $this->getQuery('id');
 		$dm = new DataModel($db);
 		$table = $dm->table($this->datablock);
 		$table->transaction();

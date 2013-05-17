@@ -1,28 +1,24 @@
 <?php
 
-class User { 
+class User extends Controller { 
 	
 	private $view;
-	private $controller;
 	private $dm;
 
-	public function User($view, $controller) {
+	public function User($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			$this->dm = new DataModel(CmsData::getDbName());
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 
 	public function getUserList() {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if ($sess && isset($sess['permission']) && $sess['permission'] == 1) {
 			$cmsAdmin = $this->dm->table('cms_admin');
 			$cmsAdmin->where('id != ?', $sess['id']);
@@ -46,19 +42,19 @@ class User {
 			);
 		} else {
 			// get my user data
-			$userData = $this->controller->getSession();
+			$userData = $this->getSession();
 		}
 		$this->view->assign('userData', $userData);
 		$this->view->respondJson();
 	}
 
 	public function updateUserData($updateMode = 'update', $id = null) {
-		$userData = $this->controller->getQuery('userData');
+		$userData = $this->getQuery('userData');
 		if (!$userData) {
 			Log::error('[USER] updateUserData > missing userData to update');
 			return $this->view->respondError(404);
 		}
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if (!$sess || !isset($sess['id'])) {
 			throw new Exception('invalid session');
 		}
@@ -138,7 +134,7 @@ class User {
 	}
 
 	public function deleteUser($id) {
-		$sess = $this->controller->getSession();
+		$sess = $this->getSession();
 		if ($sess && isset($sess['permission']) && $sess['permission'] == 1) {
 			$cmsAdmin = $this->dm->table('cms_admin');
 			$cmsAdmin->where('id = ?', $id);

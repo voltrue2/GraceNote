@@ -1,24 +1,20 @@
 <?php
 
-class Statistic {
+class Statistic extends Controller {
 	
 	private $view;
-	private $controller;
 
-	public function Statistic($view, $controller) {
+	public function Statistic($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		// check for authentication
-		$sess = CmsAuthHandler::check($view, $controller);
+		$sess = CmsAuthHandler::check($view, $this);
 		if ($sess) {
 			// authenticated
 			$this->sess = $sess;
-			Text::get($view, $controller, 'text');
+			Text::get($view, $this, 'text');
 			return;
 		}
 		// not authenticated remember where you were
-		//$sess['prevUri'] = $this->controller->getUri();
-		//$this->controller->setSession($sess);
 		$this->controller->redirect('/', 401);
 	}
 

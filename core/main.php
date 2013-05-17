@@ -54,12 +54,5 @@ $router = new Router();
 // create view
 $view = new View($router, $_root);
 // create controller
-$controller = new Controller($router, $view);
-// register controller to ErrorHandler
-ErrorHandler::setController($controller);
-// set controller to view
-$view->setController($controller);
-// create app
-$controller->create($startTime);
-
+$controller = $router->createController($view, $startTime);
 ?>

@@ -1,23 +1,20 @@
 <?php 
 
-class Auth {
+class Auth extends Controller {
 	
-	private $view;
-	private $controller;
 	private $cmsAdmin;
 	
-	public function Auth($view, $controller) {
+	public function Auth($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		$dm = new DataModel(CmsData::getDbName());
 		$this->cmsAdmin = $dm->table('cms_admin');
 		// setup text content
-		$authPageText = Text::get($view, $controller, 'text');
+		$authPageText = Text::get($this->view, $this, 'text');
 	}
 
 	public function index() {
 		// check authentication
-		$authed = CmsAuthHandler::check($this->view, $this->controller);
+		$authed = CmsAuthHandler::check($this->view, $this);
 		if ($authed) {
 			// user is authenticated
 			return $this->view->respondTemplate('auth/menu.html.php');
@@ -27,7 +24,7 @@ class Auth {
 	}
 	
 	public function authenticate() {
-		$authenticated = $this->controller->getSession();
+		$authenticated = $this->getSession();
 		$redirect = '/';
 		if (isset($authenticated['prevUri'])) {
 			if ($authenticated['prevUri']) {
@@ -38,10 +35,10 @@ class Auth {
 			Log::debug('Auth::authenticate > redirect to previous URL > ' . $redirect);
 		}
 		if (isset($authenticated['id']) && isset($authenticated['user']) && isset($authenticated['lastLogin'])) {
-			return $this->controller->redirect($redirect, 200);
+			return $this->redirect($redirect, 200);
 		}
-		$user = $this->controller->getQuery('user');
-		$pass = $this->controller->getQuery('pass');
+		$user = $this->getQuery('user');
+		$pass = $this->getQuery('pass');
 		// authenticate
 		$this->cmsAdmin->where('name = ?', $user);
 		$useCache = false;
@@ -59,7 +56,7 @@ class Auth {
 		// handle after authentication
 		if ($authenticated) {
 			// create session data
-			$lang = $this->controller->getQuery('lang');
+			$lang = $this->getQuery('lang');
 			if ($lang !== null) {
 				$sessionValue['lang'] = $lang;
 			}
@@ -71,7 +68,7 @@ class Auth {
 			// regenerate session id for security
 			session_regenerate_id();
 			// update session
-			$this->controller->setSession($sessionValue);
+			$this->setSession($sessionValue);
 			// update last_login
 			$this->cmsAdmin->set('last_login', $sessionValue['lastLogin']);
 			$this->cmsAdmin->where('id = ?', $sessionValue['id']);
@@ -80,22 +77,22 @@ class Auth {
 
 			GlobalEvent::emit('auth.authenticate', array($sessionValue));
 
-			$this->controller->redirect($redirect, 200);
+			$this->redirect($redirect, 200);
 		}
 		// failed to authenticate > redirect to the top
-		$this->controller->redirect('/', 401);
+		$this->redirect('/', 401);
 	}
 	
 	public function signout() {
-		$authed = $this->controller->getSession();
+		$authed = $this->getSession();
 		if (isset($authed['id']) && isset($authed['user']) && isset($authed['lastLogin'])) {
 			$sessId = session_id();
-			$this->controller->removeSession();
+			$this->removeSession();
 			Log::debug('Auth::signout > Sign Out >> ' . $sessId);
-			$this->controller->redirect('/', 200);
+			$this->redirect('/', 200);
 			return;
 		}
-		$this->controller->redirect('/', 200);
+		$this->redirect('/', 200);
 	}
 }
 

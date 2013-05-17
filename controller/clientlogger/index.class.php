@@ -1,18 +1,16 @@
 <?php
-class ClientLogger {
+class ClientLogger extends {
 
 	private $view;
-	private $controller;
 	private $header = '[Client]';
 
-	public function ClientLogger ($view, $controller) {
+	public function ClientLogger ($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 	}
 
 	public function index() {
-		$type = $this->controller->getQuery('type');
-		$msg = $this->controller->getQuery('msg');
+		$type = $this->getQuery('type');
+		$msg = $this->getQuery('msg');
 		if ($msg) {
 			switch ($type) {
 				case 'verbose':

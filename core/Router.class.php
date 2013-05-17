@@ -97,16 +97,20 @@ class Router {
 		$this->controller = strtolower($this->controller);
 	}
 
-	public function getController() {
-		return $this->controller;
+	public function createController($view, $startTime) {
+		$className = $this->findControllerClass($this->controller);
+		$controller = $this->initController($className, $view);
+		if (!$controller) {
+			$this->handleError(404, $view, $startTime);
+		}
+		$success = $this->callControllerMethod($controller, $startTime);
+		if (!$success) {
+			$this->handleError(404, $view, $startTime);
+		}
 	}
 	
 	public function getMethod() {
 		return ($this->method) ? $this->method : 'index';
-	}
-	
-	public function getParams() {
-		return $this->params;
 	}
 
 	public function getUri() {
@@ -122,7 +126,7 @@ class Router {
 	}
 	
 	public function getErrorRules() {
-		return $this->conf['error'];
+		return (isset($this->conf['error'])) ? $this->conf['error'] : null;
 	}
 
 	public function redirect($path, $altCode = false){
@@ -137,6 +141,34 @@ class Router {
 		exit();
 	}
 	
+	public function handleError($errorCode, $view, $startTime) {
+		$headerCode = $this->getHeaderCode($errorCode);
+		if ($headerCode) {
+			Log::error('[ROUTER] > Error header is "' . $headerCode . '"');
+			header('HTTP/1.0 ' . $headerCode);
+		}
+		$eRules = $this->getErrorRules();
+		if ($eRules && isset($eRules[$errorCode])) {
+			list($notUsed, $eCnt, $method) = explode('/', $eRules[$errorCode]);
+			$eCnt = strtolower($eCnt); 
+			$imported = Loader::import('controller', $eCnt . '/index.class.php');
+			if (!$imported) {
+				trigger_error('[ROUTER] error controller (' . $eCnt . ') not found', E_USER_ERROR);
+			}
+			$controller = $this->initController($eCnt, $view);
+			if (!$controller) {
+				trigger_error('[ROUTER] error controller (' . $eCnt . ') failed', E_USER_ERROR);
+			}
+			$this->method = $method;
+			$this->callControllerMethod($controller, $startTime);
+			if (!$success) {
+				trigger_error('[ROUTER] error controller method (' . $this->method . ') not found');
+			}
+			
+		}
+		trigger_error('[ROUTER] > no error (' . $errorCode . ') defined in Router configuration or error controller is not properly defined', E_USER_ERROR);
+	}
+
 	private function forceTrailingSlash() {
 		$pos = strpos($this->uri, '?');
 		$queries = '';
@@ -161,6 +193,56 @@ class Router {
 			// no trailing slash > redirect with trailing slash
 			$this->redirect($uri . '/' . $queries);
 		}
+	}
+
+	private function findControllerClass($controller) {
+		$className = null;
+		$success = Loader::import('controller', $controller . '/index.class.php');
+		if ($success) {
+			$classes = get_declared_classes();
+			$res = preg_grep('/' . $controller . '/i', $classes);
+			foreach ($res as $cls) {
+				if ($controller === strtolower($cls)) {
+					$className = $cls;
+					break;
+				}
+			}
+			unset($classes);
+		}
+		return $className;
+	}
+
+	private function initController($className, $view) {
+		if ($className) {
+			// instanciate controller class
+			$cnt = new $className($view);
+			// set router
+			$cnt->setRouter($this);
+			return $cnt;	
+		}
+		// controller class not found
+		return null;
+	}
+	
+	private function callControllerMethod($cnt, $startTime) {
+		$method = $this->getMethod();
+		if (method_exists($cnt, $method)) {
+			// call the method
+			try {
+				call_user_func_array(array($cnt, $method), $this->params);
+			} catch (Exception $e) {
+				Log::error($e);
+				return null;
+			}
+			// calculate the time it took to execute
+			$endTime = microtime(true);
+			$time = (string)substr((($endTime - $startTime) * 1000), 0, 8);
+			Log::info('[ROUTER] "' . $this->getUri() . '" took [' . $time . ' msec] to execute');
+			// done execution
+			exit();
+		}
+		// method not found
+		return null;
 	}
 }
 

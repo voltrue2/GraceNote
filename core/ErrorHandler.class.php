@@ -3,20 +3,12 @@
 class ErrorHandler {
 	private static $cnt;
 	private static $staticPage;
-
-	public static function setController($cnt) {
-		self::$cnt = $cnt;
-	}
 	
 	public static function setStaticPage($path) {
 		self::$staticPage = $path;
 	}
 
 	public static function handle() {
-		if (self::$cnt) {
-			Log::error('[ERRORHANDLER] handle >> controller handle error as 500');
-			return self::$cnt->handleError(500);
-		}
 		if (self::$staticPage && file_exists(self::$staticPage)) {
 			Log::error('[ERRORHANDLER] handle >> output static error page from "' . self::$staticPage . '"');
 			echo file_get_contents(self::$staticPage);

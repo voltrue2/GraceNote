@@ -1,14 +1,12 @@
 <?php
-class Media {
+class Media Extends Controller{
 
 	private $view = null;	
-	private $controller = null;
 	private $conf = null;
 	private $cache = null;
 
-	public function Media($view, $controller) {
+	public function Media($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 		$this->conf = Config::get('Asset');	
 		$this->cache = new Cache();
 	}

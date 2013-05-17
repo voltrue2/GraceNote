@@ -3,55 +3,15 @@
 class Controller {
 	
 	private $router;
-	private $view;
 	private $errorConf = null;
 	
-	public function Controller($router, $view) {
-		$this->router = $router;
-		$this->view = $view;
-		$this->errorConf = $this->router->getErrorRules();
+	public function __construct($view) {
 	}
 
-	public function create($startTime) {
-		$controller = $this->router->getController();
-		$method = $this->router->getMethod();
-		// import controller index file
-		$success = Loader::import('controller', $controller . '/index.class.php');
-		if ($success) {
-			// find class controller class name
-			$className = $this->findControllerClass($controller);
-			if (!$className) {
-				Log::error('[CONTROLLER] create > controler "' . $controller. '" not found');
-				return $this->handleError(404);
-			}	
-			// create app
-			$app = new $className($this->view, $this);
-			Log::verbose('[CONTROLLER] create > created app "' . $controller . '" >> check method >>> ' . $method);
-			if (method_exists($app, $method)) {
-				// call the method
-				try {
-					call_user_func_array(array($app, $method), $this->router->getParams());
-				} catch (Exception $e) {
-					Log::error($e);
-					return $this->handleError(500);
-				}
-				// calculate the time it took to execute
-				$endTime = microtime(true);
-				$time = (string)substr((($endTime - $startTime) * 1000), 0, 8);
-				Log::info('[CONTROLLER] "' . $this->router->getUri() . '" took [' . $time . ' msec] to execute');
-				// done execution
-				exit();
-			} else {
-				Log::error('[CONTROLLER] create > ' . $this->router->getUri() . ' >> ' . $controller . '->' . $method . ' does not exist');
-				// 500 error > method missing
-				$this->handleError(404);
-			}
-		} else {
-			Log::error('[CONTROLLER] create > ' . $this->router->getUri() . ' >> ' . $controller . ' does not exist');
-			// 404 error > controller missing
-			$this->handleError(404);
-		}
-	}
+	public function setRouter($router) {
+		$this->router = $router;
+		$this->errorConf = $this->router->getErrorRules();
+	}	
 	
 	public function getSession() {
 		$sessId = session_id();
@@ -110,31 +70,8 @@ class Controller {
 	}
 
 	public function handleError($errorCode) {
-		Log::error('Controller::handleError > ' . $errorCode);
-		$headerCode = $this->router->getHeaderCode($errorCode);
-		if ($headerCode) {
-			Log::error('Controller::handleError > Error header is "' . $headerCode . '"');
-			header('HTTP/1.0 ' . $headerCode);
-		}
-		if (isset($this->errorConf[$errorCode])) {
-			list($notUsed, $controller, $method) = explode('/', $this->errorConf[$errorCode]);
-			$controller = strtolower($controller); 
-			Log::verbose('Controller::handleError > Loading error controller >> ' . $controller . '->' . $method);
-			$success = Loader::import('controller', $controller . '/index.class.php');
-			if ($success) {
-				$app = new $controller($this->view, $this);
-				if (method_exists($app, $method)) {
-					call_user_func_array(array($app, $method), $this->router->getParams());
-					exit();
-				} else {
-					Log::error('Controller::handleError > method "' . $method . '" of "' . $controller . '" not found');
-					exit('Error page "' . $method . '" could not display');
-				}	
-			}
-			
-		}
-		Log::error('Controller::handleError > no error (' . $errorCode . ') defined in Controller configuration or error controller is not properly defined');
-		return exit();
+		Log::error('[CONTROLLER] handleError >' . $errorCode);
+		$this->router->handleError($errorCode, $this->view, microtime(true));
 	}
 
 	private function findControllerClass($controller) {
