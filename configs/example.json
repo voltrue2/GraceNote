@@ -62,12 +62,14 @@
 			"normal": {
 				"protocol": "http",
 				"host": "yourdomain.com",
-				"sourcePath": "/var/www/yourdocroot/"
+				"path": "/media/img",
+				"sourcePath": "/var/www/GraceNote/assets/"
 			},
 			"ssl": {
 				"protocol": "https",
 				"host": "yourdomain.com",
-				"sourcePath": "/var/www/yourdocroot/"
+				"path": "/media/img",
+				"sourcePath": "/var/www/GraceNote/assets/"
 			}
 		}
 	},

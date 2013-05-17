@@ -152,7 +152,6 @@ class Asset {
 				$key = substr($key, 1, strlen($key));
 			}
 			$map[$key] = $domain . '/' . str_replace(' ', '%20', $keyPath);
-			Log::debug('[ASSET] mapping > ' . $key . ' >> ' . $map[$key]);
 		}
 		$end = microtime(true);
 		$time = (string)substr((($end - $start) * 1000), 0, 8);

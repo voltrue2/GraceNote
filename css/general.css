@@ -160,7 +160,7 @@ a:hover {
 }
 
 .db-name {
-	background-image: url('/img/system/data_edit.png');
+	background-image: url('/media/img/system/data_edit.png');
 	background-repeat: no-repeat;
 	background-position: 0;
 	text-indent: 40px;
@@ -172,7 +172,7 @@ a:hover {
 
 .list {
 	border-bottom: 1px dotted #999;
-	background-image: url('/img/system/gray_bullet.png');
+	background-image: url('/media/img/system/gray_bullet.png');
 	background-repeat: no-repeat;
 	background-position: 0;
 	text-indent: 40px;
@@ -183,7 +183,7 @@ a:hover {
 
 .list-selected {
 	border-bottom: 1px dotted #999;
-	background-image: url('/img/system/blue_bullet.png');
+	background-image: url('/media/img/system/blue_bullet.png');
 	background-repeat: no-repeat;
 	background-position: 0;
 	text-indent: 40px;
@@ -193,7 +193,7 @@ a:hover {
 }
 
 .list:hover {
-	background-image: url('/img/system/blue_bullet.png');
+	background-image: url('/media/img/system/blue_bullet.png');
 	background-repeat: no-repeat;
 	background-position: 0;
 }
@@ -257,7 +257,7 @@ input[type=text], input[type=password], select, option {
 	height: 28px;
 	border: 1px solid rgb(153, 153, 153);
 	margin: 4px;
-	background-image: url('/img/system/grey_check.png');
+	background-image: url('/media/img/system/grey_check.png');
 	background-size: 100%;
 	cursor: pointer;	
 }
@@ -267,7 +267,7 @@ input[type=text], input[type=password], select, option {
 	height: 28px;
 	border: 1px solid rgb(102, 204, 0);
 	margin: 4px;
-	background-image: url('/img/system/green_check.png');
+	background-image: url('/media/img/system/green_check.png');
 	background-size: 100%;
 	cursor: pointer;
 }
@@ -278,7 +278,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/tool_edit.png');
+	background: url('/media/img/system/tool_edit.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -290,7 +290,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/refresh.png');
+	background: url('/media/img/system/refresh.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -302,7 +302,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/search.png');
+	background: url('/media/img/system/search.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -314,7 +314,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/quit.png');
+	background: url('/media/img/system/quit.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -336,7 +336,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	cursor: pointer;
 	margin: 4px;
-	background: url('/img/system/file.png');
+	background: url('/media/img/system/file.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -348,7 +348,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	cursor: pointer;
 	margin: 4px;
-	background: url('/img/system/list.png');
+	background: url('/media/img/system/list.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -360,7 +360,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/folder.png');
+	background: url('/media/img/system/folder.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -372,7 +372,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/upload.png');
+	background: url('/media/img/system/upload.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -384,7 +384,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/add.png');
+	background: url('/media/img/system/add.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -396,7 +396,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/download.png');
+	background: url('/media/img/system/download.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -408,7 +408,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/image.png');
+	background: url('/media/img/system/image.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -420,7 +420,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/user.png');
+	background: url('/media/img/system/user.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -432,7 +432,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/calendar.png');
+	background: url('/media/img/system/calendar.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -444,7 +444,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/arrow_left.png');
+	background: url('/media/img/system/arrow_left.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -456,7 +456,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/arrow_right.png');
+	background: url('/media/img/system/arrow_right.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -468,7 +468,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/brick_edit.png');
+	background: url('/media/img/system/brick_edit.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -480,7 +480,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 32px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/edit.png');
+	background: url('/media/img/system/edit.png');
 	background-size: 100%;
 	background-repeat: no-repeat;
 	border: 0;
@@ -492,7 +492,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 15px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/stop.png');
+	background: url('/media/img/system/stop.png');
 	background-size: 100%;	
 	background-repeat: no-repeat;
 	border: 0;
@@ -504,7 +504,7 @@ input[type=text], input[type=password], select, option {
 	line-height: 28px;
 	margin: 4px;
 	cursor: pointer;
-	background: url('/img/system/delete-circle.png');
+	background: url('/media/img/system/delete-circle.png');
 	background-size: 100%;	
 	background-repeat: no-repeat;
 	border: 0;
