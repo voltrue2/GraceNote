@@ -297,21 +297,8 @@ UserAgent::isBrowser($browserName);
 <pre>
 // In order for UserAgent to parse and understand OS names and browser names, they must be added to the configuration as following:
 "UserAgent": {
-	"os": {
-		"android": "Android",
-		"win": "Windows",
-		"mac": "Macintosh",
-		"linux": "Linux",
-		"iphone": "iPhone",
-		"ipod": "iPod",
-		"ipad": "iPad"
-	},
-	"browser": {
-		"ie": "IE",
-		"chrome": "Chrome",
-		"firefox": "Firefox",
-		"safari": "Safari"
-	}
+	"os": ["Android", "Windows", "Macintosh", "Linux", "iPohne", "iPod", "iPad"],
+	"browser": ["IE", "Chrome", "Firefox", "Safari", "Opera"]
 }
 </pre>
 
