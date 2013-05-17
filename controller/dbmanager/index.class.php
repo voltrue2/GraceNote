@@ -24,7 +24,7 @@ class Dbmanager extends Controller {
 			return;
 		}
 		// not authenticated remember where you were
-		$this->redirect('/', 401);
+		$this->view->redirect('/', 401);
 	}
 
 	public function index() {
@@ -41,7 +41,7 @@ class Dbmanager extends Controller {
 	public function createTable($db) {
 		// check permission
 		if ($this->sess['permission'] != 1) {
-			return $this->redirect('/');
+			return $this->view->redirect('/');
 		}
 		$this->view->assign('selectedDb', $db);
 		$this->view->assign('currentPage', 'createTable');

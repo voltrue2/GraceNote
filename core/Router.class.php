@@ -137,7 +137,7 @@ class Router {
 			header('HTTP/1.1 '.$this->headerCodes[$altCode]);
 		}
 		Log::verbose('[ROUTER] Router::redirect > ' . $path . ' code:' . $altCode);
-		header('Location: '.$path);
+		header('Location: ' . $path);
 		exit();
 	}
 	
@@ -199,6 +199,7 @@ class Router {
 	private function findControllerClass($controller) {
 		$className = null;
 		$success = Loader::import('controller', $controller . '/index.class.php');
+		Log::debug('[ROUTER] Load ' . $controller . '/index.class.php [' . (($success) ? 'true' : 'false') . ']');
 		if ($success) {
 			$classes = get_declared_classes();
 			$res = preg_grep('/' . $controller . '/i', $classes);
@@ -210,6 +211,7 @@ class Router {
 			}
 			unset($classes);
 		}
+		Log::debug('[ROUTER] Controller (' . $className . ') found [' . (($className) ? 'true' : 'false') . ']');
 		return $className;
 	}
 
@@ -217,8 +219,7 @@ class Router {
 		if ($className) {
 			// instanciate controller class
 			$cnt = new $className($view);
-			// set router
-			$cnt->setRouter($this);
+			Log::debug('[ROUTER] Controller (' . $className . ') created');
 			return $cnt;	
 		}
 		// controller class not found
@@ -243,6 +244,7 @@ class Router {
 			exit();
 		}
 		// method not found
+		Log::error('[ROUTER] Controller method (' . $method . ') not found');
 		return null;
 	}
 }

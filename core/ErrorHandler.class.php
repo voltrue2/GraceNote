@@ -22,7 +22,7 @@ class ErrorHandler {
 
 register_shutdown_function('errorCatcher');
 
-function errorcatcher() {
+function errorCatcher() {
 	$error = error_get_last();
 	if ($error) {
 		$type = $error['type'];

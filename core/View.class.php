@@ -12,6 +12,10 @@ class View {
 		$this->uri = $this->router->getUri();
 		$this->templatePath = $root . 'template/';
 	}
+
+	public function redirect($path, $code = null) {
+		$this->router->redirect($path, $code);
+	}
 	
 	public function assign($var, $value) {
 		if (is_numeric($value)) {

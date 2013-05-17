@@ -15,7 +15,7 @@ class CacheManager extends Controller {
 			return;
 		}
 		// not authenticated remember where you were
-		$this->redirect('/', 401);
+		$this->view->redirect('/', 401);
 	}
 
 	public function index($from = 0, $search = null) {

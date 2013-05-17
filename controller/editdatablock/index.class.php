@@ -32,7 +32,7 @@ class Editdatablock extends Controller {
 		// not authenticated remember where you were
 		//$sess['prevUri'] = $this->getUri();
 		//$this->setSession($sess);
-		$this->redirect('/', 401);
+		$this->view->redirect('/', 401);
 	}
 	
 	public function index($db, $srcId, $from = 0) {

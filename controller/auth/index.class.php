@@ -35,7 +35,7 @@ class Auth extends Controller {
 			Log::debug('Auth::authenticate > redirect to previous URL > ' . $redirect);
 		}
 		if (isset($authenticated['id']) && isset($authenticated['user']) && isset($authenticated['lastLogin'])) {
-			return $this->redirect($redirect, 200);
+			return $this->view->redirect($redirect, 200);
 		}
 		$user = $this->getQuery('user');
 		$pass = $this->getQuery('pass');
@@ -77,10 +77,10 @@ class Auth extends Controller {
 
 			GlobalEvent::emit('auth.authenticate', array($sessionValue));
 
-			$this->redirect($redirect, 200);
+			$this->view->redirect($redirect, 200);
 		}
 		// failed to authenticate > redirect to the top
-		$this->redirect('/', 401);
+		$this->view->redirect('/', 401);
 	}
 	
 	public function signout() {
@@ -89,10 +89,10 @@ class Auth extends Controller {
 			$sessId = session_id();
 			$this->removeSession();
 			Log::debug('Auth::signout > Sign Out >> ' . $sessId);
-			$this->redirect('/', 200);
+			$this->view->redirect('/', 200);
 			return;
 		}
-		$this->redirect('/', 200);
+		$this->view->redirect('/', 200);
 	}
 }
 

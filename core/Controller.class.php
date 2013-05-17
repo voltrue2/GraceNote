@@ -2,16 +2,9 @@
 
 class Controller {
 	
-	private $router;
-	private $errorConf = null;
+	public function __construct() {
 	
-	public function __construct($view) {
 	}
-
-	public function setRouter($router) {
-		$this->router = $router;
-		$this->errorConf = $this->router->getErrorRules();
-	}	
 	
 	public function getSession() {
 		$sessId = session_id();
@@ -39,10 +32,6 @@ class Controller {
 		session_destroy();
 	}
 	
-	public function getUri() {
-		return $this->router->getUri();
-	}
-	
 	public function getQuery($key = null) {
 		if ($key) {
 			if (isset($_REQUEST[$key])) {
@@ -63,15 +52,6 @@ class Controller {
 			}
 		}
 		return $_FILES;
-	}
-	
-	public function redirect($path, $altCode = null) {
-		$this->router->redirect($path, $altCode);
-	}
-
-	public function handleError($errorCode) {
-		Log::error('[CONTROLLER] handleError >' . $errorCode);
-		$this->router->handleError($errorCode, $this->view, microtime(true));
 	}
 
 	private function findControllerClass($controller) {

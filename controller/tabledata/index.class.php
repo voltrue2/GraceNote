@@ -16,13 +16,13 @@ class Tabledata extends Controller {
 			return;
 		}
 		// not authenticated remember where you were
-		$this->redirect('/', 401);
+		$this->view->redirect('/', 401);
 	}
 
 	public function index($db, $tableName) {
 		// check permission
 		if ($this->sess['permission'] != 1) {
-			return $this->redirect('/tabledata/dataList/' . $db . '/' . $tableName . '/');
+			return $this->view->redirect('/tabledata/dataList/' . $db . '/' . $tableName . '/');
 		}
 		$model = new DataModel($db);
 		$table = $model->table($tableName);

@@ -130,6 +130,14 @@ View::assign($variableName, $variableValue);
 View::respondTemplate($templatePath);
 </pre>
 <pre>
+/***
+* Redirect the user to specified URL
+* @param path (String) URL path to redirect the user to
+* @return void
+*/
+View::redirect($path);
+</pre>
+<pre>
 /****
 * Responds to client request with JSON. Variables assigned with View::assign will be sent as JSON
 * @param gzip (Boolean) gzip the JSON response or not. Default is true
@@ -193,15 +201,6 @@ Controller::setSession($sessionValue);
 * @return void
 */
 Controller::addSession($key, $value);
-</pre>
-
-<pre>
-/***
-* Redirect the user to specified URL
-* @param path (String) URL path to redirect the user to
-* @return void
-*/
-Controller::redirect($path);
 </pre>
 
 # Globally Available Classes
