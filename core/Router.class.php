@@ -142,6 +142,7 @@ class Router {
 	}
 	
 	public function handleError($errorCode, $view, $startTime) {
+		Log::error('[ROUTER] Error URI ' . $this->getUri());
 		$headerCode = $this->getHeaderCode($errorCode);
 		if ($headerCode) {
 			Log::error('[ROUTER] > Error header is "' . $headerCode . '"');
