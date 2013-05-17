@@ -32,11 +32,12 @@ touch GraceNote/controller/helloworld/index.class.php
 
 - How to write your controller class in index.class.php
 > Your controller class name has to match the directory name (case insensitive). In this example it would be helloworld
+>> Your controller class <b>MUST</b> inehrit Controller core class with "extends Controller"
 <pre>
-class HelloWorld {
+class HelloWorld extends Controller {
 	// constructor
-	public function HelloWorld($view, $controller) {
-		// The controller class constructor will have 2 arguments. $view and $controller
+	public function HelloWorld($view) {
+		// The controller class constructor will have 1 argument. $view
 	}
 }
 </pre>
@@ -44,12 +45,10 @@ class HelloWorld {
 - Writting a public method for your HelloWorld controller class
 > if the URL does <b>NOT</b> contain the name of your public method, GraceNote will try to call a method called "index"
 <pre>
-class HelloWorld {
+class HelloWorld extends Controller {
 	private $view; // we want to be able to use this class outside of the constructor
-	private $controller; // we want to be able to use this class outside of the constructor	
-	public function HelloWorld($view, $controller) {
+	public function HelloWorld($view) {
 		$this->view = $view;
-		$this->controller = $controller;
 	}
 	// public method
 	// $param1 and $param2 are optional
@@ -148,7 +147,8 @@ View::respondError($errorCode);
 </pre>
 
 # Public method of core Controller class
-> an instance of Controller class is passed to your controller's constructor as the second paramter
+> Your controller class extends this class
+>> all public methods of core Controller class can be called in your controller class. Example: $this->getQuery
 
 <pre>
 /***
@@ -170,6 +170,33 @@ Controller::getFile($fileName);
 
 <pre>
 /***
+* Return session object
+* @return array
+*/
+Contoller::getSession();
+</pre>
+
+<pre>
+/***
+* Store session value array
+* @param sessionValue (Array)
+* @return void
+*/
+Controller::setSession($sessionValue);
+</pre>
+
+<pre>
+/***
+* Add session value to the existing session array
+* @param key (String)
+* @param value (Mixed)
+* @return void
+*/
+Controller::addSession($key, $value);
+</pre>
+
+<pre>
+/***
 * Redirect the user to specified URL
 * @param path (String) URL path to redirect the user to
 * @return void
@@ -181,7 +208,7 @@ Controller::redirect($path);
 > GraceNote framework includes utility classes to be used in the application globally
 ## Static Classes
 
-#### Config
+### Config
 > Public methods
 <pre>
 /***
