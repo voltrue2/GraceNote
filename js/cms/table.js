@@ -99,11 +99,13 @@ if (addColumnBtn && columnList) {
 
 // dataList
 var searchBtn = Dom.getById('searchBtn');
-var descList = window.desc.map(function (item) {
-	return { id: item.field, name: item.field };
-});
-var searchCol = new Dropdown(Dom.getById('searchCol'), descList, window.searchCol || null);
-var searchText = Dom.getById('searchText');
+if (window.desc) {
+	var descList = window.desc.map(function (item) {
+		return { id: item.field, name: item.field };
+	});
+	var searchCol = new Dropdown(Dom.getById('searchCol'), descList, window.searchCol || null);
+	var searchText = Dom.getById('searchText');
+}
 if (searchBtn && searchCol && searchBtn) {
 	function search () {
 		var col = searchCol.get('value');
