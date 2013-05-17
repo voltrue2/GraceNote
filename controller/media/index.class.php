@@ -3,21 +3,19 @@ class Media Extends Controller{
 
 	private $view = null;	
 	private $conf = null;
-	private $cache = null;
 
 	public function Media($view) {
 		$this->view = $view;
-		$this->conf = Config::get('Asset');	
-		$this->cache = new Cache();
+		$this->conf = Config::get('Media');	
 	}
 	
 	public function img() {
 		$args = func_get_args();
 		$path = implode('/', $args);
 		$initGet = false;
-		$sd = new StaticData($path, $initGet);
-		$path = $sd->getSourcePath() . $path;
-		$res = $this->view->checkFileMod($path);
+		$fs = new FileSystem($this->conf['img']);
+		$fullPath = $fs->getFullPath($path);
+		$res = $this->view->checkFileMod($fullPath);
 		if (!$res['modified']) {
 			// file has NOT been modified
 			Log::debug('[MEDIA] image not modified > ' . $path);
@@ -25,9 +23,9 @@ class Media Extends Controller{
 			
 		} else {
 			// file has been modified
-			$data = $sd->getSource();
+			$data = $fs->readFile($path);
 		}
-		$this->view->respondImage($path, $data, $res['mtime']);
+		$this->view->respondImage($fullPath, $data, $res['mtime']);
 	}
 }
 ?>

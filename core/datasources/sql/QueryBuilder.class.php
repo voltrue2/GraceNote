@@ -546,7 +546,7 @@ class QueryBuilder {
 		}
 		if (empty($res)) {
 			$this->flush();
-			return null;
+			return $res;
 		}
 		// check for foreign key recursive selects
 		if ($this->recursive && $res){
