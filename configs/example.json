@@ -35,21 +35,22 @@
 		}
 	},
 	"UserAgent": {
-		"os": {
-			"android": "Android",
-			"win": "Windows",
-			"mac": "Macintosh",
-			"linux": "Linux",
-			"iphone": "iPhone",
-			"ipod": "iPod",
-			"ipad": "iPad"
-		},
-		"browser": {
-			"ie": "IE",
-			"chrome": "Chrome",
-			"firefox": "Firefox",
-			"safari": "Safari"
-		}
+		"os": [
+			"Android",
+			"Windows",
+			"Macintosh",
+			"Linux",
+			"iPhone",
+			"iPod",
+			"iPad"
+		],
+		"browser": [
+			"IE",
+			"Chrome",
+			"Firefox",
+			"Safari",
+			"Opera"
+		]
 	},
 	"Asset": {
 		"embedPaths": {
