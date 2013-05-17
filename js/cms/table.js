@@ -10,7 +10,6 @@ window.blocker.setup(loader);
 window.table = table;
 
 table.deleteTable = deleteTable;
-table.removeColumn = removeColumn;
 
 function deleteTable(table) {
 	var res = confirm(text.deleteConfirmMsg.replace('$1', table));
@@ -77,6 +76,8 @@ if (addColumnBtn && columnList) {
 		});
 	});
 	
+	table.removeColumn = removeColumn;
+	
 	function removeColumn(columnName) {
 		if (typeof columnName === 'string') {
 			var res = confirm(text.removeColumnMsg.replace('$1', columnName));
@@ -98,7 +99,10 @@ if (addColumnBtn && columnList) {
 
 // dataList
 var searchBtn = Dom.getById('searchBtn');
-var searchCol = Dom.getById('searchCol');
+var descList = window.desc.map(function (item) {
+	return { id: item.field, name: item.field };
+});
+var searchCol = new Dropdown(Dom.getById('searchCol'), descList, window.searchCol || null);
 var searchText = Dom.getById('searchText');
 if (searchBtn && searchCol && searchBtn) {
 	function search () {

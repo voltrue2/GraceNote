@@ -9,6 +9,7 @@
 <?= Asset::js('js', 'beautify.js'); ?>
 <?= Asset::js('js', 'cms/common.js'); ?>
 <?= Asset::js('js', 'cms/lightbox.js'); ?>
+<?= Asset::js('js', 'cms/dropdown.js'); ?>
 <?= Asset::js('js', 'cms/user.js'); ?>
 <?= Asset::js('js', 'cms/imagebox.js'); ?>
 <?= Asset::js('js', 'cms/nicEdit.js'); ?>

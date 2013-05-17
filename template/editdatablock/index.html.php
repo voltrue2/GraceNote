@@ -36,14 +36,7 @@
 <div class="menu-item" style="line-height: 34px; font-size: 15px; color: #333; margin: 0 20px;"><?= '(' . $from . ' - ' . ($from + count($list)) . ')'; ?></div>
 <div class="refresh-button menu-item" onmouseup="window.location.href='/editdatablock/index/<?= $selectedDb; ?>/<?= $srcId; ?>/';"></div>
 <div class="search-button menu-item" id="searchButton"></div>
-<select class="menu-item" id="searchColumn">
-<option value=""><?= $text['select']; ?></option>
-<? for ($i = 0, $len = count($blocks); $i < $len; $i++ ): ?>
-<? if ($blocks[$i]['source_table'] === $src['main_table']): ?>
-<option <? if (isset($searchColumn) && $searchColumn === $blocks[$i]['source_column']): ?>selected="selected"<? endif; ?> value="<?= $blocks[$i]['source_column']; ?>"><?= $blocks[$i]['name']; ?></option>
-<? endif; ?>
-<? endfor; ?>
-</select>
+<div class="menu-item" id="searchColumn"></div>
 <input class="menu-item" type="text" id="searchText" value="<?= (isset($searchThis)) ? urldecode($searchThis) : ''; ?>" />
 </div>
 <div class="head-line"><?= $src['name']; ?></div>

@@ -1,7 +1,6 @@
 <?php 
 class UserAgent {
 	
-	private static $conf;
 	private static $osPattern;
 	private static $browserPattern;
 	private static $os;
@@ -30,34 +29,10 @@ class UserAgent {
 	}
 
 	public static function setConfig($conf) {
-		self::$conf = $conf;
-		if (self::$conf) {
+		if ($conf) {
 			// construct os pattern
-			$pattern = '/(';
-			$total = count($conf['os']) - 1;
-			$i = 0;
-			foreach ($conf['os'] as $name => $item) {
-				$end = '|';
-				if ($i === $total) {
-					$end = '';
-				}
-				$i += 1;
-				$pattern .= $conf['os'][$name] . $end;
-			}
-			self::$osPattern = $pattern . ')/i';
-			// construct browser pattern
-			$pattern = '/(';
-			$total = count($conf['browser']) - 1;
-			$i = 0;
-			foreach ($conf['browser'] as $name => $item) {
-				$end = '|';
-				if ($i === $total) {
-					$end = '';
-				}
-				$i += 1;
-				$pattern .= $conf['browser'][$name] . $end;
-			}
-			self::$browserPattern = $pattern . ')/i';
+			self::$osPattern = '/(' . implode('|', $conf['os']) . ')/i';
+			self::$browserPattern = '/(' . implode('|', $conf['browser']) . ')/i';
 			return; 
 		}
 		Log::warn('[USERAGENT] setConfig: No configurations');

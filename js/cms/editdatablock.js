@@ -100,7 +100,10 @@ if (newRecordBtn) {
 }
 
 // search
-var searchColumn = Dom.getById('searchColumn');
+var blockList = window.blocks.map(function (item) {
+	return { id: item.source_column, name: item.name };
+});
+var searchColumn = new window.Dropdown(Dom.getById('searchColumn'), blockList, window.searchColumn || null);
 var searchText = Dom.getById('searchText');
 var searchBtn = Dom.getById('searchButton');
 searchBtn.on('tapend', function () {

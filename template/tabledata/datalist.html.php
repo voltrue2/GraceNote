@@ -30,11 +30,7 @@
 <div class="refresh-button menu-item" style="margin-left: 30px;" onmouseup="window.location.href='/tabledata/dataList/<?= $selectedDb; ?>/<?= $tableName; ?>/<?= ($from) ? $from : 0; ?>/';"></div>
 <!-- search -->
 <div class="search-button menu-item" style="margin-left: 30px;" id="searchBtn"></div>
-<select class="menu-item" id="searchCol">
-<? for ($i = 0, $len = count($desc); $i < $len; $i++): ?>
-<option <? if ($searchCol === $desc[$i]['field']): ?>selected="selected"<? endif; ?> value="<?= $desc[$i]['field']; ?>"><?= $desc[$i]['field']; ?></option>
-<? endfor; ?>
-</select>
+<div class="menu-item" id="searchCol"></div>
 <input type="text" id="searchText" value="<?= $search; ?>" />
 </div>
 <!-- title -->
