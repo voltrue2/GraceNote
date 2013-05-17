@@ -66,9 +66,6 @@ class Asset {
 
 	// maps files: Usage > $imgMap = Asset::map('image', '/img/'); $view->assign('imageMap', $imgMap); w/ Loader::jsVars();
 	public static function map($httpUrlName, $file) {	
-		
-		Log::debug('map', $httpUrlName, $file);
-
 		if (isset(self::$conf['httpUrls'])) {
 			$urls = self::$conf['httpUrls'];
 			if (isset($urls[$httpUrlName])) {
