@@ -45,7 +45,8 @@
 			fontSize: '15px',
 			cssFloat: 'left',
 			overflow: 'hidden',
-			textAlign: 'center'
+			textAlign: 'center',
+			whiteSpace: 'nowrap'
 		});
 		var text = window.text.select || 'Please Select';
 		if (selected !== null && selected !== undefined) {
@@ -72,11 +73,12 @@
 	}
 
 	function createList(that, select) {
+		select.getParent().setStyle({ border: '1px solid #666', background: '#e7e7ef' });
 		var height = (35 * that.list.length) + 20;
 		if (height > window.innerHeight / 2) {
 			height = window.innerHeight / 2;
 		}
-		window.lightbox.show(200, height, function (bar, box, close) {
+		var lightbox = window.lightbox.show(200, height, function (bar, box, close) {
 			var container = box.createChild('div');
 			container.setStyle({
 				height: (height - 20) + 'px',
@@ -122,6 +124,9 @@
 				close();
 				createList(that, select);
 			});
+		});
+		lightbox.once('close', function () {
+			select.getParent().setStyle({ border: '1px solid #ddd', background: '#fff' });
 		});
 	}
 

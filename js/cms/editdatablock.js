@@ -563,7 +563,7 @@ function createInput(parent, dataMeta, val, data) {
 	} else if (type === 'shortText') {
 		input.setStyle({ width: '250px', cursor: 'pointer' });
 		input.set('readOnly', true);
-		input.on('tapend', function () {
+		input.on('tapstart', function () {
 			window.lightbox.show(500, 135, function (bar, box, close) {
 				var te = new window.TextEditor(box, 480, 20, dataMeta.data_length_limit);
 				te.set(input.get('value'));
@@ -577,7 +577,7 @@ function createInput(parent, dataMeta, val, data) {
 	} else if (type === 'longText') {
 		input.setStyle({ width: '450px', cursor: 'pointer' });
 		input.set('readOnly', true);
-		input.on('tapend', function () {
+		input.on('tapstart', function () {
 			window.lightbox.show(500, 420, function (bar, box, close) {
 				var te = new window.TextEditor(box, 480, 300, dataMeta.data_length_limit);
 				te.set(input.get('value'));
@@ -591,7 +591,7 @@ function createInput(parent, dataMeta, val, data) {
 	} else if (type === 'htmlText') {
 		input.setStyle({ width: '450px', cursor: 'pointer' });
 		input.set('readOnly', true);
-		input.on('tapend', function () {
+		input.on('tapstart', function () {
 			window.lightbox.show(490, 460, function (bar, box, close) {
 				var te = new window.TextEditor(box, 480, 300, dataMeta.data_length_limit, (type === 'htmlText') ? true : false);
 				te.set(input.get('value'));
@@ -639,7 +639,7 @@ function createDateTime(parent, dataMeta, val, data) {
 	var input = box.createChild('input', { cursor: 'pointer', cssFloat: 'left', width: '200px' });
 	input.set('readOnly', true);
 	input.set('value', val);
-	input.on('tapend', function () {
+	input.on('tapstart', function () {
 		var calendar = new window.Calendar();
 		calendar.on('close', function (selected) {
 			var dateTime = selected.year + '-' + selected.month + '-' + selected.date + ' ' + selected.hours + ':' + selected.minutes + ':' + '00';
@@ -697,7 +697,7 @@ function createMedia(parent, dataMeta, val, data) {
 	}
 	img.drawImage(path);
 	img.set('height', 25);
-	img.on('tapend', function () {
+	img.on('tapstart', function () {
 		window.lightbox.show(450, 500, function (bar, box, close) {
 			var mediaBox = new window.MediaBox(box, 450, 430);
 			mediaBox.on('select', function (selected) {
@@ -735,7 +735,7 @@ function createMedia(parent, dataMeta, val, data) {
 	// preview
 	var preview = box.createChild('div', { cssFloat: 'left', width: '20px', height: '20px' });
 	preview.setClassName('image-button');
-	preview.on('tapend', function () {
+	preview.on('tapstart', function () {
 		var ib = new window.ImageBox(400, 400, val);
 	});
 }
