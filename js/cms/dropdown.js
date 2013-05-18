@@ -72,7 +72,7 @@
 	}
 
 	function createList(that, select) {
-		var height = (30 * that.list.length) + 20;
+		var height = (35 * that.list.length) + 20;
 		if (height > window.innerHeight / 2) {
 			height = window.innerHeight / 2;
 		}
@@ -105,6 +105,17 @@
 					that.set('value', this.data.id);
 					select.html(this.data.name);
 					close();
+				});
+				item.allowEvents(['mouseover', 'mouseout']);
+				item.on('mouseover', function () {
+					if (this.data.id != that.get('value')) {
+						this.setStyle({ background: '#e9e9ef' });
+					}
+				});
+				item.on('mouseout', function () {
+					if (this.data.id != that.get('value')) {
+						this.setStyle({ background: '#fff' });
+					}
 				});
 			}
 			that.once('add', function () {

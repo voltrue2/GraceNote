@@ -34,7 +34,7 @@ user.openMenu = function () {
 
 function createUserEditor(userData, saveMethod, languageSelector) {
 	if (window.cmsUser && window.languages) {
-		window.lightbox.show(400, 430, function (bar, box, close) {
+		window.lightbox.show(400, 440, function (bar, box, close) {
 			var container = box.createChild('div');
 			// language selector
 			if (languageSelector) {

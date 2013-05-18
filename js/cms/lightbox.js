@@ -23,7 +23,7 @@ lightbox.show = function (width, height, callback) {
 		height: '100%',
 		background: 'rgba(0, 0, 0, 0.3)'
 	});
-	bg.on('tapend', function () {
+	bg.on('tapstart', function () {
 		parent.remove();
 	});
 	var box = parent.createChild('div');
