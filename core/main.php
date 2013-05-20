@@ -13,7 +13,7 @@ include('Log.class.php');
 // set up error catcher
 include('ErrorHandler.class.php');
 // register static error path to ErrorHandler
-ErrorHandler::setStaticPage($_root . 'error/index.html');
+ErrorHandler::setStaticPage($_root, 'error/index.html');
 // include Cache globally
 include('Cache.class.php');
 // include Loader globally
