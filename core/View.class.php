@@ -7,10 +7,10 @@ class View {
 	private $vars = array();
 	private $templatePath = '';
 	
-	public function View($router, $root) {
+	public function View($router) {
 		$this->router = $router;
 		$this->uri = $this->router->getUri();
-		$this->templatePath = $root . 'template/';
+		$this->templatePath = Loader::getPath('template');
 	}
 
 	public function redirect($path, $code = null) {

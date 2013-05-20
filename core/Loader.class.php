@@ -46,6 +46,10 @@ class Loader {
 	static public function setPath($name, $path) {
 		self::$paths[$name] = self::$root . $path;
 	}
+
+	static public function getPath($name) {
+		return (isset(self::$paths[$name])) ? self::$paths[$name] : null;
+	}
 	
 	// should be used in a template file
 	static public function jsVars($namespace = 'window') {
