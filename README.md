@@ -29,10 +29,10 @@ Import library classes for your application.
 Inside index.php file: 
 Loader::imort('lib', 'Encrypt.class.php');
 // register custom import path
-Loader::setPath('myLib', '../GraceNote/myLib/');
+Loader::setPath('myLib', '../myLib/');
 Loader::import('myLib', 'MyAwesomeClass.class.php');
 // override controller path
-Loader::setPath('controller', '../GraceNote/myController/');
+Loader::setPath('controller', '../myController/');
 </pre>
 
 - Create directory for logging
