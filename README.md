@@ -26,14 +26,13 @@ GraceNote will be installed as following.
 Create your index.php file.
 /var/www/yourApp/index.php
 Import library classes for your application.
-<php?
+Inside index.php file: 
 Loader::imort('lib', 'Encrypt.class.php');
 // register custom import path
 Loader::setPath('myLib', '../GraceNote/myLib/');
 Loader::import('myLib', 'MyAwesomeClass.class.php');
 // override controller path
 Loader::setPath('controller', '../GraceNote/myController/');
-?>
 </pre>
 
 - Create directory for logging
