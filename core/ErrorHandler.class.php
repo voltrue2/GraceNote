@@ -4,8 +4,14 @@ class ErrorHandler {
 	private static $cnt;
 	private static $staticPage;
 	
-	public static function setStaticPage($path) {
-		self::$staticPage = $path;
+	public static function setStaticPage($root, $path) {
+		if (file_exists($root . '../' . $path)) {
+			// external index.html
+			self::$staticPage  = $root . '../' . $path;
+		} else {
+			// default index.html
+			self::$staticPage = $root . $path;
+		}
 	}
 
 	public static function handle() {
