@@ -57,7 +57,7 @@ function createUserEditor(userData, saveMethod, languageSelector) {
 				});
 			} else {
 				// user list
-				var userList = container.createChild('div', { paddingLeft: 0 });
+				var userList = container.createChild('div', { clear: 'both', height: '40px', paddingLeft: 0 });
 				userList.setClassName('area');
 				var list = userList.createChild('select');
 				var option = list.createChild('option');
@@ -140,7 +140,7 @@ function createUserEditor(userData, saveMethod, languageSelector) {
 							delBtn.remove();
 							delBtn = null;
 						}
-						delBtn = userList.createChild('div');
+						delBtn = userList.createChild('div', { cssFloat: 'right' });
 						delBtn.setClassName('delete-button');
 						delBtn.on('tapend', function () {
 							var res = confirm(window.text.deleteMsg.replace('$1', item.name));
