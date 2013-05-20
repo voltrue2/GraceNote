@@ -9,6 +9,32 @@ include('/var/www/GraceNote/core/main.php');
 - Create a configuration file
 > The configuration file <b>MUST</b> be name as GraceNote/cofigs/config.json
 >> Please refer to GraceNote/configs/example.json
+<pre>
+Configuration file example:
+GraceNote will be installed as following.
+/var/www/yourApp/GraceNote/
+Create your configuration file.
+/var/www/yourApp/configs/config.json
+</pre>
+
+- Create bootstrapping index.php for your project
+> In this file, you will be choosing what files to import for your project
+<pre>
+Bootstrapping example: 
+GraceNote will be installed as following.
+/var/www/yourApp/GraceNote/
+Create your index.php file.
+/var/www/yourApp/index.php
+Import library classes for your application.
+<php?
+Loader::imort('lib', 'Encrypt.class.php');
+// register custom import path
+Loader::setPath('myLib', '../GraceNote/myLib/');
+Loader::import('myLib', 'MyAwesomeClass.class.php');
+// override controller path
+Loader::setPath('controller', '../GraceNote/myController/');
+?>
+</pre>
 
 - Create directory for logging
 > make sure the directory's permission is set correctly for GraceNote to read and write

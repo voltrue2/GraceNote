@@ -23,6 +23,11 @@ class Config {
 	}
 	
 	private static function parseJsonConfig($root) {
+		if (file_exists($root . '../configs/config.json')) {
+			// load external config.json from ../GraceNote/configs/config.json
+			return json_decode(file_get_contents($root . '../configs/config.json'), true);
+		}
+		// load default config.json from GraceNote/configs/config.json
 		if (!file_exists($root . 'configs/config.json')) {
 			return false;
 		}

@@ -11,6 +11,7 @@ class Loader {
 		'template' => 'template/',
 		'lib' => 'lib/'
 	);
+	static private $root;
 	static private $templateVars = null;
 
 	// called only in core/main.php
@@ -18,11 +19,32 @@ class Loader {
 		foreach (self::$paths as $name => $path) {
 			self::$paths[$name] = $root . $path;
 		}
+		self::$root = $root;
 	}
 
 	// called ONLY in View.class.php
 	static public function setTemplateVars($vars) {
 		self::$templateVars = $vars;
+	}
+
+	// called ONLY in core/main.php
+	// loads the bootstrap file index.php from ../GraceNote/index.php, if index.php is not found, GraceNote defaults to GraceNote/index.php
+	static public function index($root, $indexFile) {
+		$path = self::$paths[$root] . '../';
+		if (file_exists($path . $indexFile)) {
+			// external index.php found
+			Log::info('[LOADER] index > "' . $path . $indexFile . '" loaded');
+			self::import($path, $indexFile);
+		} else {
+			// external index.php not found > load default index.php
+			Log::info('[LOADER] index > "default index" loaded');
+			self::import($root, $indexFile);
+		}
+	}
+
+	// the method can be used to override existing paths such as controller
+	static public function setPath($name, $path) {
+		self::$paths[$name] = self::$root . $path;
 	}
 	
 	// should be used in a template file
@@ -72,7 +94,13 @@ class Loader {
 					throw new Exception('Loader::import > File does not exist "' . $path . '"');
 				}
 			} else {
-				throw new Exception('Loader::import > Attemped to load invalid file "' . $name . '" ' . $file);
+				// $name is given as the file path
+				if (file_exists($name . $file)) {
+					require_once($name . $file);
+					return true;
+				} else {
+					throw new Exception('Loader::import > Attemped to load invalid file "' . $name . '" ' . $file);
+				}
 			}
 		} catch (Exception $e) {
 			Log::error('[LOADER] import' . $e->getMessage());
@@ -96,7 +124,13 @@ class Loader {
 					throw new Exception('Loader::template > File does not exist "' . $path . '"');
 				}
 			} else {
-				throw new Exception('Loader::template > Attemped to load invalid file "' . $name . '" ' . $file);
+				// $name is given as the file path
+				if (file_exists($name . $file)) {
+					require_once($name . $file);
+					return true;
+				} else {
+					throw new Exception('Loader::template > Attemped to load invalid file "' . $name . '" ' . $file);
+				}
 			}
 		} catch (Exception $e) {
 			Log::error('[LOADER] template' . $e->getMessage());

@@ -46,7 +46,7 @@ Loader::import('datasources', 'DataModel.class.php');
 // import FileSystem globally
 Loader::import('core', 'FileSystem.class.php');
 // import index.php
-Loader::import('root', 'index.php');
+Loader::index('root', 'index.php');
 // start session
 session_start();
 // create router
