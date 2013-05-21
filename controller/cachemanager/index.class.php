@@ -30,7 +30,7 @@ class CacheManager extends Controller {
 			for ($i = 0, $len = count($keyList); $i < $len; $i++) {
 				$key = $keyList[$i];
 				$index = strpos($key, $search);
-				if ($index !== false) {
+				if ($cache->get($key, false) && $index !== false) {
 					// highlight matched chars
 					$head = substr($key, 0, $index);
 					$body = substr($key, strlen($head), strlen($search));
@@ -45,7 +45,9 @@ class CacheManager extends Controller {
 				if ($i === $to) {
 					break;
 				}
-				$list[] = $keyList[$i];
+				if ($cache->get($keyList[$i], false)) {
+					$list[] = $keyList[$i];
+				}
 			}
 		
 		}
