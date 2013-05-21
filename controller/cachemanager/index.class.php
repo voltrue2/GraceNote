@@ -27,7 +27,11 @@ class CacheManager extends Controller {
 		if ($search) {
 			// TODO: come up with paging
 			// search listing
-			for ($i = 0, $len = count($keyList); $i < $len; $i++) {
+			$counter = $from;
+			for ($i = $from, $len = count($keyList); $i < $len; $i++) {
+				if ($counter === $to) {
+					break;
+				}
 				$key = $keyList[$i];
 				$index = strpos($key, $search);
 				if ($val = $cache->get($key, false) && $index !== false) {
@@ -37,16 +41,19 @@ class CacheManager extends Controller {
 					$tail = substr($key, strlen($head) + strlen($body));
 					$key = $head . '<span style="text-decoration: underline; color: #f00;">' . $body . '</span>' . $tail;
 					$list[] = array('key' => $key, 'value' => $val);
+					$counter += 1;
 				}
 			}
 		} else {
 			// none search listing
+			$counter = $from;
 			for ($i = $from, $len = count($keyList); $i < $len; $i++) {
-				if ($i === $to) {
+				if ($counter === $to) {
 					break;
 				}
 				if ($val = $cache->get($keyList[$i], false)) {
 					$list[] = array('key' => $keyList[$i], 'value' => $val);
+					$counter += 1;
 				}
 			}
 		

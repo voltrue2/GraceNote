@@ -2,8 +2,8 @@
 	
 	var loader = new Loader();
 
-	window.deleteCache = function (index) {
-		var res = confirm(window.text.deleteConfirmMsg.replace('$1', window.list[index]));
+	window.deleteCache = function (index, callback) {
+		var res = confirm(window.text.deleteConfirmMsg.replace('$1', window.list[index].key));
 		if (res) {
 			var uri = '/cachemanager/delete/';
 			var send = {
@@ -18,6 +18,9 @@
 				window.list.splice(index, 1);
 				var display = Dom.getById('numDisplay');
 				display.text('(' + (window.from || 0) + ' - ' + (from + window.list.length) + ')');
+				if (typeof callback === 'function') {
+					callback();
+				}
 			});
 		}
 	};
@@ -25,9 +28,11 @@
 	window.getPreview = function (index) {
 		window.lightbox.show(700, 500, function (bar, box, close) {
 			var container = box.createChild('div', { width: '700px', height: '480px', overflow: 'scroll' });
-			var key = '<div style="text-align:center; margin: 5px; font-size: 15px;">' + window.list[index] + '</div>';
+			var key = '<div style="text-align:center; margin: 5px; font-size: 15px; height: 30px;">';
+			key += window.list[index].key + '</div>';
 			container.html(key + window.beautify(window.list[index].value));
 		});
+		
 	}
 
 	var searchBtn = Dom.getById('searchBtn');
