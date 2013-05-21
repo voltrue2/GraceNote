@@ -52,7 +52,7 @@ session_start();
 // create router
 $router = new Router();
 // create view
-$view = new View($router, $_root);
+$view = new View($router);
 // create controller
 $controller = $router->createController($view, $startTime);
 ?>
