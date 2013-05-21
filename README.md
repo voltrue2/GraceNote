@@ -50,12 +50,7 @@ mkdir /var/www/GraceNote/logs/
 2. Install GraceNote into your cms directory. Example: git clone https://github.com/voltrue2/GraceNote GraceNote
 3. Point your document root index.php to your CMS GraceNote. Example: include('/var/www/cms/GraceNote/main.php');
 4. Create configuration file. Example" /var/www/cmns/configs/config.json
-5. Create a symbolic link to CMS assets
-<pre>
-cd yourDocumentRoot/
-ln -s GraceNote/assets/ yourDocumentRoot/assets/
-</pre>
-6. Configure Asset correctly
+5. Configure Asset correctly
 <pre>
 "Asset": {
 	"embedPaths": {
