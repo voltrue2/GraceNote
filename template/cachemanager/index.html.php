@@ -38,7 +38,7 @@
 <div class="menu-item image-button" onmouseup="window.getPreview(<?= $i; ?>)"></div>
 <div class="menu-item delete-button" onmouseup="window.deleteCache(<?= $i; ?>)"></div>
 <div class="menu-item" style="text-indent: 20px; font-size: 15px; line-height: 30px;">
-<?= (strlen($list[$i]) >= 100) ? substr($list[$i], 0, 100) . '...' : $list[$i]; ?>
+<?= (strlen($list[$i]['key']) >= 100) ? substr($list[$i]['key'], 0, 100) . '...' : $list[$i]['key']; ?>
 </div>
 </div>
 <? endfor; ?>

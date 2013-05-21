@@ -30,13 +30,13 @@ class CacheManager extends Controller {
 			for ($i = 0, $len = count($keyList); $i < $len; $i++) {
 				$key = $keyList[$i];
 				$index = strpos($key, $search);
-				if ($cache->get($key, false) && $index !== false) {
+				if ($val = $cache->get($key, false) && $index !== false) {
 					// highlight matched chars
 					$head = substr($key, 0, $index);
 					$body = substr($key, strlen($head), strlen($search));
 					$tail = substr($key, strlen($head) + strlen($body));
 					$key = $head . '<span style="text-decoration: underline; color: #f00;">' . $body . '</span>' . $tail;
-					$list[] = $key;
+					$list[] = array('key' => $key, 'value' => $val);
 				}
 			}
 		} else {
@@ -45,8 +45,8 @@ class CacheManager extends Controller {
 				if ($i === $to) {
 					break;
 				}
-				if ($cache->get($keyList[$i], false)) {
-					$list[] = $keyList[$i];
+				if ($val = $cache->get($keyList[$i], false)) {
+					$list[] = array('key' => $keyList[$i], 'value' => $val);
 				}
 			}
 		

@@ -25,17 +25,8 @@
 	window.getPreview = function (index) {
 		window.lightbox.show(700, 500, function (bar, box, close) {
 			var container = box.createChild('div', { width: '700px', height: '480px', overflow: 'scroll' });
-			var uri = '/cachemanager/getValue/';
-			var send = {
-				key: window.list[index]
-			};
-			loader.ajax(uri, send, function (error, req, res) {
-				if (error) {
-					return alert(window.text.failedMsg);
-				}
-				var key = '<div style="text-align:center; margin: 5px; font-size: 15px;">' + window.list[index] + '</div>';
-				container.html(key + window.beautify(res.value));
-			});
+			var key = '<div style="text-align:center; margin: 5px; font-size: 15px;">' + window.list[index] + '</div>';
+			container.html(key + window.beautify(window.list[index].value));
 		});
 	}
 
