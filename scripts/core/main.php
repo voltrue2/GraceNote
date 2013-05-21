@@ -1,6 +1,7 @@
 <?php
 // root path of the framework
-$root = substr(__FILE__, 0, strpos(__FILE__, basename(__FILE__))) . '../../';
+$root = substr(__FILE__, 0, strpos(__FILE__, basename(__FILE__)));
+$root = substr($root, 0, strrpos($root, 'scripts/core/'));
 // include Config
 include($root . 'core/Config.class.php');
 Config::parse($root);

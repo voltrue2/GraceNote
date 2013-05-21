@@ -41,7 +41,7 @@ class Router {
 	public function Router() {
 		// extract requested UIR
 		$this->uri = $_SERVER['REQUEST_URI'];
-		Log::debug('[ROUTER] Router::constructor > Request >> ' . $this->uri);
+		Log::debug('[ROUTER] resolve HTTP request: ' . $this->uri);
 		// load config
 		$this->conf = Config::get('Router');
 		if ($this->conf && isset($this->conf['forceTrailingSlash']) && $this->conf['forceTrailingSlash']) {
@@ -64,7 +64,7 @@ class Router {
 		$this->params = array_splice($paramsUri, 2);
 		$this->queries = $_GET;
 		$this->post = $_POST;
-		Log::verbose('[ROUTER] Router::constructor > Request URI processed >> ' . $this->controller . '::' . $this->method);
+		Log::verbose('[ROUTER] resolved HTTP request: ' . $this->controller . '::' . $this->method);
 		// check rerounting
 		if ($this->conf && isset($this->conf['reroute']) && !empty($this->conf['reroute'])) {
 			$cnt = $this->controller . '/';
@@ -84,9 +84,9 @@ class Router {
 					if ($cls == $this->controller) {
 						if ($method == $this->method) {
 							// both controller and method matched > reroute
-							Log::verbose('[ROUTER] Router::constructor > Rerouting from >> ' . $this->controller . '->' . $this->method);
+							Log::verbose('[ROUTER] Rerouting from >> ' . $this->controller . '->' . $this->method);
 							list($notUsed, $this->controller, $this->method) = explode('/', $to);
-							Log::verbose('[ROUTER] Router::constructor > Rerouting to >> ' . $this->controller . '->' . $this->method);
+							Log::verbose('[ROUTER] Rerouting to >> ' . $this->controller . '->' . $this->method);
 							break;
 						}
 					}
@@ -219,7 +219,6 @@ class Router {
 		if ($className) {
 			// instanciate controller class
 			$cnt = new $className($view);
-			Log::debug('[ROUTER] Controller (' . $className . ') created');
 			return $cnt;	
 		}
 		// controller class not found
@@ -232,6 +231,7 @@ class Router {
 			// call the method
 			try {
 				call_user_func_array(array($cnt, $method), $this->params);
+				Log::debug('[ROUTER] Method called (' . $method . ')');
 			} catch (Exception $e) {
 				Log::error($e);
 				return null;

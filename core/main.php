@@ -3,7 +3,8 @@
 // record start time
 $startTime = microtime(true);
 // Framework root path
-$_root = substr(__FILE__, 0, strpos(__FILE__, basename(__FILE__))) . '../';
+$_root = substr(__FILE__, 0, strpos(__FILE__, basename(__FILE__)));
+$_root = substr($_root, 0, strrpos($_root, 'core/'));
 // include Config globally
 include('Config.class.php');
 // setup Config
