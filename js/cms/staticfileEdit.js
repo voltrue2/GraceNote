@@ -92,6 +92,7 @@
 		var path = item.name;
 		var isDir = item.isDir;
 		elm.path = ((currentPath) ? currentPath + '/' : '') + path;
+		elm.uri = item.uri;
 		elm.name = path;
 		if (isDir) {
 			icon.src = window.assets['folder'];
@@ -257,10 +258,10 @@
 			preview.className = 'image-button';
 			td.appendChild(preview);
 			preview.onmouseup = function () {
-				if (file.path.toLowerCase().match(/(png|jpg|jpeg|gif)/)) {
-					var ib = new window.ImageBox(600, 500, '/' + file.path);
+				if (file.uri.toLowerCase().match(/(png|jpg|jpeg|gif)/)) {
+					var ib = new window.ImageBox(600, 500, file.uri);
 				} else {
-					win = window.open('http://' + window.location.host + '/' + file.path, '_blank');
+					win = window.open('http://' + window.location.host + '/' + file.uri, '_blank');
 					win.focus();
 				}
 			};

@@ -41,6 +41,49 @@ Loader::setPath('controller', '../myController/');
 mkdir /var/www/GraceNote/logs/
 </pre>
 
+# Set up CMS
+> Once you have created a configuration file (config.json), GraceNote offers a built-in CMS
+>> Make sure to separate the CMS and your application
+>>> For the built-in CMS to correctly function, you <b>MUST<b> use the default bootstrap index.php
+
+1. Create a directory for your CMS. Example: mkdir /var/www/cms/
+2. Install GraceNote into your cms directory. Example: git clone https://github.com/voltrue2/GraceNote GraceNote
+3. Point your document root index.php to your CMS GraceNote. Example: include('/var/www/cms/GraceNote/main.php');
+4. Create configuration file. Example" /var/www/cmns/configs/config.json
+5. Create a symbolic link to CMS assets
+<pre>
+cd yourDocumentRoot/
+ln -s GraceNote/assets/ yourDocumentRoot/assets/
+</pre>
+6. Configure Asset correctly
+<pre>
+"Asset": {
+	"embedPaths": {
+		"js": "/var/www/GraceNote/js/",
+		"css": "/var/www/GraceNote/css/",
+		"media": "/var/www/htdocs/img/"
+	},
+	"httpUrls": {
+		"normal": {
+			"protocol": "http",
+			"host": "yourCMSDomain.com",
+			"path": "/media/img",
+			"sourcePath": "/var/www/GraceNote/assets/"
+		},
+		"ssl": {
+			"protocol": "https",
+			"host": "yourCMSDomain.com",
+			"path": "/media/img",
+			"sourcePath": "/var/www/GraceNote/assets/"
+		}
+	}
+}
+</pre>
+
+- NOTE: If you host the CMS and your application on different web servers, plase make sure to have a way to distribute the media files from CMS to your application server.
+> You may use shell script such as rsync etc
+
+
 # How to create a web page with GraceNote
 
 ### The following example will create a page for the URL: http://yourdomain.com/helloworld/
