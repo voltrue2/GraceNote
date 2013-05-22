@@ -23,7 +23,7 @@
 		this._core.appendTo(parentDom);
 		this._core.setClassName('viewport');
 		this._type = this.DOM;
-		this._root = this.createChild('div');
+		this._root = this._core.createChild('div');
 	};
 	
 	// create Viewport with Canvas
