@@ -111,6 +111,7 @@
 		}
 		this._views[name] = new View();
 		if (this._type === this.DOM) {
+			this._views[name].setClassName(name);
 			this._views[name].appendTo(this._root);
 			this._views[name].setStyle({ display: 'none' });
 		} else if (this._type === this.CANVAS) {
@@ -166,6 +167,9 @@
 		if (that._currentView !== name) {
 			that._views[name].emit(eventName, that);
 			that._currentView = name;
+			if (this._type === this.DOM) {
+				that._views[name].setStyle({ display: '' });
+			}
 		}	
 	}
 
