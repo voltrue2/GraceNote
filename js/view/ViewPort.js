@@ -113,7 +113,7 @@
 		if (this._type === this.DOM) {
 			this._views[name].setClassName(name);
 			this._views[name].appendTo(this._root);
-			this._views[name].setStyle({ display: 'none' });
+			this._views[name].setStyle({ position: 'absolute', top: 0, left: 0, display: 'none' });
 		} else if (this._type === this.CANVAS) {
 			this._root.appendChild(this._views[name]);
 			this._views[name].hide();
@@ -126,6 +126,9 @@
 			var that = this;
 			var prevView = this._views[this._currentView];
 			prevView.once('closed', function () {
+				if (that._type === that.DOM) {
+					prevView.setStyle({ display: 'none' });
+				}
 				emitOpen(that, name, 'openAfterClose');
 			});
 			prevView.emit('close', this);
@@ -146,6 +149,9 @@
 		}
 		this._stack.push(name);
 		this._views[name].emit('open', this);
+		if (this._type === this.DOM) {
+			this._views[name].setStyle({ display: '' });
+		}
 	};
 
 	ViewPort.prototype.closePopup = function (name) {
@@ -160,6 +166,9 @@
 		}
 		this._views[name].emit('close', this);
 		this._stack.splice(index, 1);
+		if (this._type === this.DOM) {
+			this._views[name].setStyle({ display: 'none' });
+		}
 		
 	};
 
