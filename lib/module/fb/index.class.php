@@ -1,6 +1,6 @@
 <?
 
-Loader::import('module', 'facebook/src/facebook.php');
+Loader::import('module', 'fb/src/facebook.php');
 
 class FB {
 	
@@ -123,10 +123,6 @@ class FB {
 			}
 		}
 		return $this->fb->getLogoutUrl($params);
-	}
-
-	public function authenticate() {
-		
 	}
 }
 
