@@ -20,6 +20,7 @@ class FB {
 	private $fb;
 	private $afterLogin;
 	private $afterLogout;
+	private $userDataFields = '?fields=username,name,first_name,last_name,location,locale,timezone,gender,birthday,picture.limit(1),hometown';
 
 	public function FB() {
 		$conf = Config::get('Facebook');
@@ -42,11 +43,13 @@ class FB {
 		return null;	
 	}
 
-	public function getMyData() {
+	public function getMyData($fields = null) {
 		$userId = $this->checkAuth();
 		if ($userId) {
 			try {
-				return $this->fb->api('me/', 'GET');
+				$req = 'me/' . $this->createRequestFields($fields) . '&' . $this->fb->getAccessToken();
+				Log::debug('[FB] api request > ' . $req);
+				return $this->fb->api($req, 'GET');
 			} catch (Exception $e) {
 				Log::error('[FB] getMyData > ', $e->getMessage());
 			}
@@ -55,9 +58,11 @@ class FB {
 		return null;
 	}
 
-	public function getUserData($fbId) {
+	public function getUserData($fbId, $fields = null) {
 		try {
-			return $this->fb->api($fbId . '/', 'GET');
+			$req = $fbId . '/' . $this->createRequestFields($fields) . '&' . $this->fb->getAccessToken();
+			Log::debug('[FB] api request > ' . $req);
+			return $this->fb->api($req, 'GET');
 		} catch (Exception $e) {
 			Log::error('[FB] getUserData > ', $e->getMessage());
 		}
@@ -123,6 +128,13 @@ class FB {
 			}
 		}
 		return $this->fb->getLogoutUrl($params);
+	}
+
+	private function createRequestFields($fields = null) {
+		if ($fields) {
+			return $this->userDataFields . ',' . $fields;
+		}
+		return $this->userDataFields;
 	}
 }
 
