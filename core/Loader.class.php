@@ -9,7 +9,8 @@ class Loader {
 		'controller' => 'controller/', 
 		'model' => 'model/',	
 		'template' => 'template/',
-		'lib' => 'lib/'
+		'lib' => 'lib/',
+		'module' => 'lib/module/'
 	);
 	static private $root;
 	static private $templateVars = null;
@@ -87,6 +88,12 @@ class Loader {
 		return '';
 	}
 
+	// module structure: GraceNote/$name/$moduleName/index.class.php
+	static public function module($name, $moduleDirName) {
+		$file = $moduleDirName . '/index.class.php';
+		return self::import($name, $file);
+	}
+
 	static public function import($name, $file) {
 		try {
 			if (isset(self::$paths[$name])) {
@@ -125,7 +132,7 @@ class Loader {
 					include($path);
 					return true;
 				} else {
-					throw new Exception('Loader::template > File does not exist "' . $path . '"');
+					throw new Exception(' Loader::template > File does not exist "' . $path . '"');
 				}
 			} else {
 				// $name is given as the file path
@@ -133,7 +140,7 @@ class Loader {
 					require_once($name . $file);
 					return true;
 				} else {
-					throw new Exception('Loader::template > Attemped to load invalid file "' . $name . '" ' . $file);
+					throw new Exception(' Loader::template > Attemped to load invalid file "' . $name . '" ' . $file);
 				}
 			}
 		} catch (Exception $e) {
