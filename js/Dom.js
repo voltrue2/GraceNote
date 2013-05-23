@@ -16,7 +16,7 @@ var buttonEvents = {
 
 function Dom(srcElm) {
 	if (!srcElm) {
-		return null;
+		srcElm = document.createElement('div');
 	}
 	EventEmitter.call(this);
 	this._src = srcElm;
@@ -159,6 +159,7 @@ Dom.prototype.appendChild = function (childDom) {
 		this.emit('appendChild');
 	} catch (exception) {
 		console.error('Dom.appendChild', exception);
+		console.error('this:', this._src, 'child:', childDom._src);
 		console.trace();
 		childDom = null;
 	}

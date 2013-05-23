@@ -57,7 +57,7 @@ class SqlWrite {
 	public function commit(){
 		$this->connect();
 		if (!$this->cn->inTransaction()) {
-			return Log::error('[SQLWRITE] commit: no active transaction');
+			return Log::warn('[SQLWRITE] commit: no active transaction');
 		}
 		try {
 			Log::info('[SQLWRITE] commit: Commited a write');
@@ -70,7 +70,7 @@ class SqlWrite {
 	public function rollBack(){
 		$this->connect();
 		if (!$this->cn->inTransaction()) {
-			return Log::error('[SQLWRITE] commit: no active transaction');
+			return Log::warn('[SQLWRITE] commit: no active transaction');
 		}
 		try {
 			Log::info('[SQLWRITE] rollBack: Rolled back a write');
@@ -101,6 +101,11 @@ class SqlWrite {
 		} catch (Exception $e) {
 			$this->error('save', $e);
 			Log::error('[SQLWRITE] save > Failed', $sql, $params);
+			if ($this->cn->inTransaction()) {
+				// auto rollback
+				Log::error('[SQLWRITE] save: auto-rollback > ' . $sql, $params);
+				$this->rollBack();
+			}
 			return null;	
 		}
 	}

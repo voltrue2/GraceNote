@@ -12,6 +12,24 @@
 		this._type = null;
 		this.DOM = 'div';
 		this.CANVAS = 'canvas';
+		// on resize/orientation change
+		var resizeEvent = 'resize';
+		if ('onorientationchange' in window) {
+			resizeEvent = 'orientationchange';
+		}
+		var that = this;
+		window.addEventListener(resizeEvent, function () {
+			that.emit('resize');
+			if (that._currentView) {
+				that._views[that._currentView].emit('resize');
+			}
+		}, false);
+		// hide address bar
+		window.addEventListener('load', function () {
+			window.setTimeout(function () {
+				window.scrollTo(0, 0);
+			}, 0);
+		}, false);
 	}
 
 	window.inherits(ViewPort, window.EventEmitter);
@@ -20,15 +38,21 @@
 	// create Viewport with DOM
 	ViewPort.prototype.createDom = function (parentDom) {
 		this._core = new window.Dom(document.createElement(this.DOM));
+		this._core.setStyle({
+			WebkitUserSelect: 'none'
+		});
 		this._core.appendTo(parentDom);
 		this._core.setClassName('viewport');
 		this._type = this.DOM;
-		this._root = this.createChild('div');
+		this._root = this._core.createChild('div');
 	};
 	
 	// create Viewport with Canvas
 	ViewPort.prototype.createCanvas = function (parentDom, fps) {
 		this._core = new window.Dom(document.createElement(this.CANVAS));
+		this._core.setStyle({
+			WebkitUserSelect: 'none'
+		});
 		this._core.appendTo(parentDom);
 		this._type = this.CANVAS;
 		this._root = new window.Sprite();
@@ -109,10 +133,14 @@
 		if (this._views[name]) {
 			return window.log.debug(name, 'has already been added'); 
 		}
+		if (!View) {
+			return window.log.error(name, 'not found');
+		}
 		this._views[name] = new View();
 		if (this._type === this.DOM) {
+			this._views[name].setClassName(name);
 			this._views[name].appendTo(this._root);
-			this._views[name].setStyle({ display: 'none' });
+			this._views[name].setStyle({ position: 'absolute', top: 0, left: 0, display: 'none' });
 		} else if (this._type === this.CANVAS) {
 			this._root.appendChild(this._views[name]);
 			this._views[name].hide();
@@ -120,22 +148,28 @@
 		this._views[name].emit('addView', this);
 	};
 
-	ViewPort.prototype.open = function (name) {
+	ViewPort.prototype.open = function (name, params) {
 		if (this._currentView) {
 			var that = this;
 			var prevView = this._views[this._currentView];
 			prevView.once('closed', function () {
-				emitOpen(that, name, 'openAfterClose');
+				if (that._type === that.DOM) {
+					prevView.setStyle({ display: 'none' });
+				}
+				emitOpen(that, name, 'open', params);
 			});
 			prevView.emit('close', this);
+		} else {
+			emitOpen(this, name, 'open', params);
 		}
-		emitOpen(this, name, 'open');
+		this.emit('open', name);
 	};
 
 	ViewPort.prototype.close = function () {
 		if (this._currentView) {
 			this._views[this._currentView].emit('close', this);
 			this._currentView = null;
+			this.emit('close', this._currentView);
 		}
 	};
 
@@ -145,6 +179,9 @@
 		}
 		this._stack.push(name);
 		this._views[name].emit('open', this);
+		if (this._type === this.DOM) {
+			this._views[name].setStyle({ zIndex: 1000, display: '' });
+		}
 	};
 
 	ViewPort.prototype.closePopup = function (name) {
@@ -159,13 +196,19 @@
 		}
 		this._views[name].emit('close', this);
 		this._stack.splice(index, 1);
+		if (this._type === this.DOM) {
+			this._views[name].setStyle({ zIndex: 0, display: 'none' });
+		}
 		
 	};
 
-	function emitOpen(that, name, eventName) {
+	function emitOpen(that, name, eventName, params) {
 		if (that._currentView !== name) {
-			that._views[name].emit(eventName, that);
+			that._views[name].emit(eventName, params);
 			that._currentView = name;
+			if (this._type === this.DOM) {
+				that._views[name].setStyle({ display: '' });
+			}
 		}	
 	}
 
