@@ -162,12 +162,14 @@
 		} else {
 			emitOpen(this, name, 'open', params);
 		}
+		this.emit('open', name);
 	};
 
 	ViewPort.prototype.close = function () {
 		if (this._currentView) {
 			this._views[this._currentView].emit('close', this);
 			this._currentView = null;
+			this.emit('close', this._currentView);
 		}
 	};
 

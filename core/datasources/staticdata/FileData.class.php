@@ -143,8 +143,8 @@ class FileData {
 		$delimiter = '/' . $this->csvRules['delimiter'] . '/';
 		$enclosure = $this->csvRules['enclosure'];
 		$rows = preg_split('/\r\n+|\r+|\n+|\t+/i', $content, -1, PREG_SPLIT_NO_EMPTY);
+		$res = array();
 		if ($rows) {
-			$res = array();
 			$keys = preg_split($delimiter, mb_ereg_replace($enclosure, '', $rows[0]), -1, PREG_SPLIT_NO_EMPTY); // use first row as keys
 			$total = count($rows);
 			$index = 0;
