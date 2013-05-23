@@ -174,7 +174,7 @@
 		this._stack.push(name);
 		this._views[name].emit('open', this);
 		if (this._type === this.DOM) {
-			this._views[name].setStyle({ display: '' });
+			this._views[name].setStyle({ zIndex: 1000, display: '' });
 		}
 	};
 
@@ -191,7 +191,7 @@
 		this._views[name].emit('close', this);
 		this._stack.splice(index, 1);
 		if (this._type === this.DOM) {
-			this._views[name].setStyle({ display: 'none' });
+			this._views[name].setStyle({ zIndex: 0, display: 'none' });
 		}
 		
 	};
