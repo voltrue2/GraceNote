@@ -969,9 +969,7 @@ class QueryBuilder {
 				$c .= '(255) ';
 			}
 			$c .= " NOT NULL AUTO_INCREMENT ";
-			if ($primary){
-				$c .= " PRIMARY KEY";
-			}
+			$c .= " PRIMARY KEY";
 		} else if ($this->type == $this->psql){
 			// postgresql
 			$c = $name." SERIAL";
