@@ -12,6 +12,24 @@
 		this._type = null;
 		this.DOM = 'div';
 		this.CANVAS = 'canvas';
+		// on resize/orientation change
+		var resizeEvent = 'resize';
+		if ('onorientationchange' in window) {
+			resizeEvent = 'orientationchange';
+		}
+		var that = this;
+		window.addEventListener(resizeEvent, function () {
+			that.emit('resize');
+			if (that._currentView) {
+				that._views[that._currentView].emit('resize');
+			}
+		}, false);
+		// hide address bar
+		window.addEventListener('load', function () {
+			window.setTimeout(function () {
+				window.scrollTo(0, 0);
+			}, 0);
+		}, false);
 	}
 
 	window.inherits(ViewPort, window.EventEmitter);
@@ -20,6 +38,9 @@
 	// create Viewport with DOM
 	ViewPort.prototype.createDom = function (parentDom) {
 		this._core = new window.Dom(document.createElement(this.DOM));
+		this._core.setStyle({
+			WebkitUserSelect: 'none'
+		});
 		this._core.appendTo(parentDom);
 		this._core.setClassName('viewport');
 		this._type = this.DOM;
@@ -29,6 +50,9 @@
 	// create Viewport with Canvas
 	ViewPort.prototype.createCanvas = function (parentDom, fps) {
 		this._core = new window.Dom(document.createElement(this.CANVAS));
+		this._core.setStyle({
+			WebkitUserSelect: 'none'
+		});
 		this._core.appendTo(parentDom);
 		this._type = this.CANVAS;
 		this._root = new window.Sprite();
