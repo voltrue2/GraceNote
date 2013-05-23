@@ -133,6 +133,9 @@
 		if (this._views[name]) {
 			return window.log.debug(name, 'has already been added'); 
 		}
+		if (!View) {
+			return window.log.error(name, 'not found');
+		}
 		this._views[name] = new View();
 		if (this._type === this.DOM) {
 			this._views[name].setClassName(name);
@@ -153,11 +156,12 @@
 				if (that._type === that.DOM) {
 					prevView.setStyle({ display: 'none' });
 				}
-				emitOpen(that, name, 'openAfterClose', params);
+				emitOpen(that, name, 'open', params);
 			});
 			prevView.emit('close', this);
+		} else {
+			emitOpen(this, name, 'open', params);
 		}
-		emitOpen(this, name, 'open');
 	};
 
 	ViewPort.prototype.close = function () {
@@ -198,7 +202,7 @@
 
 	function emitOpen(that, name, eventName, params) {
 		if (that._currentView !== name) {
-			that._views[name].emit(eventName, that, params);
+			that._views[name].emit(eventName, params);
 			that._currentView = name;
 			if (this._type === this.DOM) {
 				that._views[name].setStyle({ display: '' });
