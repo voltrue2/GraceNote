@@ -119,7 +119,7 @@ class Datablock extends Controller {
 		$this->view->assign('srcData', $srcData);
 		// get data blocks associated to source
 		$blocks = $dm->table($this->datablock);
-		$blocks->select('id, name, required, datablock_type As type, data_length_limit As limit, source_table As srctable, source_ref_column AS srcrefcolumn, source_column As srccolumn, reference_table As reftable, reference_column_display As refdisplay, reference_column As refcolumn');
+		$blocks->select('id, name, required, datablock_type As type, data_length_limit As data_limit, source_table As srctable, source_ref_column AS srcrefcolumn, source_column As srccolumn, reference_table As reftable, reference_column_display As refdisplay, reference_column As refcolumn');
 		$blocks->where('source_id = ?', $srcId);
 		$blocks->order('id');
 		$blockList = $blocks->getMany();
@@ -132,7 +132,7 @@ class Datablock extends Controller {
 		if (!$sess || !isset($sess['permission']) && $sess['permission'] != 1) {
 			return $this->view->respondError(401);
 		}
-		$name = trim($this-->getQuery('name'));
+		$name = trim($this->getQuery('name'));
 		$mainTable = trim($this->getQuery('mainTable'));
 		$mainColumn = trim($this->getQuery('mainColumn'));
 		$desc = $this->getQuery('desc');

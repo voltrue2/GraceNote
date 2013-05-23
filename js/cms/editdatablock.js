@@ -60,14 +60,15 @@ if (newRecordBtn) {
 		saveBtn.on('tapend', function () {
 			var error = null;
 			var dataList = [];
+			var missing = [];
 			for (var i = 0, len = newData.length; i < len; i++) {
 				var data = newData[i];
 				dataList[i] = {};
 				if (data.table) {
 					// unique identifier is always required
 					if (!data.valueObj.value) {
-						alert(JSON.stringify(data));
 						error = 'missingRequiredMsg';
+						missing.push(i + 1);
 					}
 					dataList[i].mainTable = true;
 					dataList[i].table = data.table;
@@ -75,8 +76,8 @@ if (newRecordBtn) {
 				}
 				if (data.dataBlock) {
 					if (data.dataBlock.required && data.valueObj.value === undefined) {
-						alert(JSON.stringify(data));
 						error = 'missingRequiredMsg';
+						missing.push(i + 1);
 					}
 					dataList[i].table = data.dataBlock.source_table;
 					dataList[i].column = data.dataBlock.source_column;
@@ -85,9 +86,8 @@ if (newRecordBtn) {
 				dataList[i].value = newData[i].valueObj.value;
 			}
 			if (error) {
-				return alert(text[error]);
+				return alert(text[error] + ': ' + JSON.stringify(missing));
 			}
-			console.log(dataList);
 			var uri = '/editdatablock/createNew/' + window.selectedDb + '/' + window.srcId + '/';
 			loader.ajax(uri, { newData: dataList }, function (error, path, res) {
 				if (error) {
@@ -878,6 +878,7 @@ function createNewDateTime(parent, dataMeta) {
 			if (this.timestamp) {
 				dateTime = selected.timestamp;
 			}
+			input.value = dateTime;
 			input.set('value', dateTime);	
 		});
 	});
