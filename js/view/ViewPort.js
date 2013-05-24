@@ -23,6 +23,9 @@
 			if (that._currentView) {
 				that._views[that._currentView].emit('resize');
 			}
+			for (var i = 0, len = that._stack.length; i < len; i++) {
+				that._views[that._stack[i]].emit('resize');
+			}
 		}, false);
 		// hide address bar
 		window.addEventListener('load', function () {
