@@ -592,7 +592,7 @@ function createInput(parent, dataMeta, val, data) {
 		input.setStyle({ width: '450px', cursor: 'pointer' });
 		input.set('readOnly', true);
 		input.on('tapstart', function () {
-			window.lightbox.show(490, 460, function (bar, box, close) {
+			window.lightbox.show(490, 520, function (bar, box, close) {
 				var te = new window.TextEditor(box, 480, 300, dataMeta.data_length_limit, (type === 'htmlText') ? true : false);
 				te.set(input.get('value'));
 				te.on('save', function (value) {
