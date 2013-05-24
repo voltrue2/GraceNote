@@ -195,13 +195,13 @@
 			return window.log.debug(name, 'has not been opened as a popup');
 		}
 		var that = this;
-		this._views[name].emit('close', this);
 		this._views[name].once('closed', function () {
 			that._stack.splice(index, 1);
 			if (that._type === that.DOM) {
 				that._views[name].setStyle({ zIndex: 0, display: 'none' });
 			}
 		});
+		this._views[name].emit('close', this);
 	};
 
 	function emitOpen(that, name, eventName, params) {
