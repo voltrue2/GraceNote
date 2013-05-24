@@ -27,6 +27,7 @@ function Dom(srcElm) {
 	if (allowedEvents) {
 		this.allowEvents(allowedEvents);
 	}
+	this.setStyle({ WebkitTapHighlightColor: 'rgba(0, 0, 0)' });
 }
 
 // static methods
@@ -209,6 +210,7 @@ Dom.prototype.remove = function () {
 Dom.prototype.allowEvents = function (eventList) {
 	var that = this;
 	var callback = function (event) {
+		event.preventDefault();
 		that.emit(that._eventNameAlias[event.type] || event.type, event);
 	};
 
