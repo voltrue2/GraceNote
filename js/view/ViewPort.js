@@ -173,12 +173,12 @@
 		}
 	};
 
-	ViewPort.prototype.openPopup = function (name) {
+	ViewPort.prototype.openPopup = function (name, params) {
 		if (this._stack.indexOf(name) !== -1) {
 			return window.log.debug(name, 'has already been opened');
 		}
 		this._stack.push(name);
-		this._views[name].emit('open', this);
+		this._views[name].emit('open', params);
 		if (this._type === this.DOM) {
 			this._views[name].setStyle({ zIndex: 1000, display: '' });
 		}
@@ -194,12 +194,14 @@
 		if (index === -1) {
 			return window.log.debug(name, 'has not been opened as a popup');
 		}
+		var that = this;
 		this._views[name].emit('close', this);
-		this._stack.splice(index, 1);
-		if (this._type === this.DOM) {
-			this._views[name].setStyle({ zIndex: 0, display: 'none' });
-		}
-		
+		this._views[name].once('closed', function () {
+			that._stack.splice(index, 1);
+			if (that._type === that.DOM) {
+				that._views[name].setStyle({ zIndex: 0, display: 'none' });
+			}
+		});
 	};
 
 	function emitOpen(that, name, eventName, params) {

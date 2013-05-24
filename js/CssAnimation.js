@@ -1,12 +1,15 @@
 (function() {
 
 /* frame based CSS3 animation */
-/* Dependencies: EventEmitter.src.js */
+/* Dependencies: EventEmitter.js, Dom.js */
 window.__fanimation_id = 0;
 window._FPS = 40;
 
 function CssFrameAnimation (target, fps) {
 	EventEmitter.call(this);
+	if (target instanceof Dom) {
+		target = target._src;
+	}
 	this.target = target; /* target element */
 	/* defaults */ 
 	if (!window._FPS || isNaN(window._FPS)){
