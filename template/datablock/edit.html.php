@@ -71,7 +71,7 @@ if (window.datablock.addDataBlock) {
 		'<?= $dataBlockList[$i]['name']; ?>', 
 		'<?= $dataBlockList[$i]['required']; ?>', 
 		'<?= $dataBlockList[$i]['type']; ?>',
-		'<?= $dataBlockList[$i]['limit']?>',
+		'<?= $dataBlockList[$i]['data_limit']?>',
 		'<?= $dataBlockList[$i]['srctable']; ?>',
 		'<?= $dataBlockList[$i]['srcrefcolumn']; ?>',
 		'<?= $dataBlockList[$i]['srccolumn']; ?>',
