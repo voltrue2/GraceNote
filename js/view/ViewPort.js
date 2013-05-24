@@ -35,6 +35,13 @@
 	window.inherits(ViewPort, window.EventEmitter);
 	window.ViewPort = ViewPort;
 
+	ViewPort.prototype.getView = function (name) {
+		if (this._views[name]) {
+			return this._views[name];
+		}
+		return null;
+	};
+
 	// create Viewport with DOM
 	ViewPort.prototype.createDom = function (parentDom) {
 		this._core = new window.Dom(document.createElement(this.DOM));
