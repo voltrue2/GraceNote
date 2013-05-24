@@ -166,7 +166,7 @@ class Log {
 				$str .= $bar . $indent . $parentKey . self::$br;
 				$str .= self::parseArray($indent . $wsp, $bar, $item);
 			} else {
-				$str .= $bar . $indent . $i . ' => ' . $item . self::$br; 
+				$str .= $bar . $indent . $i . ' => ' . $item . ' (' . gettype($item) . ')' . self::$br; 
 			}
 		}
 		return $str;

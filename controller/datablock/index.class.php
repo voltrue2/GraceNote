@@ -253,11 +253,11 @@ class Datablock extends Controller {
 					}
 				}
 				// update
-				$table->set('source_id', $srcId);
+				$table->set('source_id', (int)$srcId);
 				$table->set('name', $dataBlock['name']);
 				$table->set('datablock_type', $dataBlock['type']);
-				$table->set('data_length_limit', $dataBlock['limit']);
-				$table->set('required', $dataBlock['required'] ? $dataBlock['required'] : 0);
+				$table->set('data_length_limit', (int)$dataBlock['limit']);
+				$table->set('required', $dataBlock['required'] ? 1 : 0);
 				$table->set('source_table', $dataBlock['srcTable']);
 				$table->set('source_ref_column', $dataBlock['srcRefColumn']);
 				$table->set('source_column', $dataBlock['srcColumn']);
@@ -266,8 +266,9 @@ class Datablock extends Controller {
 				$table->set('reference_column', $dataBlock['refColumn']);
 				if ($dataBlock['id']) {
 					// update/edit
-					$table->where('id = ?', $dataBlock['id']);
-					$res = $table->update();
+					$table->where('id = ?', (int)$dataBlock['id']);
+					$table->update();
+					$res = true; // may not update if there is nothing to change
 				} else {
 					// create/new
 					$res = $table->save();
