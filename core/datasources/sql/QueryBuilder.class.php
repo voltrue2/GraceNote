@@ -567,6 +567,9 @@ class QueryBuilder {
 			$res = $this->inflateGet($res, $this->inflateWith, $useCache);
 		}
 		$this->flush();
+		if ($index !== null) {
+			$res = (isset($res[$index])) ? $res[$index] : $res;
+		}
 		return $res;
 	}
 
