@@ -17,13 +17,14 @@
 		zIndex: 999, 
 		width: '100%', 
 		height: '100%',
-		opacity: 0,
+		opacity: 1,
 		display: 'none'
 	});	
 	body.appendChild(block);
 
 	window.block = block;
-	
+
+	/*	
 	var tweenIn = new Tween(Tween.StrongOut, { a: 0 }, { a: 1 }, 0, duration);
 	tweenIn.on('change', function (v) {
 		block.setStyle({ opacity: v.a });
@@ -46,7 +47,8 @@
 			altSpinner = null;
 		}
 	});
-	
+	*/	
+
 	var spinner = block.createChild('div', { 
 		mozBorderRadius: '25px', 
 		borderRadius: '25px', 
@@ -80,24 +82,31 @@
 	function show() {
 		visible = +1;
 		if (visible === 1) {
+			/*
 			tweenOut.stop();
 			block.setStyle({ display: 'block', opacity: 0 });
 			timer = window.setInterval(function () {
 				tweenIn.update();
 			}, 0);
 			tweenIn.start();
+			*/
+			block.show();
 		}
 	}
 
 	function hide() {
 		visible -= 1;
 		if (visible <= 0) {
+			visible = 0;
+			block.hide();
+			/*
 			tweenIn.stop();
 			visible = 0;
 			timer = window.setInterval(function () {
 				tweenOut.update();
 			}, 0);
 			tweenOut.start();
+			*/
 		}
 	}
 
