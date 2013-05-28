@@ -210,7 +210,6 @@ Dom.prototype.remove = function () {
 Dom.prototype.allowEvents = function (eventList) {
 	var that = this;
 	var callback = function (event) {
-		event.preventDefault();
 		that.emit(that._eventNameAlias[event.type] || event.type, event);
 	};
 

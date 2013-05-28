@@ -721,7 +721,7 @@ function createMedia(parent, dataMeta, val, data) {
 					return alert(window.text.missingRequiredMsg);
 				}
 				// save
-				img.setAttribute({ src: send.value });
+				img.drawImage(send.value);
 				var uri = '/editdatablock/updateData/' + window.selectedDb + '/' + window.srcId + '/';
 				loader.ajax(uri, send, function (error, path, res) {
 					if (error) {
