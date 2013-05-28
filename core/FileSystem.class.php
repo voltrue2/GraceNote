@@ -77,7 +77,14 @@ class FileSystem {
 						if (substr($uri, 0, 1) !== '/') {
 							$uri = '/' . $uri;
 						}
-						$list[] = array('uri' => $uri, 'directoryPath' => $dirPath, 'path' => $path . $entry, 'name' => $entry, 'isDir' => $isDir);
+						$list[] = array(
+							'uri' => $uri, 
+							'directoryPath' => $dirPath, 
+							'path' => $path . $entry, 
+							'name' => $entry, 
+							'isDir' => $isDir,
+							'modtime' => filemtime($path . $entry) 
+						);
 					}
 				}
 				if (!empty($list)) {

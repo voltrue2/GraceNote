@@ -148,7 +148,7 @@ class Asset {
 			if ($first === '/') {
 				$key = substr($key, 1, strlen($key));
 			}
-			$map[$key] = $domain . '/' . str_replace(' ', '%20', $keyPath);
+			$map[$key] = $domain . '/' . str_replace(' ', '%20', $keyPath) . '?' . $allFiles[$i]['modtime'];
 		}
 		$end = microtime(true);
 		$time = (string)substr((($end - $start) * 1000), 0, 8);
