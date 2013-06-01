@@ -159,28 +159,25 @@
 	};
 
 	ViewPort.prototype.open = function (name, params) {
+		var prevView = null;
 		if (this._currentView) {
 			var that = this;
-			var prevView = this._views[this._currentView];
-			prevView.once('closed', function () {
-				if (that._type === that.DOM) {
-					prevView.setStyle({ display: 'none' });
-				}
-				emitOpen(that, name, 'open', params);
-			});
+			prevView = this._views[this._currentView];
 			prevView.emit('close', this);
-		} else {
-			emitOpen(this, name, 'open', params);
 		}
+		this._currentView = name;
+		var that = this;
+		var currentView = this._views[name];
+		currentView.once('opened', function () {
+			if (that._type === that.DOM) {
+				if (prevView) {
+					prevView.hide();
+				}
+				currentView.show();
+			}
+		});
+		currentView.emit('open', params);
 		this.emit('open', name);
-	};
-
-	ViewPort.prototype.close = function () {
-		if (this._currentView) {
-			this._views[this._currentView].emit('close', this);
-			this._currentView = null;
-			this.emit('close', this._currentView);
-		}
 	};
 
 	ViewPort.prototype.openPopup = function (name, params) {
@@ -188,10 +185,13 @@
 			return window.log.debug(name, 'has already been opened');
 		}
 		this._stack.push(name);
+		var that = this;
+		this._views[name].once('opened', function () {
+			if (that._type === that.DOM) {
+				that._views[name].setStyle({ zIndex: 1000, display: '' });
+			}
+		});
 		this._views[name].emit('open', params);
-		if (this._type === this.DOM) {
-			this._views[name].setStyle({ zIndex: 1000, display: '' });
-		}
 	};
 
 	ViewPort.prototype.closePopup = function (name) {
@@ -213,16 +213,6 @@
 		});
 		this._views[name].emit('close', this);
 	};
-
-	function emitOpen(that, name, eventName, params) {
-		if (that._currentView !== name) {
-			that._views[name].emit(eventName, params);
-			that._currentView = name;
-			if (this._type === this.DOM) {
-				that._views[name].setStyle({ display: '' });
-			}
-		}	
-	}
 
 	function runTweens(tweens) {
 		for (var name in tweens) {

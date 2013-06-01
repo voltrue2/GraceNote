@@ -5,18 +5,17 @@ var eventNameAlias = {};
 var allowedEvents = null;
 var buttonEvents = {
 	'mousedown': 'tapstart',
-	'touchstart': 'tapstart',
 	'mouseup': 'tapend',
-	'touchend': 'tapend',
 	'mousemove': 'tapmove',
-	'touchmove': 'tapmove',
 	'mouseover': 'over',
 	'mouseuout': 'out'
 };
 var touchEventMap = {
 	mousedown: 'touchstart',
 	mouseup: 'touchend',
-	mousemove: 'touchmove'
+	mousemove: 'touchmove',
+	mouseover: false, // will be ignored on touch device
+	mouseout: false // will be ignored on touch device
 };
 
 function Dom(srcElm) {
@@ -78,6 +77,42 @@ function getById(id) {
 
 function button(dom) {
 	dom.allowEvents(buttonEvents);
+	var over = false;
+	var start = false;
+	var allowedMovement = 5;	
+	dom.on(buttonEvents.mouseover, function (event) {
+		if (!over) {
+			this.emit('mouseover', event);
+			over = true;
+		}
+	});
+	dom.on(buttonEvents.mouseout, function (event) {
+		if (over) {
+			this.emit('mouseout', event);
+			over = false;
+		}
+	});
+	dom.on(buttonEvents.mousedown, function (event) {
+		if (!start) {
+			start = {
+				x: event.x || null,
+				y: event.y || null
+			};
+			this.emit('tapstart', event);
+		}
+	});
+	dom.on(buttonEvents.mouseup, function (event) {
+		if (start) {
+			var x = event.x || x;
+			var y = event.y || y;
+			if (Math.abs(start.x - x) <= allowedMovement && Math.abs(start.y - y)) {
+				this.emit('tapend', event);
+			} else {
+				this.emit('tapcancel', event);
+			}
+			start = false;
+		}	
+	}));
 }
 
 /*
@@ -221,16 +256,18 @@ Dom.prototype.allowEvents = function (eventList) {
 	};
 	
 	// auto detect touch events
-	touchEvents = false;	
+	var canTouch = false;	
 	if ('ontouchstart' in document.documentElement) {
-		touchEvents = true;
+		canTouch = true;
 	}
 	for (var i = 0, len = eventList.length; i < len; i++) {
 		var event = eventList[i];
-		if (touchEvents && eventMap[event]) {
+		if (canTouch && touchEventMap[event]) {
 			event = touchEventMap[event];
 		}
-		this._src.addEventListener(event, callback, false);
+		if (event) {
+			this._src.addEventListener(event, callback, false);
+		}
 	}
 };
 
