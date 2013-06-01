@@ -105,14 +105,14 @@ function button(dom) {
 		if (start) {
 			var x = event.x || x;
 			var y = event.y || y;
-			if (Math.abs(start.x - x) <= allowedMovement && Math.abs(start.y - y)) {
+			if (Math.abs(start.x - x) <= allowedMovement && Math.abs(start.y - y) <= allowdMovement) {
 				this.emit('tapend', event);
 			} else {
 				this.emit('tapcancel', event);
 			}
 			start = false;
 		}	
-	}));
+	});
 }
 
 /*
