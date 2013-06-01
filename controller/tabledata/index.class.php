@@ -316,5 +316,14 @@ class Tabledata extends Controller {
 		$this->view->respondJson();
 	}
 
+	public function export($db, $tableName) {
+		// check permission
+		if ($this->sess['permission'] != 1 && $this->sess['permission'] != 2 && $this->sess['permission'] != 3) {
+			return $this->view->respondError(401);
+		}
+		$dm = new DataModel($db);
+		$table = $dm->table($tableName);
+					
+	}
 }
 ?>

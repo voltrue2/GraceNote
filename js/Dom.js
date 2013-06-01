@@ -13,6 +13,11 @@ var buttonEvents = {
 	'mouseover': 'over',
 	'mouseuout': 'out'
 };
+var touchEventMap = {
+	mousedown: 'touchstart',
+	mouseup: 'touchend',
+	mousemove: 'touchmove'
+};
 
 function Dom(srcElm) {
 	if (!srcElm) {
@@ -206,15 +211,25 @@ Dom.prototype.remove = function () {
 * eventList { eventName: aliasForEvent } 
 * Example: { mousedown: 'tapstart', touchstart: 'tapstart' } 
 * dom.on('tapstart', function) will listen to both mousedown and touchstart
+* this function detects availability of touch events automatically, if touch events are detected, the following events will be treated as:
+* mousedown > touchstart, mouseup > touchend, mousemove > touchmove
 */
 Dom.prototype.allowEvents = function (eventList) {
 	var that = this;
 	var callback = function (event) {
 		that.emit(that._eventNameAlias[event.type] || event.type, event);
 	};
-
+	
+	// auto detect touch events
+	touchEvents = false;	
+	if ('ontouchstart' in document.documentElement) {
+		touchEvents = true;
+	}
 	for (var i = 0, len = eventList.length; i < len; i++) {
 		var event = eventList[i];
+		if (touchEvents && eventMap[event]) {
+			event = touchEventMap[event];
+		}
 		this._src.addEventListener(event, callback, false);
 	}
 };
