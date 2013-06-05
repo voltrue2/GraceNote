@@ -41,11 +41,11 @@ class SqlWrite {
 		if ($this->cn->inTransaction()) {
 			return Log::error('[SQLWRITE] transaction: there is an active transaction');
 		}
-		Log::info('[SQLWRITE] transaction: Starting transaction');
+		Log::info('[SQLWRITE] transaction: begin');
 		try {
 			$this->cn->beginTransaction();
 		} catch (Exception $e) {
-			Log::error('[SQLWRITE] transaction failed > ' . $e->getMessage());
+			Log::error('[SQLWRITE] transaction: failed > ' . $e->getMessage());
 		}
 	}
 
@@ -57,26 +57,26 @@ class SqlWrite {
 	public function commit(){
 		$this->connect();
 		if (!$this->cn->inTransaction()) {
-			return Log::warn('[SQLWRITE] commit: no active transaction');
+			return Log::warn('[SQLWRITE] transaction: commit failed > no active transaction');
 		}
 		try {
-			Log::info('[SQLWRITE] commit: Commited a write');
+			Log::info('[SQLWRITE] transaction: commit success');
 			$this->cn->commit();
 		} catch (Exception $e) {
-			Log::error('[SQLWRITE] commit failed > ' . $e->getMessage());
+			Log::error('[SQLWRITE] transaction: commit failed > ' . $e->getMessage());
 		}
 	}
 	
 	public function rollBack(){
 		$this->connect();
 		if (!$this->cn->inTransaction()) {
-			return Log::warn('[SQLWRITE] commit: no active transaction');
+			return Log::warn('[SQLWRITE] transaction: rollback failed > no active transaction');
 		}
 		try {
-			Log::info('[SQLWRITE] rollBack: Rolled back a write');
+			Log::info('[SQLWRITE] transaction: rollback success');
 			$this->cn->rollBack();
 		} catch (Exception $e) {
-			Log::error('[SQLWRITE] rollBack failed > ' . $e->getMessage());
+			Log::error('[SQLWRITE] transaction: rollback failed > ' . $e->getMessage());
 		}
 	}
 	
@@ -103,7 +103,7 @@ class SqlWrite {
 			Log::error('[SQLWRITE] save > Failed', $sql, $params);
 			if ($this->cn->inTransaction()) {
 				// auto rollback
-				Log::error('[SQLWRITE] save: auto-rollback > ' . $sql, $params);
+				Log::error('[SQLWRITE] save: auto-rollback on Exception > ' . $sql, $params);
 				$this->rollBack();
 			}
 			return null;	

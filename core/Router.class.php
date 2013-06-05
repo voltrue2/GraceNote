@@ -64,7 +64,7 @@ class Router {
 		$this->params = array_splice($paramsUri, 2);
 		$this->queries = $_GET;
 		$this->post = $_POST;
-		Log::verbose('[ROUTER] resolved HTTP request: ' . $this->controller . '::' . $this->method);
+		Log::debug('[ROUTER] resolved HTTP request: ' . $this->controller . '::' . $this->method);
 		// check rerounting
 		if ($this->conf && isset($this->conf['reroute']) && !empty($this->conf['reroute'])) {
 			$cnt = $this->controller . '/';
@@ -84,9 +84,9 @@ class Router {
 					if ($cls == $this->controller) {
 						if ($method == $this->method) {
 							// both controller and method matched > reroute
-							Log::verbose('[ROUTER] Rerouting from >> ' . $this->controller . '->' . $this->method);
+							Log::verbose('[ROUTER] rerouting from >> ' . $this->controller . '->' . $this->method);
 							list($notUsed, $this->controller, $this->method) = explode('/', $to);
-							Log::verbose('[ROUTER] Rerouting to >> ' . $this->controller . '->' . $this->method);
+							Log::verbose('[ROUTER] rerouting to >> ' . $this->controller . '->' . $this->method);
 							break;
 						}
 					}
@@ -136,7 +136,7 @@ class Router {
 		else if (isset($this->headerCodes[$altCode])){
 			header('HTTP/1.1 '.$this->headerCodes[$altCode]);
 		}
-		Log::verbose('[ROUTER] Router::redirect > ' . $path . ' code:' . $altCode);
+		Log::verbose('[ROUTER] redirect > ' . $path . ' code:' . $altCode);
 		header('Location: ' . $path);
 		exit();
 	}
@@ -186,11 +186,11 @@ class Router {
 				$controllerName = $paramsUri[0];
 				if (in_array($controllerName, $this->conf['noTrailingSlash'])) {
 					// this controller is exception > no need to force trailing slash
-					Log::verbose('[ROUTER] Router::constructor > exception to force trailing slash >> ' . $controllerName);
+					Log::verbose('[ROUTER] exception to force trailing slash (configured in config.json) > ' . $controllerName);
 					return;
 				}
 			}
-			Log::verbose('[ROUTER] Router::constructor > force trailing slash on ' . $this->uri);
+			Log::verbose('[ROUTER] force trailing slash on ' . $this->uri);
 			// no trailing slash > redirect with trailing slash
 			$this->redirect($uri . '/' . $queries);
 		}
@@ -231,7 +231,7 @@ class Router {
 			// call the method
 			try {
 				call_user_func_array(array($cnt, $method), $this->params);
-				Log::debug('[ROUTER] Method called (' . $method . ')');
+				Log::debug('[ROUTER] Controller method called (' . $method . ')');
 			} catch (Exception $e) {
 				Log::error($e);
 				return null;

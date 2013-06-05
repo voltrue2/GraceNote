@@ -33,6 +33,7 @@ class QueryBuilder {
 	private $typeFormats = false;
 	private $escaped = false;
 	private $all = false;
+	private	$selectLock = '';
 	private $inflateThreshhold = 5000; // if the result array exceeds this amount, the inflate method switches from exec_inflate to exec_inflate_each
 	private $joinTypes = array('LEFT' => 1, 'RIGHT' => 1, 'INNER' => 1, 'OUTER' => 1, 'LEFT OUTER' => 1, 'LEFT INNER' => 1);
 	
@@ -523,7 +524,7 @@ class QueryBuilder {
 		if ($this->havingCond){
 			$having = $this->havingCond;
 		}	
-		$sql = "SELECT ".$select." FROM ".$this->table.$assoc.$conds.$group.$order.$having.$limit;
+		$sql = "SELECT ".$select." FROM ".$this->table.$assoc.$conds.$group.$order.$having.$limit.$this->selectLock;
 		if ($debug) {
 			// do not execute the query
 			Log::debug('[QUERYBUILDER] getResults > debug >> ', $sql, $params);
@@ -835,7 +836,27 @@ class QueryBuilder {
 	public function set($column, $value){
 		$this->setData[] = array('column' => $column, 'value' => $value);
 	}
+
+	// mysql(innoDB) select locks > requires to b ein transaction
+	public function lockInSharedMode() {
+		if ($this->write->inTransaction()) {
+			$this->selectLock = ' LOCK IN SHARED MODE';
+			return true;
+		}
+		Log::warn('[QUERYBUILDER] "lockInSharedMode" expects to be used in a transaction');
+		return false;
+	}
 	
+	// mysql(innoDB) select locks > requires to b ein transaction
+	public function forUpdate() {
+		if ($this->write->inTransaction()) {
+			$this->selectLock = ' FOR UPDATE';
+			return true;
+		}
+		Log::warn('[QUERYBUILDER] "forUpdate" expects to be used in a transaction');
+		return false;
+	}
+
 	public function save($returningColumn = null, $debug = false){
 		if ($this->conds){
 			$conds = $this->conds;
@@ -1295,6 +1316,7 @@ class QueryBuilder {
 		$this->inflateWith = false;
 		$this->escaped = false;
 		$this->all = false;
+		$this->selectLock = '';
 		$this->inflateThreshhold = false;
 	}
 	
