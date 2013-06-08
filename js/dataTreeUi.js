@@ -64,14 +64,15 @@
 		box.list.push(me);
 		btn.text(label);
 		var display = me.createChild('span');
+		var displayValue = value;
 		if (typeof value === 'number') {
-			value = '<span style="color: #00f;">' + value + '</span>';
+			displayValue = '<span style="color: #00f;">' + value + '</span>';
 		}else if (typeof value === 'boolean') {
-			value = '<span style="color: #f33;">' + value + '</span>';
+			displayValue = '<span style="color: #f33;">' + value + '</span>';
 		} else if (typeof value === 'string' && !children.length) {
-			value = '<span style="color: #090;">"' + value + '"</span>';
+			displayValue = '<span style="color: #090;">"' + value + '"</span>';
 		}
-		display.html('<span style="font-weight: bold; color: #555;">' + name + '</span>:  ' + value);
+		display.html('<span style="font-weight: bold; color: #555;">' + name + '</span>:  ' + displayValue);
 		if (children.length && this._options.expand) {
 			window.setTimeout(function () {
 				btn.emit('tapend');
