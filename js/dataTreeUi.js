@@ -1,9 +1,10 @@
 (function () {
 
-	function DataTreeUi(parent, dataObj) {
+	function DataTreeUi(parent, dataObj, options) {
 		EventEmitter.call(this);
 		this._parent = parent;
 		this._dataTree = window.dataTree.create(dataObj);
+		this._options = options || {};
 		// generate data tree UI
 		this._createUi();
 	}
@@ -23,16 +24,16 @@
 		var that = this;
 		var label = '';
 		var value = '';
-		var me = box.createChild('div', { border: '1px solid #ccc', padding: '2px', margin: '2px', paddingLeft: '6px' });
+		var me = box.createChild('div', { background: '#fff', border: '1px solid #ccc', padding: '2px', margin: '2px', paddingLeft: '6px' });
 		var btn = me.createChild('span', { cursor: 'pointer' });
 		// check if me has more child nodes below
 		var children = node.getChildNodes();
 		if (children.length) {
 			// there is more
-			label = '[>]  ';
+			label = '[+]  ';
 			btn.on('tapend', function () {
 				if (this.open) {
-					label = '[>]  ';
+					label = '[+]  ';
 					var list = me.list;
 					for (var i = 0, len = list.length; i < len; i++) {
 						list[i].remove();
@@ -40,8 +41,9 @@
 					this.text(label);
 					this.open = false;
 					me.list = [];
+					me.setStyle({ background: '#fff' });
 				} else {
-					label = '[v]  ';
+					label = '[-]  ';
 					this.text(label);
 					// open child node
 					var names = node.getChildNodeNames();
@@ -49,6 +51,7 @@
 						that._createNode(me, names[i], node.getChildNode(names[i]));
 					}
 					this.open = true;
+					me.setStyle({ background: '#efefe7' });
 				}
 			});
 		} else {
@@ -61,7 +64,19 @@
 		box.list.push(me);
 		btn.text(label);
 		var display = me.createChild('span');
-		display.text(name + ':  ' + value);
+		if (typeof value === 'number') {
+			value = '<span style="color: #00f;">' + value + '</span>';
+		}else if (typeof value === 'boolean') {
+			value = '<span style="color: #f33;">' + value + '</span>';
+		} else if (typeof value === 'string' && !children.length) {
+			value = '<span style="color: #090;">"' + value + '"</span>';
+		}
+		display.html('<span style="font-weight: bold; color: #555;">' + name + '</span>:  ' + value);
+		if (children.length && this._options.expand) {
+			window.setTimeout(function () {
+				btn.emit('tapend');
+			}, 0);
+		}
 	};
 
 }());

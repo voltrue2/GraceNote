@@ -69,6 +69,9 @@
 		child.on('_set', function (value) {
 			that._value[this.name] = value;
 		});
+		child.on('change', function () {
+			that.emit('change', that.get());
+		});
 		this._value[key] = value;
 		this._children.push(child);	
 		this.emit('change', this.get());
