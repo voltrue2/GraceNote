@@ -83,7 +83,7 @@ class Loader {
 			} else {
 				$namespace = '.' . $namescape;
 			}
-			return '<script type="text/javascript">(function () {window'. $namespace . ' = {}; ' . $var . '}());</script>';
+			return '<script type="text/javascript">(function () {try { window'. $namespace . ' = {}; ' . $var . ' } catch (Exception) { console.error(Exception); } }());</script>';
 		}
 		return '';
 	}

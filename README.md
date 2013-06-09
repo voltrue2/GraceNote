@@ -2,7 +2,7 @@
 - What you have to do first
 > Create an index file in your document root directory that points to GraceNote/core/main.php file
 <pre>
-Example: what is inside of index.php file would look like this:
+Example: the inside of index.php file would look like this:
 include('/var/www/GraceNote/core/main.php');
 </pre>
 
@@ -48,7 +48,7 @@ mkdir /var/www/GraceNote/logs/
 
 1. Create a directory for your CMS. Example: mkdir /var/www/cms/
 2. Install GraceNote into your cms directory. Example: git clone https://github.com/voltrue2/GraceNote GraceNote
-3. Point your document root index.php to your CMS GraceNote. Example: include('/var/www/cms/GraceNote/main.php');
+3. Point your document root index.php to your CMS GraceNote. Example: include('/var/www/cms/GraceNote/core/main.php');
 4. Create configuration file. Example" /var/www/cmns/configs/config.json
 5. Configure Asset correctly
 <pre>
@@ -204,9 +204,10 @@ View::redirect($path);
 /****
 * Responds to client request with JSON. Variables assigned with View::assign will be sent as JSON
 * @param gzip (Boolean) gzip the JSON response or not. Default is true
+* @param headerCode (integer) HTTP header code such as 200, 404 etc. This is potional
 * @return void
 ***/
-View::respondJson($gzip);
+View::respondJson($gzip, $headerCode);
 </pre>
 <pre>
 /****

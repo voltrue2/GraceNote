@@ -49,27 +49,18 @@ Loader.prototype.ajax = function (pathSrc, options, cb) {
 		if (req.readyState === 4) {
 			try {
 				responded = true;
+                response = JSON.parse(req.responseText);
 				// check for errors
 				if (correctResponse[req.status]) {
 					// success
 					if (timer) {
 						window.clearTimeout(timer);
 					}
-					try {
-						response = eval('(' + req.responseText + ')');
-						if (!response) {
-							cb('noReponse', path);
-						}
-					} catch (Exception) {
-						console.error('Loader.ajax: ', path, Exception, req.responseText);
-						console.trace();
-						self.emit('ajax.error', Exception, path, response);
-					}
 					self.emit('ajax.response', null, path, options);
 					cb(null, path, response);
 				} else {
 					// error req.status 0 is aborted request > timeout
-					error = JSON.stringify({ status: req.status, path: path, response: req.responseText });
+					error = JSON.stringify({ status: req.status, path: path, response: response });
 					throw new Error(error);
 				}
 					
@@ -77,9 +68,14 @@ Loader.prototype.ajax = function (pathSrc, options, cb) {
 				if (timer) {
 					window.clearTimeout(timer);
 				}
-				cb(Exception, path);
+                cb(Exception, path);
 				console.error('Loader.ajax: ', path, Exception);
 				console.trace();
+                try {
+                    error = JSON.parse(error);    
+                } catch (Exception) {
+                    // do nothing    
+                }
 				self.emit('ajax.error', error, path, response);
 			}
 			// response back
