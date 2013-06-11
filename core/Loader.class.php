@@ -66,7 +66,7 @@ class Loader {
 			foreach (self::$templateVars as $key => $value) {
 				if (is_array($value)) {
 					$value = json_encode($value);
-				} else if (is_string($value)) {
+                } else if (is_string($value)) {
 					$value = "'" . $value . "'";
 				} else if (!$value) {
 					$value = '""';

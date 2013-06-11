@@ -2,7 +2,12 @@
 
 class Text {
 
-	private static $confName;
+    private static $confName;
+    private static $langList = array(
+        'en' => 0,
+        'en-us' => 0,
+        'ja' => 1    
+    );
 
 	public static function get($view, $cnt, $name, $fileList = null) {
 		$lang = $cnt->getQuery('lang');
@@ -14,8 +19,8 @@ class Text {
 			$lang = $sess['lang'];
 		}
 		// default
-		if ($lang == '') {
-			$lang = 0;
+        if ($lang == '') {
+			$lang = self::getLang();
 		}
 		// TODO: dont hard code 'StaticData'
 		if (!$fileList) {
@@ -33,6 +38,12 @@ class Text {
 		self::$confName = $confName;
 	}
 
+    private static function getLang() {
+        if (isset(self::$langList[UserAgent::getLanguage()])) {
+            return self::$langList[UserAgent::getLanguage()];
+        }
+        return 0;
+    }
 }
 
 ?>
