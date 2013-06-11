@@ -48,8 +48,6 @@ Loader::import('datasources', 'DataModel.class.php');
 Loader::import('core', 'FileSystem.class.php');
 // import index.php
 Loader::index('root', 'index.php');
-// start session
-session_start();
 // create router
 $router = new Router();
 // create view

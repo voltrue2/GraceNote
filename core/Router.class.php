@@ -146,7 +146,7 @@ class Router {
 		$headerCode = $this->getHeaderCode($errorCode);
 		if ($headerCode) {
 			Log::error('[ROUTER] > Error header is "' . $headerCode . '"');
-			header('HTTP/1.0 ' . $headerCode);
+			header('HTTP/1.1 ' . $headerCode);
 		}
 		$eRules = $this->getErrorRules();
 		if ($eRules && isset($eRules[$errorCode])) {

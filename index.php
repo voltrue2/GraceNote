@@ -1,5 +1,6 @@
 <?php
-
+// start session
+session_start();
 // use EventEmitter
 Loader::import('lib', 'EventEmitter.class.php');
 // use session

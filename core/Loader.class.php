@@ -102,7 +102,7 @@ class Loader {
 					require_once($path);
 					return true;
 				} else {
-					throw new Exception('Loader::import > File does not exist "' . $path . '"');
+					throw new Exception(' File does not exist "' . $path . '"');
 				}
 			} else {
 				// $name is given as the file path
@@ -110,7 +110,7 @@ class Loader {
 					require_once($name . $file);
 					return true;
 				} else {
-					throw new Exception('Loader::import > Attemped to load invalid file "' . $name . '" ' . $file);
+					throw new Exception(' Attemped to load invalid file "' . $name . '" ' . $file);
 				}
 			}
 		} catch (Exception $e) {
@@ -132,7 +132,7 @@ class Loader {
 					include($path);
 					return true;
 				} else {
-					throw new Exception(' Loader::template > File does not exist "' . $path . '"');
+					throw new Exception(' File does not exist "' . $path . '"');
 				}
 			} else {
 				// $name is given as the file path
@@ -140,7 +140,7 @@ class Loader {
 					require_once($name . $file);
 					return true;
 				} else {
-					throw new Exception(' Loader::template > Attemped to load invalid file "' . $name . '" ' . $file);
+					throw new Exception(' Attemped to load invalid file "' . $name . '" ' . $file);
 				}
 			}
 		} catch (Exception $e) {

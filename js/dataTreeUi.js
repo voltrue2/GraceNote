@@ -63,7 +63,7 @@
 		}
 		box.list.push(me);
 		btn.text(label);
-		var display = me.createChild('span');
+		var display = me.createChild('span', { wordWrap: 'break-word' });
 		var displayValue = value;
 		if (typeof value === 'number') {
 			displayValue = '<span style="color: #00f;">' + value + '</span>';

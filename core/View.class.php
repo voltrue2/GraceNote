@@ -46,7 +46,7 @@ class View {
     public function respondJson($gzip = true, $headerCode = null) {
         $code = $this->router->getHeaderCode($headerCode);
         if ($code) {
-            header('HTTP/1.0 ' . $code);
+            header('HTTP/1.1 ' . $code);
         }
 		if ($gzip) {
 			header('Cache-Control: no-cache, must-revalidate');
