@@ -53,12 +53,12 @@ class View {
 			header('Content-Type: text/plain');
 			header('Content-Encoding: gzip');
 			ob_start('ob_gzhandler');
-			echo json_encode($this->vars);
+			echo JSON::stringify($this->vars);
 			ob_end_flush();
 		} else {
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Cache-Type: application/json");
-			echo json_encode($this->vars);
+			echo JSON::stringify($this->vars);
 		}
 	}
 	

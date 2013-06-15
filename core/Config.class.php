@@ -10,18 +10,26 @@ class Config {
 		if ($res) {
 			return self::$configSrc = $res;
 		}
-		/* TODO: not functioning correctly
-		// try XML next
-		$res = self::parseXmlConfig($root);
-		if ($res) {
-			return self::$configSrc = $res;
-		}
-		*/
-		// all failed
-		//trigger_error('[CONFIG] parse: failed to load config file correctly at ' . $root . 'configs/', E_USER_ERROR);
 		exit('Failed to load configuration file correctly');
 	}
-	
+
+    // loads an extra config file (JSON)
+    // call this method in your index.php
+    static private function load($path) {
+        if (file_exists($path)) {
+            try {
+                $config = json_decode(file_get_contents($path), true);
+                foreach ($config as $key => $value) {
+                    self::$configSrc[$key] = $value;
+                }
+                return true;
+            } catch (Exception $e) {
+                Log::error('load: failed to parse configuration file > ' . $path);
+            }
+        }
+        return false;
+    }
+
 	private static function parseJsonConfig($root) {
 		if (file_exists($root . '../configs/config.json')) {
 			// load external config.json from ../GraceNote/configs/config.json
@@ -32,13 +40,6 @@ class Config {
 			return false;
 		}
 		return json_decode(file_get_contents($root . 'configs/config.json'), true);
-	}
-	
-	private static function parseXmlConfig($root) {
-		if (!file_exists($root . 'configs/config.xml')) {
-			return false;
-		}
-		return json_decode(json_encode(simplexml_load_file($root . 'configs/config.xml')), true);
 	}
 
 	public static function get($cls) {

@@ -15,6 +15,8 @@ include('Log.class.php');
 include('ErrorHandler.class.php');
 // register static error path to ErrorHandler
 ErrorHandler::setStaticPage($_root, 'error/index.html');
+// include Json globally
+include('Json.class.php');
 // include Cache globally
 include('Cache.class.php');
 // include Loader globally

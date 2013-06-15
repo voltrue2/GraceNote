@@ -122,7 +122,7 @@
 					var ib = new window.ImageBox(600, 500, this.get('path'));
 				});
 			}
-			var name = menu.createChild('div', { lineHeight: '20px', padding: '4px',  cssFloat: 'left', height: '20px', width: '350px', whiteSpace: 'nowrap', fontSize: '12px' });
+			var name = menu.createChild('div', { lineHeight: '20px', padding: '4px',  cssFloat: 'left', height: '20px', whiteSpace: 'nowrap', fontSize: '12px' });
 			var nameVal = item.name;
 			if (nameVal.length > 50)  {
 				nameVal = nameVal.substring(0, 50) + '...';

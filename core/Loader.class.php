@@ -57,22 +57,20 @@ class Loader {
 		if (!empty(self::$templateVars)) {
 			$start = microtime(true);
 			$var = '';
-			$cls = '';
+            $cls = '';
+            $init = '';
 			if ($namespace) {
 				$cls = $namespace . '.';
 			} else {
 				return Log::warn('[LOADER] jsVars > namespace cannot be empty');
 			}
 			foreach (self::$templateVars as $key => $value) {
-				if (is_array($value)) {
-					$value = json_encode($value);
-                } else if (is_string($value)) {
-					$value = "'" . $value . "'";
-				} else if (!$value) {
-					$value = '""';
-				}
+                $value = JSON::stringify($value);
+                if ($value === null) {
+                    $value = '""';
+                }
 				$value = mb_ereg_replace('<(.|\n)*?>', '', $value);
-				$var .= $cls . $key . ' = ' . $value . '; ';
+                $var .= $cls . $key . ' = ' . $value . '; ';
 				Log::debug('[LOADER] jsVars: assgined > ' . $cls . $key);
 			}
 			$end = microtime(true);
@@ -82,8 +80,11 @@ class Loader {
 				$namespace = '';
 			} else {
 				$namespace = '.' . $namescape;
-			}
-			return '<script type="text/javascript">(function () {try { window'. $namespace . ' = {}; ' . $var . ' } catch (Exception) { console.error(Exception); } }());</script>';
+            }
+            if ($namespace) {
+                $init = 'window.' . $namespace . ' = {}; ';
+            }
+			return '<script type="text/javascript">(function () {try { ' . $init . $var . ' } catch (Exception) { console.error(Exception); } }());</script>';
 		}
 		return '';
 	}

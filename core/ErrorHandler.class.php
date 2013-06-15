@@ -54,7 +54,7 @@ function errorCatcher() {
 				ErrorHandler::handle();
 			default:
 				Log::warn('[WARN]', $error);
-				break;
+                break;
 		}
 	}
 }
