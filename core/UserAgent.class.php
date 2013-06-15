@@ -5,6 +5,7 @@ class UserAgent {
 	private static $browserPattern;
 	private static $os;
     private static $browser;
+    private static $detailedLanguage;
     private static $language;    
 
 	public static function getOs() {
@@ -17,6 +18,10 @@ class UserAgent {
 
     public static function getLanguage() {
         return self::$language;
+    }
+
+    public static function getDetailedLanguage() {
+        return self::$detailedLanguage;
     }
 
 	public static function isOs($os) {
@@ -60,7 +65,10 @@ class UserAgent {
 		}
         Log::verbose('[USERAGENT] parseUserAgentSource: browser > ' . self::$browser);
         // parse default language
-        self::$language = self::getDefaultLanguage(); 
+        $lang = self::getDefaultLanguage(); 
+        self::$detailedLanguage = $lang;
+        self::$language = substr($lang, 0, strpos($lang, '-'));
+        Log::verbose('[USERAGENT] parseUserAgentSource: detailed language > ' . self::$detailedLanguage);
         Log::verbose('[USERAGENT] parseUserAgentSource: language > ' . self::$language);
     }
 
