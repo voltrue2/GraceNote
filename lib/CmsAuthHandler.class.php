@@ -14,8 +14,9 @@ class CmsAuthHandler {
 		$sess = $cnt->getSession();
 		if ($sess && isset($sess['id']) && isset($sess['user']) && isset($sess['lastLogin'])) {
 			// language list
-			$st = new StaticData('system/cms/languages.csv');
-			$view->assign('languages', $st->getMany());
+            $dm = new DataModel('StaticData');
+            $sd = $dm->staticData();
+            $view->assign('languages', $sd->getMany('system/cms/languages.csv'));
 			// session data
 			self::$sess = $sess;
 			$view->assign('cmsUser', $sess);

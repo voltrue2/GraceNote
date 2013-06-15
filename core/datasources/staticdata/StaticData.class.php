@@ -1,72 +1,117 @@
 <?php
+
 class StaticData {
 	
-	private $srcPath = null;
-	private $fullPath = null;	
-	private $csvRules = null;
-	private $cache = null;
-	private $cachedData = null;
+	private $cache;
+	private $conf;
+	private $srcPath;
+	private $csvRules;
+
 	/**
 	* Configurations
-	* "StaticData": {
+	* NameOfYourChoice will be $confName used in the constructor
+	* "NameOfYourChoice": {
 	*	"sourcePath": "path/to/your/static/files/directory/"
 	*	"csvParseRules": { "delimiter": ",", "enclosure": "\"" }
 	* }
 	*/
-	public function StaticData($filePath, $get = true, $confName = 'StaticData') {
+	public function StaticData($confName) {
+		$this->cache = new Cache();
 		$conf = Config::get($confName);
-		if ($conf && isset($conf['sourcePath'])) {
-			$this->srcPath = $conf['sourcePath'];
-			$this->cache = new Cache();
-			if (isset($conf['csvParseRules']) && isset($conf['csvParseRules']['delimiter']) && isset($conf['csvParseRules']['enclosure'])) {
-				$this->csvRules = $conf['csvParseRules'];
-				$this->fullPath = $this->srcPath . $filePath;
-				if ($get) {
-					// we do not read the file 
-					$this->cachedData = $this->get($filePath);
-				}
-				return;
-			}
+		if (!$conf) {
+			Log::error('[STATICDATA] constructor: missing configurations');
 		}
-		Log::error('StaticData::constructor > Configurations missing >>', $conf);
+		if (!isset($conf['sourcePath'])) {
+			Log::error('[STATICDATA] constructor: missing configuration "sourcePath"');
+		} else {
+			$this->srcPath = $conf['sourcePath'];
+		}
+		if (!isset($conf['csvParseRules'])) {
+			Log::error('[STATICDATA] constructor: missing configuration "csvRules"');
+		} else {
+			$this->csvRules = $conf['csvParseRules'];
+		}
 	}
 
-	public function getOne($index = 0) {
-		if (isset($this->cachedData[$index])) {
-			return $this->cachedData[$index];
+	public function getOne($fileNames, $index = 0) {
+		$data = $this->getData($fileNames);
+		if ($data && isset($data[$index])) {
+			return $data[$index];
 		}
 		return null;
 	}
 
-	public function getMany() {
-		return $this->cachedData;
+	public function getMany($fileNames) {
+		return $this->getData($fileNames);
 	}
-	
-	// merge another data from StaticData
-	public function merge($sdList, $index = null) {
-		if (!is_array($sdList)) {
-			$sdList = array($sdList);
+
+	private function getData($fileNames) {
+		$startTime = microtime(true);
+		// support array and a single variable
+		if (!is_array($fileNames)) {
+			$fileNames = array($fileNames);
 		}
-		if ($index === null) {
-			$myData = $this->getMany();
-			$res = array();
-			for ($i = 0, $len = count($sdList); $i < $len; $i++) {
-				$data = $sdList[$i]->getMany();
-				for ($i = 0, $len = count($myData); $i < $len; $i++) {
-					$myData[$i] = $this->uniqueMerge($myData[$i], ($data[$i]) ? $data[$i] : null);
+		try {
+			$dataList = array();
+			for ($i = 0, $len = count($fileNames); $i < $len; $i++) {
+				$filePath = $this->srcPath . $fileNames[$i];
+				$mtime = filemtime($filePath); 
+				// try cache
+				$key = '_SD_:' . $filePath . $mtime;
+				$data = $this->cache->get($key);
+				if (!$data) {
+					// no cache
+					$data = $this->readFile($fileNames[$i]);
+					if ($data) {
+						// set cache
+						$this->cache->set($key, $data);
+						// add data to list
+						$dataList[] = $data;
+					}
+				} else {
+					// there is cache
+					$dataList[] = $data;
 				}
 			}
-			return $myData;
+			$mergedData = $this->mergeData($dataList);
+			$endTime = microtime(true);
+			$time = (string)substr((($endTime - $startTime) * 1000), 0, 8);
+			Log::verbose('[STATICDATA] getData: ' . implode(',', $fileNames) . ' took [' . $time. ' msec] to execute');
+			return $mergedData;
+		} catch (Exception $e) {
+			Log::error('[STATICDATA] getData: ' . $e->getMessage());
+			return null;
+		}
+	}
+
+	private function readFile($filePath) {
+		// check if it is a directory
+		if (is_dir($this->srcPath . $filePath)) {
+			// directory
+			$fs = new FileSystem($this->srcPath);
+			$fileList = $fs->listAllFiles($filePath);
+			$dataList = array();
+			for ($i = 0, $len = count($fileList); $i < $len; $i++) {
+				$dataList[$i] = $this->handleData($fileList[$i]['path']);
+			}
+			return $mergedData = $this->mergeData($dataList);
 		} else {
-			$myData = $this->getOne($index);
-			for ($i = 0, $len = count($sdList); $i < $len; $i++) {
-				$data = $sdList[$i]->getOne($index);
-				for ($i = 0, $len = count($myData); $i < $len; $i++) {
-					$myData = $this->uniqueMerge($myData, $data);
-				}
-			}
-			return $myData;
+			// file
+			return $this->handledata($this->srcPath . $filePath);
 		}
+	}
+
+	private function mergeData($dataList) {
+		$mergedData = array();
+		for ($i = 0, $len = count($dataList); $i < $len; $i++) {
+			$rlen = max(count($mergedData), count($dataList[$i]));
+			for ($rows = 0; $rows < $rlen; $rows++) { 
+				$data1 = (isset($mergedData[$rows])) ? $mergedData[$rows] : array();
+				$data2 = (isset($dataList[$i][$rows])) ? $dataList[$i][$rows] : array();
+				$mergedData[$rows] = $this->uniqueMerge($data1, $data2);
+			}
+		}
+		return $mergedData;
 	}
 	
 	private function uniqueMerge($data1, $data2) {
@@ -84,73 +129,22 @@ class StaticData {
 		}
 		return $data1;
 	}
-	
-	public function getSource() {
-		$timestamp = filemtime($this->fullPath);
-		$key = 'SDS' . str_replace('/', '', $this->fullPath) . $timestamp;
-		// try cache first
-		$content = $this->cache->get($key);
-		if (!$content) {
-			$content = file_get_contents($this->fullPath);
-			if ($content) {
-				// set cache
-				$this->cache->set($key, $content);
-			}
-		}
-		return $content;
-	}
-	
-	public function getSourcePath() {
-		return $this->srcPath;
-	}
 
-	public function set($value, $mod = 0600) {
-		$path = $this->fullPath;
-		$resource = fopen($path, 'w');
-		if ($resource) {
-			if (is_array($value) || is_object($value)) {
-				$value = json_encode($value);
-			}
-			$success = fwrite($resource, $value);
-			fclose($resource);
-			chmod($path, $mod);
-			Log::info('[STATICDATA] set > "' . $path . '" >> ' . $value . '[success: ' . (($success) ? 'true' : 'false') . ']');
-			return $success;
+	private function handleData($path) {
+		$data = file_get_contents($path);
+		$fileType = pathinfo($path, PATHINFO_EXTENSION);
+		if ($fileType === 'csv') {
+			$data = $this->csvToJson($data);
 		}
-		Log::warn('[STATICDATA] set > failed to set > ' . $path);
-		return false;	
+		return $data;
 	}
-
-	private function get($filePath) {
-		$path = $this->srcPath . $filePath;
-		$timestamp = filemtime($path);
-		$key = $path . $timestamp;
-		$content = $this->cache->get($key);
-		if (!$content) {
-			// there is no cache read the file
-			$content = file_get_contents($path);
-			if ($content) {
-				// check file type				
-				$fileType = pathinfo($filePath, PATHINFO_EXTENSION);
-				if ($fileType === 'csv') {
-					// we need to parse this into a JSON
-					$content = $this->csvToJson($content);
-				} else if ($fileType === 'json') {
-					$content = json_decode($content, true);
-				}
-				// set cache
-				$this->cache->set($key, $content);
-			}
-		}
-		return $content;
-	} 
 
 	private function csvToJson($content) {
 		$delimiter = '/' . $this->csvRules['delimiter'] . '/';
 		$enclosure = $this->csvRules['enclosure'];
 		$rows = preg_split('/\r\n+|\r+|\n+|\t+/i', $content, -1, PREG_SPLIT_NO_EMPTY);
+		$res = array();
 		if ($rows) {
-			$res = array();
 			$keys = preg_split($delimiter, mb_ereg_replace($enclosure, '', $rows[0]), -1, PREG_SPLIT_NO_EMPTY); // use first row as keys
 			$total = count($rows);
 			$index = 0;
@@ -175,6 +169,7 @@ class StaticData {
 			}
 		}
 		return $res;
-	}	
+	}
 }
+
 ?>

@@ -62,7 +62,7 @@ class DataModel {
 		if ($this->type !== 'file') {
 			return $this->notAvailable('staticData');
 		}
-		return new FileData($this->confName); 
+		return new StaticData($this->confName); 
 	}
 
 	private function searchProp($key, $value, $obj) {

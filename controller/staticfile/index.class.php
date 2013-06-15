@@ -121,9 +121,10 @@ class Staticfile Extends Controller {
 
 	public function getFileData() {
 		$path = $this->getQuery('path');
-		$sd = new StaticData($path);
-		$data = $sd->getMany();
-		$this->view->assign('data', $data);
+        $dm = new DataModel('StaticData');
+        $fd = $dm->staticData();
+        $data = $fd->getMany($path);
+        $this->view->assign('data', $data);
 		$useGzip = true;
 		$this->view->respondJson($useGzip);
 	}

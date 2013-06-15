@@ -33,10 +33,8 @@ Loader::import('core', 'Controller.class.php');
 Loader::import('core', 'View.class.php');
 // import Asset globally
 Loader::import('core', 'asset/Asset.class.php');
-// import StaticData globally
-Loader::import('datasources', 'staticdata/StaticData.class.php');
 // import FileData globally
-Loader::import('datasources', 'staticdata/FileData.class.php');
+Loader::import('datasources', 'staticdata/StaticData.class.php');
 // import SqlConfig, SqlConnection, SqlRead, SqlData, QueryBuildber, and SqlWrite globally
 Loader::import('datasources', 'sql/SqlConfig.class.php');
 Loader::import('datasources', 'sql/SqlConnection.class.php');
