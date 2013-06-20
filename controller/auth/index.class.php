@@ -66,7 +66,7 @@ class Auth extends Controller {
 			$sessionValue['fileRestriction'] = $authenticated['file_restriction'];
 			$sessionValue['lastLogin'] = strtotime('NOW');
 			// regenerate session id for security
-			session_regenerate_id();
+			session_regenerate_id(true);
 			// update session
 			$this->setSession($sessionValue);
 			// update last_login

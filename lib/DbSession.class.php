@@ -22,7 +22,7 @@ class DbSession {
 
 	// called on session_start
 	public function start($savePath, $sessionName) {
-		return true;
+        return true;
 	}
 	
 	// called on session_end
@@ -36,10 +36,10 @@ class DbSession {
 		$this->table->where('session_id = ?', $sessionId);
 		$this->table->and('expr >= ?', strtotime('NOW'));
 		$res = $this->table->getOne(0, false);
-		if ($res && isset($res['value'])) {
+        if ($res && isset($res['value'])) {
 			return $res['value'];
 		}
-		return null;
+        return null;
 	}
 	
 	// called on session_write
@@ -50,22 +50,9 @@ class DbSession {
 			$expr = strtotime('+ ' . $this->duration);
 		}
 		if ($value) {
-			/*
-			// try to update first
-			$this->table->where('session_id = ?', $sessionId);
-			$this->table->set('value', $value);
-			$this->table->set('expr', $expr);
-			$res = $this->table->update();
-			if (!$res) {
-				// now try insert
-				$this->table->set('session_id', $sessionId);
-				$this->table->set('value', $value);
-				$this->table->set('expr', $expr);
-				$res = $this->table->save();
-			}
-			*/
-			$this->destroy($sessionId);
-			$this->table->set('session_id', $sessionId);
+            $this->destroy($sessionId);
+            session_regenerate_id(true);
+            $this->table->set('session_id', session_id());
 			$this->table->set('value', $value);
 			$this->table->set('expr', $expr);
 			$res = $this->table->save();	
@@ -102,4 +89,5 @@ session_set_save_handler(
 	array(&$session, 'destroy'), 
 	array(&$session, 'gc')
 );
+session_start();
 ?>

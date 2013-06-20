@@ -1,9 +1,7 @@
 <?php
-// start session
-session_start();
 // use EventEmitter
 Loader::import('lib', 'EventEmitter.class.php');
-// use session
+// use session and start session
 Loader::import('lib', 'DbSession.class.php');
 // use CMS auth handler
 Loader::import('lib', 'CmsAuthHandler.class.php');
