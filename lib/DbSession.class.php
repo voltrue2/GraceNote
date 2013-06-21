@@ -39,7 +39,6 @@ class DbSession {
         if ($res && isset($res['value'])) {
 			return $res['value'];
 		}
-		$this->destroy($sessionId);
 		return null;
 	}
 	
