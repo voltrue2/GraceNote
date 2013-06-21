@@ -45,12 +45,32 @@ class StaticData {
 		return $this->getData($fileNames);
 	}
 
-	private function getData($fileNames) {
-		$startTime = microtime(true);
-		// support array and a single variable
+	private function getAllPaths($fileNames) {
+		$fs = new FileSystem($this->srcPath);
+		$pathList = array();
 		if (!is_array($fileNames)) {
 			$fileNames = array($fileNames);
 		}
+		for ($i = 0, $len = count($fileNames); $i < $len; $i++) {
+			$path = $fileNames[$i];
+			if (is_dir($this->srcPath . $path)) {
+				$list = $fs->listAllFiles($path);
+				if (!empty($list)) {
+					for ($j = 0, $jen = count($list); $j < $jen; $j++) {
+						$item = $list[$j];
+						$pathList[] = $item['directoryPath'] . $item['name'];
+					}
+				}
+			} else {
+				$pathList[] = $path;
+			}
+		}
+		return $pathList;
+	}
+
+	private function getData($fileNames) {
+		$startTime = microtime(true);
+		$fileNames = $this->getAllPaths($fileNames);
 		try {
 			$dataList = array();
 			for ($i = 0, $len = count($fileNames); $i < $len; $i++) {

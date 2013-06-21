@@ -19,7 +19,7 @@ class Text {
 			$lang = $sess['lang'];
 		}
 		// default
-        if ($lang == '') {
+    	if ($lang == '') {
 			$lang = self::getLang();
 		}
 		// TODO: dont hard code 'StaticData'

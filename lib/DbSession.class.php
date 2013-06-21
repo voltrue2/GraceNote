@@ -39,7 +39,8 @@ class DbSession {
         if ($res && isset($res['value'])) {
 			return $res['value'];
 		}
-        return null;
+		$this->destroy($sessionId);
+		return null;
 	}
 	
 	// called on session_write
@@ -51,7 +52,7 @@ class DbSession {
 		}
 		if ($value) {
             $this->destroy($sessionId);
-            session_regenerate_id(true);
+			session_regenerate_id(true);
             $this->table->set('session_id', session_id());
 			$this->table->set('value', $value);
 			$this->table->set('expr', $expr);
