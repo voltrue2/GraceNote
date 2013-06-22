@@ -12,9 +12,5 @@ Loader::import('lib', 'Text.class.php');
 Text::setup('CmsText');
 // use Encrypt
 Loader::import('lib', 'Encrypt.class.php');
-// use  Report
-Loader::import('lib', 'Report.class.php');
-// set up CMS report
-Loader::import('lib', 'cmsReport.php');
 
 ?>

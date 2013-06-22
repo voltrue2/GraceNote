@@ -26,7 +26,10 @@ class MemSession {
 	
 	// called on session_read
 	public function read($sessionId) {
-		$res = $this->cache->get($this->prefix . $sessionId);
+		$res = $this->cache->get($this->getKey($sessionId));
+
+		Log::debug('read >>>>> ' . $sessionId, $res);
+		
 		if ($res) {
 			if ($res['expr'] >= strtotime('NOW')) {
 				Log::debug('MemSession::read (sessionId: ' . $sessionId . ') >> ', $res);
@@ -46,17 +49,26 @@ class MemSession {
 			// if no expriation date provided, set the expriation date for 24 hours
 			$expr = strtotime('+ ' . $this->duration);
 		}
+		// destroy old session
+		$this->destroy($sessionId);
+		session_regenerate_id(true);
 		// override the session
 		$session = array(
 			'expr' => $expr,
 			'value' => $value
 		);
-		return $this->cache->set($this->prefix . $sessionId, $session);
+
+		Log::debug('session write >>>>>>>>>> ', session_id(), $session);
+
+		return $this->cache->set($this->getKey(session_id()), $session);
 	}
 	
 	// called on session destroy
 	public function destroy($sessionId){
-		return $this->cache->delete($sessionId);
+
+		LOg::debug('session destroy -----------------> ', $sessionId);
+		
+		return $this->cache->delete($this->getKey($sessionId));
 	}
 	
 	// called on session garbage control
@@ -64,6 +76,10 @@ class MemSession {
 		$now = strtotime('NOW');
 		// TODO: maybe we need to clean cache?
 		return true;
+	}
+
+	private function getKey($sessionId) {
+		return $this->prefix . $sessionId;
 	}
 }
 
@@ -77,4 +93,6 @@ session_set_save_handler(
 	array(&$session, 'destroy'), 
 	array(&$session, 'gc')
 );
+session_name('GNS');
+session_start();
 ?>
