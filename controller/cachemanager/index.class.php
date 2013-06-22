@@ -40,7 +40,7 @@ class CacheManager extends Controller {
 					$body = substr($key, strlen($head), strlen($search));
 					$tail = substr($key, strlen($head) + strlen($body));
 					$key = $head . '<span style="text-decoration: underline; color: #f00;">' . $body . '</span>' . $tail;
-					$list[] = array('key' => $key, 'value' => $val);
+					$list[] = array('key' => $key);
 					$counter += 1;
 				}
 			}
@@ -52,7 +52,7 @@ class CacheManager extends Controller {
 					break;
 				}
 				if ($val = $cache->get($keyList[$i], false)) {
-					$list[] = array('key' => $keyList[$i], 'value' => $val);
+					$list[] = array('key' => $keyList[$i]);
 					$counter += 1;
 				}
 			}

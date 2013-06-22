@@ -28,12 +28,13 @@
 	window.getPreview = function (index) {
 		window.lightbox.show(700, 500, function (bar, box, close) {
 			var container = box.createChild('div', { width: '700px', height: '480px', overflow: 'scroll' });
-			/*
-			var key = '<div style="text-align:center; margin: 5px; font-size: 15px; height: 30px;">';
-			key += window.list[index].key + '</div>';
-			container.html(key + window.beautify(window.list[index].value));
-			*/
-			var dataTreeUi = new window.DataTreeUi(container, window.list[index], { expand: true });
+			var uri = '/cachemanager/getValue/';
+			loader.ajax(uri, { key: window.list[index].key }, function (error, req, res){
+				if (error) {
+					return alert(window.text.failedMsg);
+				}
+				var dataTreeUi = new window.DataTreeUi(container, { key: window.list[index].key, value: res.value }, { expand: true });
+			});
 		});
 		
 	}
