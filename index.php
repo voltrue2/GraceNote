@@ -7,6 +7,8 @@ Loader::import('lib', 'DbSession.class.php');
 Loader::import('lib', 'CmsAuthHandler.class.php');
 // use CMS data class
 Loader::import('lib', 'CmsData.class.php');
+// use text sanitize
+Loader::import('lib', 'Sanitize.class.php');
 // use Text
 Loader::import('lib', 'Text.class.php');
 Text::setup('CmsText');
