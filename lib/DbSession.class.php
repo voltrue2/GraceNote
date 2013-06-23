@@ -5,8 +5,6 @@ class DbSession {
 	private $table;
 	private $conf;
 	private $duration = 0;
-	private $nameKey = 'gn-s';
-	private $domain;
 
 	public function DbSession(){
 		$this->conf = Config::get('DbSession');
