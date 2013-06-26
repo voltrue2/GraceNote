@@ -57,8 +57,8 @@ class Loader {
 		if (!empty(self::$templateVars)) {
 			$start = microtime(true);
 			$var = '';
-            $cls = '';
-            $init = '';
+			$cls = '';
+			$init = '';
 			if ($namespace) {
 				$cls = $namespace . '.';
 			} else {
@@ -70,7 +70,7 @@ class Loader {
                     $value = '""';
                 }
 				$value = mb_ereg_replace('<(.|\n)*?>', '', $value);
-                $var .= $cls . $key . ' = ' . $value . '; ';
+				$var .= $cls . $key . ' = ' . $value . '; ';
 				Log::debug('[LOADER] jsVars: assgined > ' . $cls . $key);
 			}
 			$end = microtime(true);

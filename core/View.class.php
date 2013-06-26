@@ -45,20 +45,24 @@ class View {
 	// output to the client as JSON
     public function respondJson($gzip = true, $headerCode = null) {
         $code = $this->router->getHeaderCode($headerCode);
-        if ($code) {
-            header('HTTP/1.1 ' . $code);
+		$string = JSON::stringify($this->vars);
+		if (!$string) {
+			$string = '{}';
+		}
+		if ($code) {
+			header('HTTP/1.1 ' . $code);
         }
 		if ($gzip) {
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Content-Type: text/plain');
 			header('Content-Encoding: gzip');
 			ob_start('ob_gzhandler');
-			echo JSON::stringify($this->vars);
+			echo $string;
 			ob_end_flush();
 		} else {
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Cache-Type: application/json");
-			echo JSON::stringify($this->vars);
+			echo $string;
 		}
 	}
 	

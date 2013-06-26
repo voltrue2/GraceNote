@@ -15,7 +15,6 @@ class DbSession {
 			$dm = new DataModel($this->conf['db']);
 			$this->table = $dm->table('sessions');
 			$this->duration = $this->conf['duration'];
-			$this->domain = $this->conf['domain'];
 		} catch (Exception $e) {
 			Log::debug($e->getMessage());
 		}

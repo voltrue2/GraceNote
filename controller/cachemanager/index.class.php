@@ -70,7 +70,8 @@ class CacheManager extends Controller {
 	public function getValue() {
 		$key = $this->getQuery('key');
 		$cache = new Cache();
-		$this->view->assign('value', Sanitize::escapeHTML($cache->get($key, false)));
+		$value = $cache->get($key, false);
+		$this->view->assign('value', $value);
 		$this->view->respondJson();
 	}
 
