@@ -22,6 +22,7 @@ try {
 	// create table
 	$sess->setColumn('session_id', 'varchar');
 	$sess->setColumn('value', 'text');
+	$sess->setColumn('signature', 'varchar');
 	$sess->setColumn('expr', 'int');
 	$sess->create();
 	if (!$res) {

@@ -28,7 +28,8 @@ class Controller {
 	}
 
 	public function removeSession() {
-		Log::info('[CONTROLLER] removeSession');
+		Log::info('[CONTROLLER] removeSession: ' . session_name());
+		setcookie(session_name(), null);
 		session_destroy();
 	}
 	
