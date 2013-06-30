@@ -93,8 +93,7 @@ class Router {
 				}
 			}
 		}
-		// upper case the first char of controller
-		$this->controller = strtolower($this->controller);
+		$this->controller = $this->controller;
 	}
 
 	public function createController($view, $startTime) {
@@ -203,8 +202,9 @@ class Router {
 		if ($success) {
 			$classes = get_declared_classes();
 			$res = preg_grep('/' . $controller . '/i', $classes);
+			$cnt = strtolower($controller);
 			foreach ($res as $cls) {
-				if ($controller === strtolower($cls)) {
+				if ($cnt === strtolower($cls)) {
 					$className = $cls;
 					break;
 				}
