@@ -65,10 +65,10 @@ class Loader {
 				return Log::warn('[LOADER] jsVars > namespace cannot be empty');
 			}
 			foreach (self::$templateVars as $key => $value) {
-                $value = JSON::stringify($value);
-                if ($value === null) {
-                    $value = '""';
-                }
+				$value = JSON::stringify($value);
+				if ($value === null) {
+					$value = '""';
+				}
 				$value = mb_ereg_replace('<(.|\n)*?>', '', $value);
 				$var .= $cls . $key . ' = ' . $value . '; ';
 				Log::debug('[LOADER] jsVars: assgined > ' . $cls . $key);
@@ -81,9 +81,9 @@ class Loader {
 			} else {
 				$namespace = '.' . $namescape;
             }
-            if ($namespace) {
-                $init = 'window.' . $namespace . ' = {}; ';
-            }
+			if ($namespace) {
+				$init = 'window.' . $namespace . ' = {}; ';
+			}
 			return '<script type="text/javascript">(function () {try { ' . $init . $var . ' } catch (Exception) { console.error(Exception); } }());</script>';
 		}
 		return '';
