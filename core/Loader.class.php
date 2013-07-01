@@ -80,7 +80,7 @@ class Loader {
 				$namespace = '';
 			} else {
 				$namespace = '.' . $namescape;
-            }
+			}
 			if ($namespace) {
 				$init = 'window.' . $namespace . ' = {}; ';
 			}
