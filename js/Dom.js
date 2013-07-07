@@ -4,11 +4,11 @@
 var eventNameAlias = {};
 var allowedEvents = null;
 var buttonEvents = {
-	'mousedown': 'tapstart',
-	'mouseup': 'tapend',
-	'mousemove': 'tapmove',
-	'mouseover': 'over',
-	'mouseuout': 'out'
+	'mousedown': '_tapstart',
+	'mouseup': '_tapend',
+	'mousemove': '_tapmove',
+	'mouseover': '_over',
+	'mouseuout': '_out'
 };
 var touchEventMap = {
 	mousedown: 'touchstart',
@@ -92,6 +92,7 @@ function button(dom) {
 			over = false;
 		}
 	});
+	
 	dom.on(buttonEvents.mousedown, function (event) {
 		if (!start) {
 			start = {
@@ -101,11 +102,12 @@ function button(dom) {
 			this.emit('tapstart', event);
 		}
 	});
+	
 	dom.on(buttonEvents.mouseup, function (event) {
 		if (start) {
 			var x = event.x || x;
 			var y = event.y || y;
-			if (Math.abs(start.x - x) <= allowedMovement && Math.abs(start.y - y) <= allowdMovement) {
+			if (Math.abs(start.x - x) <= allowedMovement && Math.abs(start.y - y) <= allowedMovement) {
 				this.emit('tapend', event);
 			} else {
 				this.emit('tapcancel', event);
@@ -243,31 +245,29 @@ Dom.prototype.remove = function () {
 };
 
 /*
-* eventList { eventName: aliasForEvent } 
+* eventMap { eventName: aliasForEvent } 
 * Example: { mousedown: 'tapstart', touchstart: 'tapstart' } 
 * dom.on('tapstart', function) will listen to both mousedown and touchstart
 * this function detects availability of touch events automatically, if touch events are detected, the following events will be treated as:
 * mousedown > touchstart, mouseup > touchend, mousemove > touchmove
 */
-Dom.prototype.allowEvents = function (eventList) {
+Dom.prototype.allowEvents = function (eventMap) {
 	var that = this;
 	var callback = function (event) {
 		that.emit(that._eventNameAlias[event.type] || event.type, event);
 	};
-	
 	// auto detect touch events
 	var canTouch = false;	
 	if ('ontouchstart' in document.documentElement) {
 		canTouch = true;
 	}
-	for (var i = 0, len = eventList.length; i < len; i++) {
-		var event = eventList[i];
-		if (canTouch && touchEventMap[event]) {
-			event = touchEventMap[event];
+	for (var eventName in eventMap) {
+		var eventAlias = eventMap[eventName];
+		that._eventNameAlias[eventName] = eventAlias;
+		if (canTouch && touchEventMap[eventAlias]) {
+			eventName = touchEventMap[eventAlias];
 		}
-		if (event) {
-			this._src.addEventListener(event, callback, false);
-		}
+		this._src.addEventListener(eventName, callback, false);
 	}
 };
 
