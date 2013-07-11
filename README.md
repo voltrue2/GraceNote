@@ -1,3 +1,7 @@
+*Author: Nobuyori Takahashi 
+> since 2010 to present
+> contact: voltrue2@yahoo.com
+
 # Get started with GraceNote
 - What you have to do first
 > Create an index file in your document root directory that points to GraceNote/core/main.php file

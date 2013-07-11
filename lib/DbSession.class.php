@@ -39,7 +39,7 @@ class DbSession {
 		$res = $this->table->getOne(0, false);
 		if ($res && isset($res['value'])) {
 			// check user signature
-			if (!isset($res['signature']) || $res['signature'] === $this->getUserSignature()) {
+			if (isset($res['signature']) && $res['signature'] === $this->getUserSignature()) {
 				return $res['value'];
 			}
 		}
@@ -54,7 +54,7 @@ class DbSession {
 			$expr = strtotime('+ ' . $this->duration);
 		}
 		if ($value) {
-            $this->destroy($sessionId);
+			$this->destroy($sessionId);
 			session_regenerate_id(true);
 			$this->table->set('session_id', session_id());
 			$this->table->set('value', $value);
