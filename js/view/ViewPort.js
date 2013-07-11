@@ -212,7 +212,7 @@
 				that._views[name].setStyle({ zIndex: 0, display: 'none' });
 			}
 		});
-		this._views[name].emit('close', params;
+		this._views[name].emit('close', params);
 		this.emit('closePopup', name, params);
 	};
 
