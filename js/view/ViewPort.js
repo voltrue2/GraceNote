@@ -204,9 +204,9 @@
 		if (index === -1) {
 			return window.log.debug(name, 'has not been opened as a popup');
 		}
-		this._stack.splice(index, 1);
 		var that = this;
 		this._views[name].once('closed', function () {
+			that._stack.splice(index, 1);
 			if (that._type === that.DOM) {
 				that._views[name].setStyle({ zIndex: 0, display: 'none' });
 			}
