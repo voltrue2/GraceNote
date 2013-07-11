@@ -163,7 +163,7 @@
 		if (this._currentView) {
 			var that = this;
 			prevView = this._views[this._currentView];
-			prevView.emit('close', this);
+			prevView.emit('close', params);
 		}
 		this._currentView = name;
 		var that = this;
@@ -177,7 +177,7 @@
 			}
 		});
 		currentView.emit('open', params);
-		this.emit('open', name);
+		this.emit('open', name, params);
 	};
 
 	ViewPort.prototype.openPopup = function (name, params) {
@@ -192,9 +192,10 @@
 			}
 		});
 		this._views[name].emit('open', params);
+		this.emit('openPopup', name, params);
 	};
 
-	ViewPort.prototype.closePopup = function (name) {
+	ViewPort.prototype.closePopup = function (name, params) {
 		// if name is given, it will close the given popup.
 		if (!name) {
 			// if no name is given, it will close the oldest popup
@@ -211,7 +212,8 @@
 				that._views[name].setStyle({ zIndex: 0, display: 'none' });
 			}
 		});
-		this._views[name].emit('close', this);
+		this._views[name].emit('close', params;
+		this.emit('closePopup', name, params);
 	};
 
 	function runTweens(tweens) {
