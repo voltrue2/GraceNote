@@ -11,11 +11,11 @@ var buttonEvents = {
 	'mouseuout': '_out'
 };
 var touchEventMap = {
-	mousedown: 'touchstart',
-	mouseup: 'touchend',
-	mousemove: 'touchmove',
-	mouseover: false, // will be ignored on touch device
-	mouseout: false // will be ignored on touch device
+	_tapstart: 'touchstart',
+	_tapend: 'touchend',
+	_tapmove: 'touchmove',
+	_over: false, // will be ignored on touch device
+	_out: false // will be ignored on touch device
 };
 
 function Dom(srcElm) {
@@ -78,8 +78,8 @@ function getById(id) {
 function button(dom) {
 	dom.allowEvents(buttonEvents);
 	var over = false;
-	var start = false;
-	var allowedMovement = 5;	
+	var start = null;
+	var allowedMovement = 10;	
 	dom.on(buttonEvents.mouseover, function (event) {
 		if (!over) {
 			this.emit('mouseover', event);
@@ -95,24 +95,38 @@ function button(dom) {
 	
 	dom.on(buttonEvents.mousedown, function (event) {
 		if (!start) {
-			start = {
-				x: event.x || null,
-				y: event.y || null
-			};
+			var touch = null;
+			if (event.touches) {
+				touch = event.touches[0] || { pageX: 0, pageY: 0 };
+			} else {
+				touch = { pageX: event.x || 0, pageY: event.y || 0 };
+			}
+			start = { x: touch.pageX, y: touch.pageY };
 			this.emit('tapstart', event);
+		}
+	});
+	
+	dom.on(buttonEvents.mousemove, function (event) {
+		if (start) {
+			var touch = null;
+			if (event.touches) {
+				touch = event.touches[0] || { pageX: 0, pageY: 0 };
+			} else {
+				touch = { pageX: event.x || 0, pageY: event.y || 0 };
+			}
+			var x = touch.pageX;
+			var y = touch.pageY;
+			if (Math.abs(start.x - x) > allowedMovement || Math.abs(start.y - y) > allowedMovement) {
+				this.emit('tapcancel', event);
+				start = null;
+			}
 		}
 	});
 	
 	dom.on(buttonEvents.mouseup, function (event) {
 		if (start) {
-			var x = event.x || x;
-			var y = event.y || y;
-			if (Math.abs(start.x - x) <= allowedMovement && Math.abs(start.y - y) <= allowedMovement) {
-				this.emit('tapend', event);
-			} else {
-				this.emit('tapcancel', event);
-			}
-			start = false;
+			this.emit('tapend', event);
+			start = null;
 		}	
 	});
 }
@@ -263,10 +277,10 @@ Dom.prototype.allowEvents = function (eventMap) {
 	}
 	for (var eventName in eventMap) {
 		var eventAlias = eventMap[eventName];
-		that._eventNameAlias[eventName] = eventAlias;
 		if (canTouch && touchEventMap[eventAlias]) {
 			eventName = touchEventMap[eventAlias];
 		}
+		that._eventNameAlias[eventName] = eventAlias;
 		this._src.addEventListener(eventName, callback, false);
 	}
 };
