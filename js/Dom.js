@@ -188,6 +188,14 @@ Dom.prototype.exec = function (funcName, callback) {
 	}
 };
 
+Dom.prototype.getWidth = function () {
+	return this._src.clientWidth || null;
+};
+
+Dom.prototype.getHeight = function () {
+	return this._src.clientHeight || null;
+};
+
 Dom.prototype.setAttribute = function (attributes) {
 	for (var key in attributes) {
 		this._src.setAttribute(key, attributes[key]);
