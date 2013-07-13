@@ -92,7 +92,6 @@ function button(dom) {
 			over = false;
 		}
 	});
-	
 	dom.on(buttonEvents.mousedown, function (event) {
 		if (!start) {
 			var touch = null;
@@ -278,6 +277,14 @@ Dom.prototype.allowEvents = function (eventMap) {
 	var callback = function (event) {
 		that.emit(that._eventNameAlias[event.type] || event.type, event);
 	};
+	// if an array is given force it to be an object
+	if (Array.isArray(eventMap)) {
+		var tmp = [];
+		for (var i = 0, len = eventMap.length; i < len; i++) {
+			tmp[eventMap[i]] = eventMap[i];
+		}
+		eventMap = tmp;
+	}
 	// auto detect touch events
 	var canTouch = false;	
 	if ('ontouchstart' in document.documentElement) {
