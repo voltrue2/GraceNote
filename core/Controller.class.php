@@ -7,24 +7,17 @@ class Controller {
 	}
 	
 	public function getSession() {
-		$sessId = session_id();
-		if (isset($_SESSION[$sessId])) {
-			$sess =  $_SESSION[$sessId];
-			return $sess;
-		}
-		return null;
+		return $_SESSION;
 	}
 	
 	public function setSession($session) {
-		$sessId = session_id();
-		$_SESSION[$sessId] = $session;
+		foreach ($session as $key => $val) {
+			$_SESSION[$key] = $val;
+		}
 	}
 	
 	public function addSession($key, $value) {
-		$sessId = session_id();
-		$session = $_SESSION[$sessId];
-		$session[$key] = $value;
-		$_SESSION[$sessId] = $session;
+		$_SESSION[$key] = $value;
 	}
 
 	public function removeSession() {

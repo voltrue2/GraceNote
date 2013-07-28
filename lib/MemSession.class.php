@@ -28,7 +28,7 @@ class MemSession {
 	public function read($sessionId) {
 		$res = $this->cache->get($this->getKey($sessionId));
 
-		Log::debug('read >>>>> ' . $sessionId, $res);
+		Log::debug('read (' . $_SERVER['REQUEST_URI'] . ') >>>>> ' . $sessionId, $res);
 		
 		if ($res) {
 			if ($res['expr'] >= strtotime('NOW')) {
@@ -49,18 +49,16 @@ class MemSession {
 			// if no expriation date provided, set the expriation date for 24 hours
 			$expr = strtotime('+ ' . $this->duration);
 		}
-		// destroy old session
-		$this->destroy($sessionId);
-		session_regenerate_id(true);
 		// override the session
 		$session = array(
 			'expr' => $expr,
 			'value' => $value
 		);
+		$success = $this->cache->set($this->getKey(session_id()), $session);
 
-		Log::debug('session write >>>>>>>>>> ', session_id(), $session);
+		Log::debug('session write (' . $_SERVER['REQUEST_URI'] . ')>>>>>>>>>> ', session_id(), $session, $success);
 
-		return $this->cache->set($this->getKey(session_id()), $session);
+		return $success;
 	}
 	
 	// called on session destroy
