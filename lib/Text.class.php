@@ -19,7 +19,7 @@ class Text {
 			$lang = $sess['lang'];
 		}
 		// default
-    	if ($lang == '') {
+		if ($lang == '') {
 			$lang = self::getLang();
 		}
 		// TODO: dont hard code 'StaticData'
@@ -38,10 +38,10 @@ class Text {
 		self::$confName = $confName;
 	}
 
-    private static function getLang() {
-        if (isset(self::$langList[UserAgent::getLanguage()])) {
-            return self::$langList[UserAgent::getLanguage()];
-        }
-        return 0;
-    }
+	private static function getLang() {
+		if (isset(self::$langList[UserAgent::getLanguage()])) {
+			return self::$langList[UserAgent::getLanguage()];
+		}
+		return 0;
+	}
 }
