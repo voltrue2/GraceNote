@@ -49,7 +49,7 @@ Loader.prototype.ajax = function (pathSrc, options, cb) {
 		if (req.readyState === 4) {
 			try {
 				responded = true;
-                response = JSON.parse(req.responseText);
+				response = JSON.parse(req.responseText);
 				// check for errors
 				if (correctResponse[req.status]) {
 					// success
@@ -68,14 +68,14 @@ Loader.prototype.ajax = function (pathSrc, options, cb) {
 				if (timer) {
 					window.clearTimeout(timer);
 				}
-                cb(Exception, path);
+				cb(Exception, path);
 				console.error('Loader.ajax: ', path, Exception);
 				console.trace();
-                try {
-                    error = JSON.parse(error);    
-                } catch (Exception) {
-                    // do nothing    
-                }
+				try {
+					error = json.parse(error);    
+				} catch (exception) {
+					// do nothing    
+				}
 				self.emit('ajax.error', error, path, response);
 			}
 			// response back
@@ -302,7 +302,7 @@ function prepareValue(value) {
 }
 
 function preparePath(path) {
-	return path.replace(/\ /g, '%20');
+	return window.encodeURI(path);
 }
 
 }(window));
