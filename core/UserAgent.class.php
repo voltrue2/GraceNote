@@ -105,5 +105,3 @@ class UserAgent {
 
 UserAgent::setConfig(Config::get('UserAgent'));
 UserAgent::parseUserAgentSource();
-
-?>

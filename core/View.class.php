@@ -110,5 +110,3 @@ class View {
 		$this->router->handleError($errorCode, $this, microtime(true));
 	}
 }
-
-?>

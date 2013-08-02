@@ -328,4 +328,3 @@ class Datablock extends Controller {
 		return $list;
 	}
 }
-?>

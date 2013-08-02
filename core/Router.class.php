@@ -248,5 +248,3 @@ class Router {
 		return null;
 	}
 }
-
-?>

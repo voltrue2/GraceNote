@@ -37,4 +37,3 @@ class ClientLogger extends {
 	}
 
 }
-?>

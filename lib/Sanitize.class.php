@@ -10,5 +10,3 @@ class Sanitize {
 		return htmlspecialchars($text, ENT_QUOTES);
 	}
 }
-
-?>

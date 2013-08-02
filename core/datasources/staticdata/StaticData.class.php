@@ -191,5 +191,3 @@ class StaticData {
 		return $res;
 	}
 }
-
-?>

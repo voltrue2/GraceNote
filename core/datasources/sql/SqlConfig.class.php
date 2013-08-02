@@ -54,4 +54,3 @@ if ($conf) {
 } else {
 	exit('SqlConfig >> missing configurations...');
 }
-?>

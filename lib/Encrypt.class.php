@@ -16,4 +16,3 @@ class Encrypt {
 		return substr($salt, 0, strlen($salt) / 2) . substr($reversed, 0, strlen($reversed) / 2) . substr($salt, strlen($salt) / 2, strlen($salt)) . substr($reversed, strlen($reversed) / 2, strlen($reversed));
 	}
 }
-?>

@@ -115,4 +115,3 @@ class Dbmanager extends Controller {
 		$this->view->respondJson();
 	}
 }
-?>

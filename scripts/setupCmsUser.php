@@ -53,4 +53,3 @@ try {
 	error_log('*** Error >> ' . $error->getMessage());
 	$cmsAdmin->rollBack();	
 }
-?>

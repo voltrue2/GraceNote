@@ -150,5 +150,3 @@ class Staticfile Extends Controller {
 		return $path;
 	}
 }
-
-?>

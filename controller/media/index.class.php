@@ -28,4 +28,3 @@ class Media Extends Controller{
 		$this->view->respondImage($fullPath, $data, $res['mtime']);
 	}
 }
-?>

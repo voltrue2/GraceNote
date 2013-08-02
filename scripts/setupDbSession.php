@@ -34,4 +34,3 @@ try {
 	error_log('*** Error >> ' . $error->getMessage());
 	$sess->rollBack();	
 }
-?>

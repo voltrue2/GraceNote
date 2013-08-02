@@ -21,4 +21,3 @@ Loader::import('datasources', 'sql/SqlData.class.php');
 Loader::import('datasources', 'sql/SqlWrite.class.php');
 Loader::import('datasources', 'sql/QueryBuilder.class.php');
 Loader::import('datasources', 'DataModel.class.php');
-?>

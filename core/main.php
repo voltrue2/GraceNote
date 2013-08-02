@@ -54,4 +54,3 @@ $router = new Router();
 $view = new View($router);
 // create controller
 $controller = $router->createController($view, $startTime);
-?>

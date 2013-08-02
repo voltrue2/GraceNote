@@ -95,5 +95,3 @@ class Auth extends Controller {
 		$this->view->redirect('/', 200);
 	}
 }
-
-?>

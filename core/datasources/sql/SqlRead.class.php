@@ -241,5 +241,3 @@ class SqlRead {
 		Log::error('[SQLREAD] ' . $method . ': *** Error > ' . $error->getMessage());
 	}
 }
-
-?>

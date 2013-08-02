@@ -100,4 +100,3 @@ session_set_save_handler(
 );
 session_name('GNS');
 session_start();
-?>

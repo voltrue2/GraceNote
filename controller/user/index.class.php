@@ -160,4 +160,3 @@ class User extends Controller {
 		return $value;
 	}
 }
-?>

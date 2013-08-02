@@ -79,5 +79,3 @@ class Report {
 }
 
 Report::setConfig(Config::get('Report'));
-
-?>

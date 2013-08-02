@@ -527,4 +527,3 @@ class Editdatablock extends Controller {
 		return new DataModel($db);
 	}
 }
-?>

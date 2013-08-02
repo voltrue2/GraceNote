@@ -24,5 +24,3 @@ class CmsData {
 }
 
 CmsData::setConf(Config::get('CmsData'));
-
-?>

@@ -130,5 +130,3 @@ class GlobalEvent {
 }
 
 GlobalEvent::setup();
-
-?>

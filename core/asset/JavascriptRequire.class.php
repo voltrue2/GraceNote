@@ -29,4 +29,3 @@ class JavascriptRequire {
 		//return mb_ereg_replace_callback($pattern, $callback, $source);
 	} 
 }
-?>

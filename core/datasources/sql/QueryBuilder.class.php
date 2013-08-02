@@ -1397,4 +1397,3 @@ class QueryBuilder {
 		$this->typeFormats['timestamp without time zone'] = 'timestamp';   
 	}
 }
-?>

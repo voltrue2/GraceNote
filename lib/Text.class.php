@@ -45,5 +45,3 @@ class Text {
         return 0;
     }
 }
-
-?>

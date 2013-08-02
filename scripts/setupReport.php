@@ -21,5 +21,3 @@ $report->setColumn('type', 'varchar');
 $report->setColumn('value', 'varchar');
 $report->setColumn('created', 'varchar');
 $report->create('MYISAM');
-
-?>

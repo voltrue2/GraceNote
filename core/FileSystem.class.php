@@ -115,4 +115,3 @@ class FileSystem {
 		return $allFiles;
 	}
 }
-?>

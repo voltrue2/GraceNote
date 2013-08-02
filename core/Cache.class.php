@@ -106,5 +106,3 @@ class Cache {
 		return md5($keySrc);
 	}
 }
-
-?>

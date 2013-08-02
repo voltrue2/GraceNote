@@ -17,5 +17,3 @@ GlobalEvent::on('staticfile.upload', null, 'reportFileUpload');
 function reportFileUpload($params) {
 	Report::send('FILE.UPLOAD', $params[1], $params[0]['user']);
 }
-
-?>

@@ -44,5 +44,3 @@ class SqlData {
 		return (empty($res)) ? null : $res;
 	}
 }
-
-?>

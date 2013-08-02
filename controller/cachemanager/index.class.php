@@ -82,5 +82,3 @@ class CacheManager extends Controller {
 		return  $this->view->respondJson();
 	}
 }
-
-?>

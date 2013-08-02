@@ -28,5 +28,3 @@ class Statistic extends Controller {
 		$this->view->respondJson();
 	}
 }
-
-?>

@@ -159,5 +159,3 @@ class Asset {
 
 // set up Asset class with configurations
 Asset::setConf(Config::get('Asset'));
-
-?>
