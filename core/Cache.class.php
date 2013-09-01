@@ -6,7 +6,7 @@ class Cache {
 	private $expiration = '1 day'; // default is one day
 
 	/***
-	* Configuratio name: Memcache
+	* Configuration name: Memcache
 	* Configurations
 	* {
 	*	"host": "hostName",

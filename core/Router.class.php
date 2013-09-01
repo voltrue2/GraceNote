@@ -230,6 +230,18 @@ class Router {
 		if (method_exists($cnt, $method)) {
 			// call the method
 			try {
+				// check the required arguments for the controller method
+				$ref = new ReflectionMethod($cnt, $method);
+				$params = $ref->getParameters();
+				for ($i = 0, $len = count($params); $i < $len; $i++) {
+					$param = $params[$i];
+					if (!$param->isOptional() && !isset($this->params[$i])) {
+						// missing a required argument
+						Log::error('[ROUTER] missing required argument for controller method (' . $method . '): argument #' . $param->getPosition() . ' ' . $param->getName());
+						return null;
+					}
+				}
+				// call controller method	
 				call_user_func_array(array($cnt, $method), $this->params);
 				Log::debug('[ROUTER] Controller method called (' . $method . ')');
 			} catch (Exception $e) {

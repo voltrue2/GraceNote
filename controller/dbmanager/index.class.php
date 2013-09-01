@@ -32,7 +32,7 @@ class Dbmanager extends Controller {
 		$this->view->respondTemplate('dbmanager/index.html.php');
 	}
 
-	public function menu($db) {
+	public function menu($db = null) {
 		$this->view->assign('currentPage', null);
 		$this->view->assign('selectedDb', $db);
 		$this->view->respondTemplate('dbmanager/menu.html.php');
