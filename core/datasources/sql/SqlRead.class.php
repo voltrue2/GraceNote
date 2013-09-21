@@ -16,12 +16,12 @@ class SqlRead {
 	public function SqlRead($conf) {
 		// set up
 		try {
-			// create cache
-			$this->cache = new Cache();
 			// check config
 			if (!isset($conf)) {
 				throw new Exception('Invalid db name given > ' . json_encode($conf) );
 			}
+			// create cache
+			$this->cache = new Cache();
 			// check behavior
 			if (isset($conf['behavior']) && $conf['behavior'] !== $this->behavior) {
 				throw new Exception('SqlRead class expects behavior to be "' . $this->behavior . '" only, but "' . $conf['behavior'] . '" given');

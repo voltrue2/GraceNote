@@ -46,9 +46,13 @@ class Auth extends Controller {
 		if (!empty($list)) {
 			foreach ($list as $item) {
 				// check password
-				$passHash = Encrypt::getHashWithSalt($pass, $item['password_salt']);
-				if ($passHash === $item['password']) {
+				if (Encrypt::validateHash($pass, $item['hash'])) {
 					$authenticated = $item;
+					// regenerate hash for security
+					$newHash = Encrypt::createHash($pass);
+					$this->cmsAdmin->set('hash', $newHash);
+					$this->cmsAdmin->where('hash = ?', $item['hash']);
+					$this->cmsAdmin->update();
 					break;
 				}
 			}

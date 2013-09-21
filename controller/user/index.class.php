@@ -93,9 +93,9 @@ class User extends Controller {
 						break;
 					case 'password':
 						$pass = $this->cleanPassword($value);
-						$passwordData = Encrypt::createHashWithSalt($pass, 1);
-						$val = $passwordData['hash'];
-						$cmsAdmin->set('password_salt', $passwordData['salt']);			
+						$passHash = Encrypt::createHash($pass);
+						$val = $passHAsh;
+						$cmsAdmin->set('hash', $passHash);			
 						break;
 					case 'permission':
 						$val = $this->cleanPermission($value);

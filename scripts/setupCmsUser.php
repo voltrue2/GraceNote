@@ -25,20 +25,19 @@ try {
 	$cmsAdmin->setColumn('name', 'varchar', 15);
 	$cmsAdmin->setColumn('permission', 'int');
 	$cmsAdmin->setColumn('file_restriction', 'text');
-	$cmsAdmin->setColumn('password', 'text');
-	$cmsAdmin->setColumn('password_salt', 'text');
+	$cmsAdmin->setColumn('hash', 'varchar');
 	$cmsAdmin->setColumn('last_login', 'varchar', 100);
 	$cmsAdmin->setColumn('created', 'varchar', 100);
 	$cmsAdmin->create();
 	error_log('"cms_admin" table created');
 	error_log('creating a default root user...');
 	// create default root user
-	$passwordData = Encrypt::createHashWithSalt('changeme', 1);
+	$password = 'changeme';
+	$passHash = Encrypt::createHash($password);
 	$cmsAdmin->set('name', 'root');
 	$cmsAdmin->set('permission', 1);
 	$cmsAdmin->set('file_restriction', '/');
-	$cmsAdmin->set('password', $passwordData['hash']);
-	$cmsAdmin->set('password_salt', $passwordData['salt']);
+	$cmsAdmin->set('hash', $passHash);
 	$cmsAdmin->set('created', time());
 	$res = $cmsAdmin->save();
 	if (!$res) {

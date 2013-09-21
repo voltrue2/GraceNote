@@ -1,18 +1,22 @@
 <?php
 class Encrypt {
-	
-	public static function createHashWithSalt($srcStr, $uniqueId, $randRange = 300) {
+	// bigger the cost slow this method becomes
+	// how to validate the hash: crypt($str, $hash) === $storedHash
+	public static function createHash($str) {
 		// create salt
-		$salt = strrev(hash('sha512', mt_rand(0, $randRange) . $uniqueId));
-		// create hash with salt
-		$hash = self::getHashWithSalt($srcStr, $salt);
-		return array('hash' => $hash, 'salt' => $salt);
+		$cost = 10;
+		$encrypted = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
+		$encoded = base64_encode($encrypted);
+		$translated = strtr($encoded, '+', '.');
+		// prefix salt for PHP to validate later with crypt function
+		// $2a$ means we are using Blowfish algorithm
+		$salt = sprintf('$2a$%02d$', $cost) . $translated;
+		$hash = crypt($str, $salt);
+		return $hash;
 	}
-	
-	// this method returns the same format hash as createHashWithSalt
-	public static function getHashWithSalt($srcStr, $salt) {
-		$encrypted = hash('sha512', $srcStr);
-		$reversed = strrev($encrypted);
-		return substr($salt, 0, strlen($salt) / 2) . substr($reversed, 0, strlen($reversed) / 2) . substr($salt, strlen($salt) / 2, strlen($salt)) . substr($reversed, strlen($reversed) / 2, strlen($reversed));
+
+	public static function validateHash($str, $strHash) {
+		// hash $str with its has as the salt returns the same ash
+		return crypt($str, $strHash) === $strHash;
 	}
 }
