@@ -8,11 +8,11 @@ class SqlWrite {
 	private $cache = null;
 	private $behavior = 'write';
 
-	public function SqlWrite($conf) {
+	public function SqlWrite($conf, $cacheConfName) {
 		// set up
 		try {
 			// create cache
-			$this->cache = new Cache();
+			$this->cache = new Cache($cacheConfName);
 			// check config
 			if (!isset($conf)) {
 				throw new Exception('Invalid db name given > ' . json_encode($conf) );

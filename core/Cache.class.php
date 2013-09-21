@@ -19,6 +19,8 @@ class Cache {
 		$confName = 'Cache';
 		if ($altConf) {
 			$confName = $altConf;
+
+			Log::verbose('[CACHE] using alternate configuration: ' . $confName);
 		}
 		if (class_exists('Memcache')){
 			$conf = Config::get($confName);

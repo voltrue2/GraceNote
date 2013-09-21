@@ -13,7 +13,7 @@ class SqlRead {
 	private $behavior = 'read';
 	private $notAllowed = '/(insert|update|delete|create|alter|drop)/i';
 
-	public function SqlRead($conf) {
+	public function SqlRead($conf, $cacheConfName) {
 		// set up
 		try {
 			// check config
@@ -21,7 +21,7 @@ class SqlRead {
 				throw new Exception('Invalid db name given > ' . json_encode($conf) );
 			}
 			// create cache
-			$this->cache = new Cache();
+			$this->cache = new Cache($cacheConfName);
 			// check behavior
 			if (isset($conf['behavior']) && $conf['behavior'] !== $this->behavior) {
 				throw new Exception('SqlRead class expects behavior to be "' . $this->behavior . '" only, but "' . $conf['behavior'] . '" given');

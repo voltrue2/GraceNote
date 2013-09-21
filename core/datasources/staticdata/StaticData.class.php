@@ -15,8 +15,8 @@ class StaticData {
 	*	"csvParseRules": { "delimiter": ",", "enclosure": "\"" }
 	* }
 	*/
-	public function StaticData($confName) {
-		$this->cache = new Cache();
+	public function StaticData($confName, $cacheConfName) {
+		$this->cache = new Cache($cacheConfName);
 		$conf = Config::get($confName);
 		if (!$conf) {
 			Log::error('[STATICDATA] constructor: missing configurations');

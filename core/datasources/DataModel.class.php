@@ -5,7 +5,8 @@ class DataModel {
 	private $confName;
 	private $read = '';
 	private $write = '';
-	
+	private $cacheConf = null;
+
 	public function DataModel($confName){
 		try {
 			$this->confName = $confName;
@@ -15,7 +16,8 @@ class DataModel {
 				$this->type = 'sql';
 				$this->read = $sqlConf['read'];
 				$this->write = $sqlConf['write'];
-				
+				$this->cacheConf = isset($sqlConf['cache']) ? $sqlConf['cache'] : null;
+
 			} else {
 				$conf = Config::get($confName);
 				if ($conf) {
@@ -27,6 +29,7 @@ class DataModel {
 					Log::error('DataModel::constructor >> missing configuration for ' . $confName);
 					throw new Exception('DataModel::constructor >> missing configuration for ' . $cofName);
 				}
+				$this->cacheConf = isset($conf['cache']) ? $conf['cache'] : null;
 			}
 		} catch (Exception $e) {
 			Log::error('[DATAMODEL]', $e->getMessage());
@@ -53,16 +56,16 @@ class DataModel {
 			return $this->notAvailable('table');
 		}
 		if ($table) {
-			return new QueryBuilder($this->read, $this->write, $table);
+			return new QueryBuilder($this->read, $this->write, $this->cacheConf, $table);
 		}
-		return new QueryBuilder($this->read, $this->write, '$__anonymous__');
+		return new QueryBuilder($this->read, $this->write, $this->cacheConf, '$__anonymous__');
 	}
 
 	public function staticData() {
 		if ($this->type !== 'file') {
 			return $this->notAvailable('staticData');
 		}
-		return new StaticData($this->confName); 
+		return new StaticData($this->confName, $this->cacheConf); 
 	}
 
 	private function searchProp($key, $value, $obj) {

@@ -37,10 +37,10 @@ class QueryBuilder {
 	private $inflateThreshhold = 5000; // if the result array exceeds this amount, the inflate method switches from exec_inflate to exec_inflate_each
 	private $joinTypes = array('LEFT' => 1, 'RIGHT' => 1, 'INNER' => 1, 'OUTER' => 1, 'LEFT OUTER' => 1, 'LEFT INNER' => 1);
 	
-	public function QueryBuilder($readConf, $writeConf, $table){
+	public function QueryBuilder($readConf, $writeConf, $cacheConf, $table){
 		try {
-			$this->read = new SqlRead($readConf);
-			$this->write = new SqlWrite($writeConf);
+			$this->read = new SqlRead($readConf, $cacheConf);
+			$this->write = new SqlWrite($writeConf, $cacheConf);
 			$r = $this->read->getDbType();
 			$w = $this->write->getDbType();
 			if ($r !== $w) {
