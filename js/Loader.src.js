@@ -68,7 +68,7 @@ Loader.prototype.ajax = function (pathSrc, options, cb) {
 				if (timer) {
 					window.clearTimeout(timer);
 				}
-				cb(Exception, path);
+				cb({ status: req.status, path: path, response: Exception }, path);
 				console.error('Loader.ajax: ', path, Exception);
 				console.trace();
 				try {

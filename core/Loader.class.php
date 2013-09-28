@@ -138,6 +138,7 @@ class Loader {
 			} else {
 				// $name is given as the file path
 				if (file_exists($name . $file)) {
+					extract(self::$templateVars);
 					require_once($name . $file);
 					return true;
 				} else {

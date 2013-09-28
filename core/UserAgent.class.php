@@ -49,7 +49,7 @@ class UserAgent {
 	}
 
 	public static function parseUserAgentSource() {
-		$auSrc = $_SERVER['HTTP_USER_AGENT'];
+		$auSrc = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		// parse os
 		$res = preg_match_all(self::$osPattern, $auSrc, $matched);
 		self::$os = null;
