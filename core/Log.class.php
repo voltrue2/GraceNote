@@ -89,7 +89,7 @@ class Log {
 			return;
 		}
 		$args = func_get_args();
-		self::write(self::$verbose, '', 'verbose', $args, 'darkGray');
+		self::write(self::$verbose, '', 'verbose', $args, 'lightGray');
 	}
 
 	public static function debug() {

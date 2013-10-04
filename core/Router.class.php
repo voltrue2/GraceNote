@@ -38,7 +38,7 @@ class Router {
 	*	}
 	* }
 	*/
-	public function Router() {
+	public function __construct() {
 		// extract requested UIR
 		$this->uri = $_SERVER['REQUEST_URI'];
 		Log::debug('[ROUTER] resolve HTTP request: ' . $this->uri);
@@ -72,24 +72,31 @@ class Router {
 				$from = $rerouteInfo['from'];
 				$to = $rerouteInfo['to'];
 				if (strpos($from, $cnt) !== false) {
-					$cls = null;
-					 $method = null;
-					$sep = explode('/', $from);
-					if (isset($sep[1])) {
-						$cls = $sep[1];
-					}
-					if (isset($sep[2])) {
-						$method = $sep[2];
-					}
-					if ($cls == $this->controller) {
-						if ($method == $this->method) {
-							// both controller and method matched > reroute
-							Log::verbose('[ROUTER] rerouting from >> ' . $this->controller . '->' . $this->method);
-							list($notUsed, $this->controller, $this->method) = explode('/', $to);
-							Log::verbose('[ROUTER] rerouting to >> ' . $this->controller . '->' . $this->method);
-							break;
-						}
-					}
+                    $cls = null;
+                     $method = null;
+                    $cntSep = explode('/', $from);
+                    if (isset($cntSep[1])) {
+                        $cls = $cntSep[1];
+                    }
+                    if (isset($cntSep[2])) {
+                        $method = $cntSep[2];
+                    }
+                    if ($method) {
+                        if ($method !== $this->method) {
+                            continue;
+                        }
+                    }
+                    if ($cls == $this->controller) {
+                        // controller matched > reroute
+                        $mSep = explode('/', $to);
+                        if (isset($mSep[2])) {
+                            $this->method = $mSep[2];
+                        }
+                        Log::verbose('[ROUTER] rerouting from >> ' . $this->controller . '->' . $this->method);
+                        list($notUsed, $this->controller, $this->method) = explode('/', $to);
+                        Log::verbose('[ROUTER] rerouting to >> ' . $this->controller . '->' . $this->method);
+                        break;
+                    }
 				}
 			}
 		}

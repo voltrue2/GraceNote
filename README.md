@@ -471,12 +471,10 @@ NameVirtualHost *:80
     RewriteRule ^/(assets|img|css|js|phpPGAdmin|phpMyAdmin)/(.*) /$1/$2 [L]
     RewriteCond %{REQUEST_URI} !^/?index.php$
     RewriteRule . /var/www/htdocs/mydomain.com/index.php
-     # Block Hotlinking
-    RewriteEngine On
-    RewriteCond %{HTTP_REFERER} !^http://(www\.)?mydomain\.com(/.*)*$ [NC]
-    RewriteCond %{HTTP_REFERER} !^$
-    RewriteRule \.(jpe?g|gif|png|js|JPE?G|GIF|PNG|JS)$ - [F]
-    # Log
+    # Block PHP easter eggs for extra security
+	RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC]
+	RewriteRule .* - [F]
+	# Log
     RewriteLog /var/www/mydomain.com/logs/rewriteLog.log
     RewriteLogLevel 0
     Header set X-ConnecTree hello
@@ -485,4 +483,15 @@ NameVirtualHost *:80
         AllowOverride AuthConfig FileInfo Limit Options
     &lt;/Directory&gt;
 &lt;/VirtualHost&gt;
+</pre>
+
+> Additional apache configurations: disable X-Powered-By header sent from apache for better security and performance
+<pre>
+ServerSignature Off
+ServerTokens Prod
+</pre>
+
+> php.ini: disable X-Powered-By header sent by PHP
+<pre>
+expose_php Off
 </pre>

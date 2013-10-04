@@ -15,7 +15,7 @@ class Cache {
 	*	"expiration": "1 day" (optional)
 	* }
 	*/
-	public function Cache($altConf = null) {
+	public function __construct($altConf = null) {
 		$confName = 'Cache';
 		if ($altConf) {
 			$confName = $altConf;
@@ -105,6 +105,6 @@ class Cache {
 	}
 
 	private function getKey($keySrc) {
-		return md5($keySrc);
+		return hash('md5', $keySrc);
 	}
 }

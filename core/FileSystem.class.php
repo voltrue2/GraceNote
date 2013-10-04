@@ -4,7 +4,7 @@ class FileSystem {
 	private $path = '';
 	private $cache;
 	
-	public function FileSystem($path) {
+	public function __construct($path) {
 		$this->path = $path;
 		$this->cache = new Cache();
 	}
