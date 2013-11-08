@@ -15,7 +15,7 @@ class StaticData {
 	*	"csvParseRules": { "delimiter": ",", "enclosure": "\"" }
 	* }
 	*/
-	public function StaticData($confName, $cacheConfName) {
+	public function __construct($confName, $cacheConfName) {
 		$this->cache = new Cache($cacheConfName);
 		$conf = Config::get($confName);
 		if (!$conf) {

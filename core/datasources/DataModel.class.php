@@ -7,7 +7,7 @@ class DataModel {
 	private $write = '';
 	private $cacheConf = null;
 
-	public function DataModel($confName){
+	public function __construct($confName){
 		try {
 			$this->confName = $confName;
 			$sqlConf = SqlConfig::get($confName);

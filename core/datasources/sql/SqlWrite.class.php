@@ -8,7 +8,7 @@ class SqlWrite {
 	private $cache = null;
 	private $behavior = 'write';
 
-	public function SqlWrite($conf, $cacheConfName) {
+	public function __construct($conf, $cacheConfName) {
 		// set up
 		try {
 			// create cache

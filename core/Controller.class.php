@@ -36,6 +36,28 @@ class Controller {
 		}
 		return $_REQUEST;
 	}
+
+	public function post($key = null) {
+		if ($key) {
+			if (isset($_POST[$key])) {
+				return $this->prepareValue($_POST[$key]);
+			} else {
+				return null;
+			}
+		}
+		return $_POST;
+	}
+	
+	public function get($key = null) {
+		if ($key) {
+			if (isset($_GET[$key])) {
+				return $this->prepareValue($_GET[$key]);
+			} else {
+				return null;
+			}
+		}
+		return $_GET;
+	}
 	
 	public function getFile($key = null) {
 		if ($key) {

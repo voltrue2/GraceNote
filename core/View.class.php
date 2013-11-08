@@ -7,7 +7,7 @@ class View {
 	private $vars = array();
 	private $templatePath = '';
 	
-	public function View($router) {
+	public function __construct($router) {
 		$this->router = $router;
 		$this->uri = $this->router->getUri();
 		$this->templatePath = Loader::getPath('template');

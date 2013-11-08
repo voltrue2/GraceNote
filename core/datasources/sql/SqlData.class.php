@@ -4,7 +4,7 @@ class SqlData {
 
 	private $data = null;
 	
-	public function SqlData($queryRes) {
+	public function __construct($queryRes) {
 		$this->data = $queryRes;
 	}
 	

@@ -1,6 +1,6 @@
 <?php
 class Encrypt {
-	// bigger the cost slow this method becomes
+	// bigger the cost slower this method becomes
 	// how to validate the hash: crypt($str, $hash) === $storedHash
 	public static function createHash($str) {
 		// create salt
@@ -16,7 +16,17 @@ class Encrypt {
 	}
 
 	public static function validateHash($str, $strHash) {
-		// hash $str with its has as the salt returns the same ash
+		// hash $str with its has as the salt returns the same hash
 		return crypt($str, $strHash) === $strHash;
+	}
+
+	// requires mod_unique_id in Apache
+	public function uid() {
+		$serverUid = isset($_SERVER['UNIQUE_ID']) ? $_SERVER['UNIQUE_ID'] : null;
+		$ip = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : null;
+		$phpUid = uniqid(mt_rand(0, 300), true);
+		$source = $serverUid . $ip . $phpUid;
+		$uidSource = hash('sha256', $source);
+		return base64_encode($uidSource);
 	}
 }

@@ -13,7 +13,7 @@ class SqlRead {
 	private $behavior = 'read';
 	private $notAllowed = '/(insert|update|delete|create|alter|drop)/i';
 
-	public function SqlRead($conf, $cacheConfName) {
+	public function __construct($conf, $cacheConfName) {
 		// set up
 		try {
 			// check config
