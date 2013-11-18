@@ -1,5 +1,6 @@
 <?php
 class Encrypt {
+	
 	// bigger the cost slower this method becomes
 	// how to validate the hash: crypt($str, $hash) === $storedHash
 	public static function createHash($str) {
@@ -21,7 +22,7 @@ class Encrypt {
 	}
 
 	// requires mod_unique_id in Apache
-	public function uid() {
+	public static function uid() {
 		$serverUid = isset($_SERVER['UNIQUE_ID']) ? $_SERVER['UNIQUE_ID'] : null;
 		$ip = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : null;
 		$phpUid = uniqid(mt_rand(0, 300), true);

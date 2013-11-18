@@ -414,8 +414,7 @@ Creature.prototype.display = function () {
 				this.stage.skills.list[i].data.style.background = 'url(' + this.imageList[ skills[i].skill.element ] + ') no-repeat';
 				this.stage.skills.list[i].data.textContent = skills[i].skill.name + ' : ';
 				this.stage.skills.list[i].data.textContent += (Number(skills[i].skill.hits) > 1) ? skills[i].skill.power + ' to ' + (Number(skills[i].skill.hits) * skills[i].skill.power) : Number(skills[i].skill.hits) * skills[i].skill.power;
-			}
-			else if (skills[i] && skills[i].skill) {
+			} else if (skills[i] && skills[i].skill) {
 				this.stage.skills.list[i].data.style.background = 'url(' + this.imageList.passive + ') no-repeat';
 				this.stage.skills.list[i].data.textContent = skills[i].skill.name;
 			}
